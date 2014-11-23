@@ -36,14 +36,15 @@ public class ContabilizaSlcCompras {
 		List<DSolicitudCompra> dsolicitud;
 
 		dsolicitud = dslcDAO.getPorSolicitudCompra(solicitud);
-		kardexDAO.borrarPorIdSolicitudCompra(id);
+		kardexDAO.borrarPorIdOrdenCompra(id);
 
 		List<KardexSlcCompra> kardex_list = new ArrayList<KardexSlcCompra>();
 
 		for (DSolicitudCompra ds : dsolicitud) {
 			
 			KardexSlcCompra kardex = new KardexSlcCompra();
-			kardex.setSolicitudcompra(solicitud);
+			kardex.setId_origen(solicitud.getIdsolicitudcompra());
+			kardex.setTipo_origen("SLC_COMPRA");
 			kardex.setProducto(ds.getProducto());
 			kardex.setUnimedida(ds.getUnimedida());
 			kardex.setFactor(1);
@@ -67,12 +68,13 @@ public class ContabilizaSlcCompras {
 			return false;
 		}
 		List<DCotizacionCompra> dcotizacion = dctzaDAO.getPorCotizacionCompra(cotizacion);
-		kardexDAO.borrarPorIdCotizacionCompra(id);
+		kardexDAO.borrarPorIdOrigen(id);
 
 		List<KardexSlcCompra> kardex_list = new ArrayList<KardexSlcCompra>();
 		for (DCotizacionCompra ds : dcotizacion) {			
 			KardexSlcCompra kardex = new KardexSlcCompra();
-			kardex.setCotizacioncompra(cotizacion);
+			kardex.setId_origen(cotizacion.getIdcotizacioncompra());
+			kardex.setTipo_origen("COT_COMPRA");
 			kardex.setProducto(ds.getProducto());
 			kardex.setUnimedida(ds.getUnimedida());
 			kardex.setFactor(1);
@@ -90,6 +92,7 @@ public class ContabilizaSlcCompras {
 		DOrdenCompraDAO dordDAO = new DOrdenCompraDAO();
 		KardexSlcCompraDAO kardexDAO = new KardexSlcCompraDAO();
 		SolicitudCompraDAO slcDAO = new SolicitudCompraDAO();
+		CotizacionCompraDAO cotDAO = new CotizacionCompraDAO();
 		
 		OrdenCompra orden = ordDAO.find(id);
 
@@ -126,7 +129,30 @@ public class ContabilizaSlcCompras {
 				
 				kardex.setCantidad(o.getCantidad());
 				kardex.setTipo_referencia("ORD_COMPRA");
-				kardex.setSolicitudcompra(slc);
+				kardex.setId_origen(slc.getIdsolicitudcompra());
+				kardex.setId_referencia(id);
+				kardex.setFactor(-1);
+				kardex_list.add(kardex);
+			}
+			
+			if (o.getTipo_referencia().equals("COT_COMPRA")) {
+				//Buscar unidad de medida
+				Unimedida unimedida = null;
+				for(DOrdenCompra doc : dorden) {
+					if (doc.getProducto().getIdproducto().equals(o.getProducto().getIdproducto()))
+						unimedida = doc.getUnimedida();
+				}
+				
+				long id_referencia = o.getId_referencia();
+				KardexSlcCompra kardex = new KardexSlcCompra();
+				CotizacionCompra cot = cotDAO.find(id_referencia);
+				kardex.setProducto(o.getProducto());
+				
+				kardex.setUnimedida(unimedida);
+				
+				kardex.setCantidad(o.getCantidad());
+				kardex.setTipo_referencia("ORD_COMPRA");
+				kardex.setId_origen(cot.getIdcotizacioncompra());
 				kardex.setId_referencia(id);
 				kardex.setFactor(-1);
 				kardex_list.add(kardex);

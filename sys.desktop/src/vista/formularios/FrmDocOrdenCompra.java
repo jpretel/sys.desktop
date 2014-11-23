@@ -45,6 +45,7 @@ import vista.utilitarios.renderers.FloatRenderer;
 import core.centralizacion.ContabilizaComprasRecepcion;
 import core.centralizacion.ContabilizaSlcCompras;
 import core.dao.ClieprovDAO;
+import core.dao.CotizacionCompraDAO;
 import core.dao.DDOrdenCompraDAO;
 import core.dao.DOrdenCompraDAO;
 import core.dao.ImpuestoDAO;
@@ -56,6 +57,7 @@ import core.dao.ProductoImpuestoDAO;
 import core.dao.ResponsableDAO;
 import core.dao.SolicitudCompraDAO;
 import core.dao.UnimedidaDAO;
+import core.entity.CotizacionCompra;
 import core.entity.DDOrdenCompra;
 import core.entity.DDOrdenCompraPK;
 import core.entity.DOrdenCompra;
@@ -74,6 +76,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 	private DOrdenCompraDAO dordencompraDAO = new DOrdenCompraDAO();
 	private DDOrdenCompraDAO ddordenCompraDAO = new DDOrdenCompraDAO();
 	private SolicitudCompraDAO solicitudCompraDAO = new SolicitudCompraDAO();
+	private CotizacionCompraDAO cotizacionCompraDAO = new CotizacionCompraDAO();
 	private ProductoDAO productoDAO = new ProductoDAO();
 	private UnimedidaDAO unimedidaDAO = new UnimedidaDAO();
 	private ProductoImpuestoDAO pimptoDAO = new ProductoImpuestoDAO();
@@ -145,8 +148,8 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 		optionList.add(new String[] { "S", "Solicitud de Compra" });
 		optionList.add(new String[] { "C", "Cotizacion de Compra" });
 		cboTipoDoc = new vista.combobox.ComboBox(optionList, 1);
-//		cboTipoDoc.setBounds(72, 100, 125, 20);
-//		pnlPrincipal.add(cboTipoDoc);
+		cboTipoDoc.setBounds(72, 100, 125, 20);
+		pnlPrincipal.add(cboTipoDoc);
 
 		cboTipoDoc.setSelectedIndex(0);
 
@@ -173,7 +176,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 					if (tipo == "S") {
 						referenciarSolicitudCompra(serie, numero);
 					} else {
-
+						referenciarCotizacionCompra(serie, numero);
 					}
 					txtSerie.setText("");
 					txtNumero.setText("");
@@ -189,6 +192,9 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				// Referencia a solicitudes
 				List<Long> solicitudes = new ArrayList<Long>();
 
+				// Referencia a Cotizaciones
+				List<Long> cotizaciones = new ArrayList<Long>();
+
 				for (DDOrdenCompra o : ddordencompras) {
 					String tipo_referencia = o.getTipo_referencia();
 					if (tipo_referencia.equals("SLC_COMPRA")) {
@@ -201,6 +207,19 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 						}
 						if (!haySlc) {
 							solicitudes.add(o.getId_referencia());
+						}
+					}
+
+					if (tipo_referencia.equals("COT_COMPRA")) {
+						boolean hayCot = false;
+						salir: for (long id : cotizaciones) {
+							if (id == o.getId_referencia()) {
+								hayCot = true;
+								break salir;
+							}
+						}
+						if (!hayCot) {
+							cotizaciones.add(o.getId_referencia());
 						}
 					}
 				}
@@ -224,6 +243,23 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 					}
 					i++;
 				}
+
+				for (Long id : cotizaciones) {
+					CotizacionCompra slc = cotizacionCompraDAO.find(id);
+					Calendar calendar = Calendar.getInstance();
+					calendar.set(Calendar.YEAR, slc.getAnio());
+					calendar.set(Calendar.MONTH, slc.getMes() - 1);
+					calendar.set(Calendar.DAY_OF_MONTH, slc.getDia());
+					if (slc != null) {
+						data[i][0] = "Cot. Compra";
+						data[i][1] = slc.getSerie() + "-"
+								+ StringUtils._padl(slc.getNumero(), 8, '0');
+						data[i][2] = formater.format(calendar.getTime()); // slc.getFecha();
+						data[i][3] = "COT_COMPRA";
+						data[i][4] = slc;
+					}
+					i++;
+				}
 				return data;
 			}
 
@@ -232,6 +268,10 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				if (String.valueOf(row[3]).equals("SLC_COMPRA")) {
 					SolicitudCompra slc = (SolicitudCompra) row[4];
 					referenciarSolicitudCompra(slc, getEstado());
+				}
+				if (String.valueOf(row[3]).equals("COT_COMPRA")) {
+					CotizacionCompra slc = (CotizacionCompra) row[4];
+					referenciarCotizacionCompra(slc, getEstado());
 				}
 			}
 		};
@@ -796,10 +836,22 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 		}
 	}
 
+	private void referenciarCotizacionCompra(String serie, int numero) {
+
+		CotizacionCompra cotizacionCompra = cotizacionCompraDAO
+				.getPorSerieNumero(serie, numero);
+
+		if (cotizacionCompra != null) {
+			referenciarCotizacionCompra(cotizacionCompra, "EDICION");
+		} else {
+			UtilMensajes.mensaje_alterta("DOC_NO_ENCONTRADO");
+		}
+	}
+
 	private void referenciarSolicitudCompra(SolicitudCompra solicitudCompra,
 			final String estado) {
-		List<Tuple> saldos = new KardexSlcCompraDAO().getSaldoSolicitudCompra(
-				solicitudCompra, getOrdencompra());
+		List<Tuple> saldos = new KardexSlcCompraDAO().getSaldoPorOrigen(
+				solicitudCompra.getIdsolicitudcompra(), getOrdencompra());
 
 		if (saldos != null && saldos.size() > 0) {
 
@@ -940,6 +992,157 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				}
 			}
 			actualizarConsolidado();
+		} else {
+			UtilMensajes.mensaje_alterta("DOC_ATENDIDO_TOTAL");
+		}
+	}
+
+	private void referenciarCotizacionCompra(CotizacionCompra cotizacionCompra,
+			final String estado) {
+		List<Tuple> saldos = new KardexSlcCompraDAO().getSaldoPorOrigen(
+				cotizacionCompra.getIdcotizacioncompra(), getOrdencompra());
+
+		if (saldos != null && saldos.size() > 0) {
+
+			Object[][] data = new Object[saldos.size()][5];
+			int i = 0;
+			for (Tuple t : saldos) {
+
+				Producto p = (Producto) t.get("producto");
+				Unimedida u = (Unimedida) t.get("unimedida");
+				float cantidad = (float) t.get("cantidad");
+				data[i][0] = p.getIdproducto();
+				data[i][1] = p.getDescripcion();
+				data[i][2] = u.getDescripcion();
+				data[i][3] = cantidad;
+				data[i][4] = cantidadProducto(p, "COT_COMPRA",
+						cotizacionCompra.getIdcotizacioncompra());
+				i++;
+			}
+
+			DSGTableModel model = new DSGTableModel(new String[] {
+					"Cód Producto", "Producto", "U.M.", "Saldo", "Cantidad" }) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean evaluaEdicion(int row, int column) {
+					if (column == 4 && !estado.equals(VISTA))
+						return true;
+					return false;
+				}
+
+				@Override
+				public void addRow() {
+				}
+			};
+
+			ModalDetalleReferencia modal = new ModalDetalleReferencia(this,
+					model, data) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean validaModelo() {
+					for (int i = 0; i < this.model.getRowCount(); i++) {
+						String producto;
+						producto = this.model.getValueAt(i, 1).toString();
+
+						float saldo = 0.0F, cantidad = 0.0F;
+						try {
+							saldo = Float.parseFloat(this.model
+									.getValueAt(i, 3).toString());
+						} catch (Exception e) {
+							saldo = 0;
+						}
+						try {
+							cantidad = Float.parseFloat(this.model.getValueAt(
+									i, 4).toString());
+						} catch (Exception e) {
+							cantidad = 0;
+						}
+						if (cantidad > saldo) {
+							UtilMensajes.mensaje_alterta(
+									"CANTIDAD_MENOR_SALDO", producto);
+							return false;
+						}
+					}
+					return true;
+				}
+			};
+
+			TableColumnModel tc = modal.getTable().getColumnModel();
+
+			tc.getColumn(3).setCellRenderer(new FloatRenderer(3));
+
+			tc.getColumn(4).setCellRenderer(new FloatRenderer(3));
+			tc.getColumn(4).setCellEditor(new FloatEditor(3));
+
+			modal.getBtnAceptar().setEnabled(true);
+			if (getEstado().equals(VISTA)) {
+				modal.getBtnAceptar().setEnabled(false);
+			} else {
+				if (estado.equals(VISTA))
+					modal.getBtnAceptar().setEnabled(false);
+			}
+			modal.setModal(true);
+			Sys.desktoppane.add(modal);
+			modal.setVisible(true);
+
+			if (modal.model != null) {
+				int rows = data.length;
+				// Borrar los referenciados a la solicitud
+				int size = ddordencompras.size();
+				for (int ii = 0; ii < size; ii++) {
+					DDOrdenCompra o = ddordencompras.get(ii);
+
+					if (o.getTipo_referencia().equals("COT_COMPRA")
+							&& o.getId_referencia() == cotizacionCompra
+									.getIdcotizacioncompra()) {
+
+						ddordencompras.remove(ii);
+						ii = 0;
+						size = ddordencompras.size();
+					}
+				}
+
+				for (int row = 0; row < rows; row++) {
+					String idproducto;
+					float cantidad;
+
+					idproducto = modal.model.getValueAt(row, 0).toString();
+					try {
+						cantidad = Float.parseFloat(modal.model.getValueAt(row,
+								4).toString());
+					} catch (Exception e) {
+						cantidad = 0.0F;
+					}
+
+					// Agregar los que tienen cantidad dif. de cero
+
+					// Reiniciar los productos del consolidado
+					salir: for (int iii = 0; iii < getConsolidadoTM()
+							.getRowCount(); iii++) {
+						if (getConsolidadoTM().getValueAt(iii, 0).toString()
+								.trim().equals(idproducto)) {
+							getConsolidadoTM().setValueAt(0.0F, iii, 4);
+							break salir;
+						}
+					}
+
+					if (cantidad > 0) {
+						DDOrdenCompra dd = new DDOrdenCompra();
+						Producto p = productoDAO.find(idproducto);
+						dd.setTipo_referencia("COT_COMPRA");
+						dd.setId_referencia(cotizacionCompra
+								.getIdcotizacioncompra());
+						dd.setProducto(p);
+						dd.setCantidad(cantidad);
+						ddordencompras.add(dd);
+					}
+				}
+			}
+			actualizarConsolidado();
+		} else {
+			UtilMensajes.mensaje_alterta("DOC_ATENDIDO_TOTAL");
 		}
 	}
 

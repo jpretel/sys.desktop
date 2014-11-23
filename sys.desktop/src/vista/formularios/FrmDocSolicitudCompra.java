@@ -221,7 +221,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 
 	@Override
 	public void grabar() {
-		kardexSlcCompraDAO.borrarPorIdSolicitudCompra(getsolicitudcompra()
+		kardexSlcCompraDAO.borrarPorIdOrigen(getsolicitudcompra()
 				.getIdsolicitudcompra());
 		solicitudcompraDAO.crear_editar(getsolicitudcompra());
 
