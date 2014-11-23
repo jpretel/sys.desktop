@@ -95,7 +95,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 		setMinimumSize(new Dimension(700, 380));
 		
 		txtFecha.setBounds(245, 11, 101, 22);
-		txtNumero_2.setBounds(116, 12, 80, 20);
+		txtNumero.setBounds(116, 12, 80, 20);
 		txtSerie.setBounds(72, 12, 44, 20);
 
 		setEstado(VISTA);
@@ -268,7 +268,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 				int numero = solicitudDAO.getPorSerie(serie);
 				numero = numero + 1;
 				if (numero > 0) {
-					txtNumero_2.setValue(numero);
+					txtNumero.setValue(numero);
 					txtFecha.requestFocus();
 				}
 			}
@@ -337,7 +337,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 		limpiarVista();
 		
 		if (solicitud != null) {
-			txtNumero_2.setValue(solicitud.getNumero());
+			txtNumero.setValue(solicitud.getNumero());
 			txtSerie.setText(solicitud.getSerie());
 			cntClieprov.setText((solicitud.getClieprov() == null) ? ""
 					: solicitud.getClieprov().getIdclieprov());
@@ -393,7 +393,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 	@Override
 	public void vista_edicion() {
 		this.txtSerie.setEditable(true);
-		this.txtNumero_2.setEditable(true);
+		this.txtNumero.setEditable(true);
 		this.txtFecha.setEditable(true);
 		this.txtGlosa.setEditable(true);
 		this.btnRefSal.setEnabled(true);
@@ -405,7 +405,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 	@Override
 	public void vista_noedicion() {
 		this.txtSerie.setEditable(false);
-		this.txtNumero_2.setEditable(false);
+		this.txtNumero.setEditable(false);
 		this.txtFecha.setEditable(false);
 		this.txtGlosa.setEditable(false);
 		this.btnRefSal.setEnabled(false);
@@ -436,7 +436,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 		Long idoc = solicitud.getIdsolicitudcotizacion();
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		solicitud.setSerie(this.txtSerie.getText());
-		solicitud.setNumero(Integer.parseInt(this.txtNumero_2.getText()));
+		solicitud.setNumero(Integer.parseInt(this.txtNumero.getText()));
 		solicitud.setDia(c.get(Calendar.DAY_OF_MONTH));
 		solicitud.setMes(c.get(Calendar.MONTH) + 1);
 		solicitud.setAnio(c.get(Calendar.YEAR));
@@ -638,7 +638,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 	
 	@Override
 	protected void limpiarVista() {
-		txtNumero_2.setValue(0);
+		txtNumero.setValue(0);
 		txtSerie.setText("");
 		cntClieprov.setText("");
 		cntClieprov.llenar();
@@ -689,7 +689,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 	protected String getNombreArchivo() {
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-		return "SolCot" + this.txtSerie.getText() + "-" + this.txtNumero_2.getText() + "_" + format.format(c.getTime()) ;
+		return "SolCot" + this.txtSerie.getText() + "-" + this.txtNumero.getText() + "_" + format.format(c.getTime()) ;
 	}
 	
 	@Override

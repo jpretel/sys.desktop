@@ -256,8 +256,8 @@ public class FrmDocRecepcion extends AbstractDocForm {
 				int numero = docIngresoDAO.getPorSerie(serie);
 				numero = numero + 1;
 				if (numero > 0) {
-					txtNumero_2.setText(String.valueOf(numero));
-					txtNumero_2.requestFocus();
+					txtNumero.setText(String.valueOf(numero));
+					txtNumero.requestFocus();
 					txtFecha.requestFocus();
 				}
 			}
@@ -467,7 +467,7 @@ public class FrmDocRecepcion extends AbstractDocForm {
 			almacen = getIngreso().getAlmacen();
 
 			String numero = StringUtils._padl(getIngreso().getNumero(), 8, '0');
-			this.txtNumero_2.setText(numero);
+			this.txtNumero.setText(numero);
 			this.txtSerie.setText(getIngreso().getSerie());
 
 			this.cntGrupoCentralizacion.txtCodigo.setText((getIngreso()
@@ -563,10 +563,10 @@ public class FrmDocRecepcion extends AbstractDocForm {
 		boolean band;
 		band = getEstado().equals(NUEVO);
 
-		FormValidador.TextFieldsEdicion(band, this.txtSerie, this.txtNumero_2);
+		FormValidador.TextFieldsEdicion(band, this.txtSerie, this.txtNumero);
 
 		this.txtSerie.setEditable(true);
-		this.txtNumero_2.setEditable(true);
+		this.txtNumero.setEditable(true);
 		this.txtFecha.setEditable(true);
 		this.txtGlosa.setEditable(true);
 		if (cntConcepto.txtCodigo.getText().trim().length() > 0) {
@@ -595,7 +595,7 @@ public class FrmDocRecepcion extends AbstractDocForm {
 	public void vista_noedicion() {
 		this.txtFecha.setEditable(false);
 		this.txtSerie.setEditable(false);
-		this.txtNumero_2.setEditable(false);
+		this.txtNumero.setEditable(false);
 		this.txtGlosa.setEditable(false);
 		this.txtSerieCompra.setEditable(false);
 		this.txtNumeroCompra.setEditable(false);
@@ -628,7 +628,7 @@ public class FrmDocRecepcion extends AbstractDocForm {
 		getIngreso().setGrupoCentralizacion(
 				cntGrupoCentralizacion.getSeleccionado());
 		getIngreso().setSerie(this.txtSerie.getText());
-		getIngreso().setNumero(Integer.parseInt(this.txtNumero_2.getText()));
+		getIngreso().setNumero(Integer.parseInt(this.txtNumero.getText()));
 		getIngreso().setConcepto(this.cntConcepto.getSeleccionado());
 		if (cntConcepto.getSeleccionado().getSolcitaCompra() > 0) {
 			if (ordencompra != null)
@@ -695,7 +695,7 @@ public class FrmDocRecepcion extends AbstractDocForm {
 
 	@Override
 	protected void limpiarVista() {
-		this.txtNumero_2.setText("");
+		this.txtNumero.setText("");
 		this.txtSerie.setText("");
 
 		this.cntGrupoCentralizacion.setText("");

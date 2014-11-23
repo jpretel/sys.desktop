@@ -308,7 +308,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				int numero = ordencompraDAO.getPorSerie(serie);
 				numero = numero + 1;
 				if (numero > 0) {
-					txtNumero_2.setValue(numero);
+					txtNumero.setValue(numero);
 					txtFecha.requestFocus();
 				}
 			}
@@ -578,7 +578,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 		limpiarVista();
 
 		if (getOrdencompra() != null) {
-			txtNumero_2.setValue(getOrdencompra().getNumero());
+			txtNumero.setValue(getOrdencompra().getNumero());
 			txtSerie.setText(getOrdencompra().getSerie());
 			txtTCambio.setValue(getOrdencompra().getTcambio());
 			txtTCMoneda.setValue(getOrdencompra().getTcmoneda());
@@ -681,7 +681,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 	@Override
 	public void vista_edicion() {
 		this.txtSerie.setEditable(true);
-		this.txtNumero_2.setEditable(true);
+		this.txtNumero.setEditable(true);
 		this.txtFecha.setEditable(true);
 		this.txtTCMoneda.setEditable(true);
 		this.txtTCambio.setEditable(true);
@@ -695,7 +695,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 	@Override
 	public void vista_noedicion() {
 		this.txtSerie.setEditable(false);
-		this.txtNumero_2.setEditable(false);
+		this.txtNumero.setEditable(false);
 		this.txtFecha.setEditable(false);
 		this.txtTCMoneda.setEditable(false);
 		this.txtTCambio.setEditable(false);
@@ -728,7 +728,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		getOrdencompra().setSerie(this.txtSerie.getText());
 		getOrdencompra()
-				.setNumero(Integer.parseInt(this.txtNumero_2.getText()));
+				.setNumero(Integer.parseInt(this.txtNumero.getText()));
 		getOrdencompra().setMoneda(cntMoneda.getSeleccionado());
 		getOrdencompra().setResponsable(this.cntResponsable.getSeleccionado());
 		getOrdencompra().setClieprov(this.cntClieprov.getSeleccionado());
@@ -1217,7 +1217,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 
 	@Override
 	protected void limpiarVista() {
-		txtNumero_2.setValue(0);
+		txtNumero.setValue(0);
 		txtSerie.setText("");
 		txtTCambio.setValue(0);
 		txtTCMoneda.setValue(0);
@@ -1261,7 +1261,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		return "OC " + this.txtSerie.getText() + "-"
-				+ this.txtNumero_2.getText() + "_" + format.format(c.getTime());
+				+ this.txtNumero.getText() + "_" + format.format(c.getTime());
 	}
 
 	@Override

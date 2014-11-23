@@ -65,7 +65,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 	public FrmDocSolicitudCompra() {
 		super("Solicitud de Compra");
 		txtFecha.setBounds(245, 11, 101, 22);
-		txtNumero_2.setBounds(116, 12, 80, 20);
+		txtNumero.setBounds(116, 12, 80, 20);
 		txtSerie.setBounds(72, 12, 44, 20);
 
 		setEstado(VISTA);
@@ -188,7 +188,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 				int numero = solicitudcompraDAO.getPorSerie(serie);
 				numero = numero + 1;
 				if (numero > 0) {
-					txtNumero_2.setValue(numero);
+					txtNumero.setValue(numero);
 					txtFecha.requestFocus();
 				}
 			}
@@ -255,7 +255,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 		limpiarVista();
 		
 		if (getsolicitudcompra() != null) {
-			this.txtNumero_2.setValue(getsolicitudcompra().getNumero());
+			this.txtNumero.setValue(getsolicitudcompra().getNumero());
 			this.txtSerie.setText(getsolicitudcompra().getSerie());
 
 			cntResponsable.txtCodigo.setText((getsolicitudcompra()
@@ -295,7 +295,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 	@Override
 	public void vista_edicion() {
 		this.txtSerie.setEditable(true);
-		this.txtNumero_2.setEditable(true);
+		this.txtNumero.setEditable(true);
 		this.txtFecha.setEditable(true);
 		this.txtGlosa.setEditable(true);
 		FormValidador.CntEdicion(true, this.cntResponsable);
@@ -305,7 +305,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 	@Override
 	public void vista_noedicion() {
 		this.txtSerie.setEditable(false);
-		this.txtNumero_2.setEditable(false);
+		this.txtNumero.setEditable(false);
 		this.txtFecha.setEditable(false);
 		this.txtGlosa.setEditable(false);
 		FormValidador.CntEdicion(false, this.cntResponsable);
@@ -334,7 +334,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		getsolicitudcompra().setSerie(this.txtSerie.getText());
 		getsolicitudcompra().setNumero(
-				Integer.parseInt(this.txtNumero_2.getText()));
+				Integer.parseInt(this.txtNumero.getText()));
 		getsolicitudcompra().setResponsable(
 				this.cntResponsable.getSeleccionado());
 		getsolicitudcompra().setDia(c.get(Calendar.DAY_OF_MONTH));
@@ -392,7 +392,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 	
 	@Override
 	protected void limpiarVista() {
-		this.txtNumero_2.setValue(0);
+		this.txtNumero.setValue(0);
 		this.txtSerie.setText("");
 
 		cntResponsable.setText("");

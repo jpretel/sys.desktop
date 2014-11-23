@@ -150,7 +150,7 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 				int numero = cotizacioncompraDAO.getPorSerie(serie);
 				numero = numero + 1;
 				if (numero > 0) {
-					txtNumero_2.setValue(numero);
+					txtNumero.setValue(numero);
 					txtFecha.requestFocus();
 				}
 			}
@@ -433,7 +433,7 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 		limpiarVista();
 
 		if (getCotizacioncompra() != null) {
-			this.txtNumero_2.setValue(getCotizacioncompra().getNumero());
+			this.txtNumero.setValue(getCotizacioncompra().getNumero());
 			this.txtSerie.setText(getCotizacioncompra().getSerie());
 			this.txtTCambio.setValue(getCotizacioncompra().getTcambio());
 			// this.cntGrupoCentralizacion.txtCodigo.setText(getCotizacioncompra().getGrupoCentralizacion().getIdgcentralizacion());
@@ -535,7 +535,7 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 	public void vista_edicion() {
 		this.txtFecha.setEditable(true);
 		this.txtGlosa.setEditable(true);
-		FormValidador.TextFieldsEdicion(true, txtSerie, txtNumero_2,
+		FormValidador.TextFieldsEdicion(true, txtSerie, txtNumero,
 				txtTCambio, txtSerieSol, txtNumeroSol);
 		FormValidador.CntEdicion(true, this.cntMoneda, this.cntResponsable,
 				this.cntClieprov);
@@ -546,7 +546,7 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 	public void vista_noedicion() {
 		this.txtFecha.setEditable(false);
 		this.txtGlosa.setEditable(false);
-		FormValidador.TextFieldsEdicion(false, txtSerie, txtNumero_2,
+		FormValidador.TextFieldsEdicion(false, txtSerie, txtNumero,
 				txtTCambio, txtSerieSol, txtNumeroSol);
 		FormValidador.CntEdicion(false, this.cntMoneda, this.cntResponsable,
 				this.cntClieprov);
@@ -575,7 +575,7 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		getCotizacioncompra().setSerie(this.txtSerie.getText());
 		getCotizacioncompra().setNumero(
-				Integer.parseInt(this.txtNumero_2.getText()));
+				Integer.parseInt(this.txtNumero.getText()));
 		getCotizacioncompra().setMoneda(cntMoneda.getSeleccionado());
 		getCotizacioncompra().setResponsable(
 				this.cntResponsable.getSeleccionado());
@@ -696,7 +696,7 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 
 	@Override
 	protected void limpiarVista() {
-		this.txtNumero_2.setValue("");
+		this.txtNumero.setValue("");
 		this.txtSerie.setText("");
 		this.txtTCambio.setValue(0);
 		txtSerieSol.setText("");

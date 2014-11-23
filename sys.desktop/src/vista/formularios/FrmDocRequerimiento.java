@@ -82,7 +82,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 	public FrmDocRequerimiento() {
 		super("Requerimiento");
 		txtFecha.setBounds(245, 11, 101, 22);
-		txtNumero_2.setBounds(116, 12, 80, 20);
+		txtNumero.setBounds(116, 12, 80, 20);
 		txtSerie.setBounds(72, 12, 44, 20);
 
 		setEstado(VISTA);
@@ -260,7 +260,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 				int numero = requerimientoDAO.getPorSerie(serie);
 				numero = numero + 1;
 				if (numero > 0) {
-					txtNumero_2.setValue(numero);
+					txtNumero.setValue(numero);
 					txtFecha.requestFocus();
 				}
 			}
@@ -327,7 +327,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 		limpiarVista();
 
 		if (getRequerimiento() != null) {
-			this.txtNumero_2.setValue(getRequerimiento().getNumero());
+			this.txtNumero.setValue(getRequerimiento().getNumero());
 			this.txtSerie.setText(getRequerimiento().getSerie());
 			
 			Calendar cal = Calendar.getInstance();
@@ -398,7 +398,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 	@Override
 	public void vista_edicion() {
 		this.txtSerie.setEditable(true);
-		this.txtNumero_2.setEditable(true);
+		this.txtNumero.setEditable(true);
 		this.txtFecha.setEditable(true);
 		this.txtGlosa.setEditable(true);
 		FormValidador.CntEdicion(true, this.cntResponsable, this.cntAlmacen,
@@ -409,7 +409,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 	@Override
 	public void vista_noedicion() {
 		this.txtSerie.setEditable(false);
-		this.txtNumero_2.setEditable(false);
+		this.txtNumero.setEditable(false);
 		this.txtFecha.setEditable(false);
 		this.txtGlosa.setEditable(false);
 		FormValidador.CntEdicion(false, this.cntResponsable, this.cntAlmacen,
@@ -440,7 +440,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		getRequerimiento().setSerie(this.txtSerie.getText());
 		getRequerimiento().setNumero(
-				Integer.parseInt(this.txtNumero_2.getText()));
+				Integer.parseInt(this.txtNumero.getText()));
 		getRequerimiento()
 				.setResponsable(this.cntResponsable.getSeleccionado());
 		getRequerimiento().setSucursal(cntSucursal.getSeleccionado());

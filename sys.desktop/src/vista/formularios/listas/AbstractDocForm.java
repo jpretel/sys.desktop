@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
@@ -42,11 +41,10 @@ import vista.utilitarios.UtilMensajes;
 public abstract class AbstractDocForm extends DSGInternalFrame implements
 		IFormDocumento {
 	private static final long serialVersionUID = 1L;
-	protected JTextField txtNumero;
 	protected PanelBarraDocumento barra;
 	protected JPanel pnlPrincipal;
 	protected String estado;
-	protected DSGTextFieldCorrelativo txtNumero_2;
+	protected DSGTextFieldCorrelativo txtNumero;
 	protected DSGDatePicker txtFecha;
 	protected DSGTextFieldCorrelativo txtSerie;
 
@@ -69,9 +67,9 @@ public abstract class AbstractDocForm extends DSGInternalFrame implements
 		JLabel lblNumero = new JLabel("Correlativo");
 		lblNumero.setBounds(10, 15, 53, 14);
 
-		txtNumero_2 = new DSGTextFieldCorrelativo(8);
-		this.txtNumero_2.setBounds(116, 12, 80, 20);
-		txtNumero_2.setColumns(10);
+		txtNumero = new DSGTextFieldCorrelativo(8);
+		this.txtNumero.setBounds(116, 12, 80, 20);
+		txtNumero.setColumns(10);
 
 		txtFecha = new DSGDatePicker();
 		this.txtFecha.setBounds(245, 11, 101, 22);
@@ -92,7 +90,7 @@ public abstract class AbstractDocForm extends DSGInternalFrame implements
 		this.txtSerie.setBounds(72, 12, 44, 20);
 		txtSerie.setColumns(10);
 		this.pnlPrincipal.add(this.txtSerie);
-		this.pnlPrincipal.add(this.txtNumero_2);
+		this.pnlPrincipal.add(this.txtNumero);
 		this.pnlPrincipal.add(this.txtFecha);
 	}
 

@@ -258,8 +258,8 @@ public class FrmDocSalida extends AbstractDocForm {
 				int numero = docSalidaDAO.getPorSerie(serie);
 				numero = numero + 1;
 				if (numero > 0) {
-					txtNumero_2.setText(String.valueOf(numero));
-					txtNumero_2.requestFocus();
+					txtNumero.setText(String.valueOf(numero));
+					txtNumero.requestFocus();
 					txtFecha.requestFocus();
 				}
 			}
@@ -606,7 +606,7 @@ public class FrmDocSalida extends AbstractDocForm {
 			almacen = getSalida().getAlmacen();
 			almacen_dest = getSalida().getAlmacen_dest();
 
-			this.txtNumero_2.setText(numero);
+			this.txtNumero.setText(numero);
 			this.txtSerie.setText(getSalida().getSerie());
 			this.cntGrupoCentralizacion.txtCodigo.setText(getSalida()
 					.getGrupoCentralizacion().getIdgcentralizacion());
@@ -711,7 +711,7 @@ public class FrmDocSalida extends AbstractDocForm {
 	@Override
 	public void vista_edicion() {
 		this.txtSerie.setEditable(true);
-		this.txtNumero_2.setEditable(true);
+		this.txtNumero.setEditable(true);
 		this.txtFecha.setEditable(true);
 		this.cntGrupoCentralizacion.txtCodigo.setEditable(true);
 		this.cntMoneda.txtCodigo.setEditable(true);
@@ -727,7 +727,7 @@ public class FrmDocSalida extends AbstractDocForm {
 	@Override
 	public void vista_noedicion() {
 		this.txtSerie.setEditable(false);
-		this.txtNumero_2.setEditable(false);
+		this.txtNumero.setEditable(false);
 		this.txtFecha.setEditable(false);
 		this.cntGrupoCentralizacion.txtCodigo.setEditable(false);
 		this.cntMoneda.txtCodigo.setEditable(false);
@@ -759,7 +759,7 @@ public class FrmDocSalida extends AbstractDocForm {
 		getSalida().setGrupoCentralizacion(
 				cntGrupoCentralizacion.getSeleccionado());
 		getSalida().setSerie(this.txtSerie.getText());
-		getSalida().setNumero(Integer.parseInt(this.txtNumero_2.getText()));
+		getSalida().setNumero(Integer.parseInt(this.txtNumero.getText()));
 		getSalida().setConcepto(this.cntConcepto.getSeleccionado());
 		getSalida().setMoneda(cntMoneda.getSeleccionado());
 		getSalida().setResponsable(this.cntResponsable.getSeleccionado());
@@ -830,7 +830,7 @@ public class FrmDocSalida extends AbstractDocForm {
 
 	@Override
 	protected void limpiarVista() {
-		this.txtNumero_2.setText("");
+		this.txtNumero.setText("");
 		this.txtSerie.setText("");
 		this.cntGrupoCentralizacion.txtCodigo.setText("");
 		this.cntGrupoCentralizacion.llenar();
