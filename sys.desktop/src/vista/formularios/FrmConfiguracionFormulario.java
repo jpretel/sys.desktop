@@ -153,7 +153,9 @@ public class FrmConfiguracionFormulario extends DSGInternalFrame {
 		tblFlujoAprobacion.setDragEnabled(true);
 		tblFlujoAprobacion.setDropMode(DropMode.INSERT_ROWS);
 		tblFlujoAprobacion.setTransferHandler(new ArrayListTransferHandler() {
+			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("rawtypes")
 			public boolean importData(JComponent c, Transferable t) {
 				
 				JTable.DropLocation dl = ((JTable) c).getDropLocation();

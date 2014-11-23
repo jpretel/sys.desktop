@@ -19,12 +19,10 @@ import javax.swing.JTextField;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -212,15 +210,16 @@ public abstract class AbstractDocForm extends DSGInternalFrame implements
 				+ getNombreReporte() + ".jrxml";
 
 		try {
-			final JasperReport report = JasperCompileManager
-					.compileReport(reporte);
+//			final JasperReport report = JasperCompileManager
+//					.compileReport(reporte);
 
-			JasperPrint jasperPrint = JasperFillManager.fillReport(report,
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,
 					getParamsReport(), getDataSourceReport());
 			jasperPrint.setName(getNombreArchivo());
 			return jasperPrint;
 		} catch (Exception e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(Sys.mainF, "No se pudo abrir el archivo: " + reporte);
 			return null;
 		}
 	}
@@ -393,9 +392,9 @@ public abstract class AbstractDocForm extends DSGInternalFrame implements
 						"Sobreescribir el metodo getNombreReporte(); - Nombre del Archivo jasperreport sin compilar <.jasper> (SinExtension - Puede usar carpetas '\\')");
 		return "Documento";
 	}
-	
+
 	protected abstract void limpiarVista();
-	
+
 	private String getExportar() {
 		return Sys.empresa.getRuta_exportar() + "\\" + getNombreArchivo();
 	}

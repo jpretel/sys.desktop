@@ -4,8 +4,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import vista.utilitarios.JTableUtils;
-
 public class DSGTableModelReporte extends DefaultTableModel {
 
 	/**
@@ -53,14 +51,12 @@ public class DSGTableModelReporte extends DefaultTableModel {
 		
 	}
 	
-	private void refrescarRowHeader() {
-		if (getScrollPane() != null && getTable() != null) {
-			getScrollPane().setRowHeaderView(
-					JTableUtils.buildRowHeader(getTable(), this));
-			
-
-		}
-	}
+//	private void refrescarRowHeader() {
+//		if (getScrollPane() != null && getTable() != null) {
+//			getScrollPane().setRowHeaderView(
+//					JTableUtils.buildRowHeader(getTable(), this));
+//		}
+//	}
 
 	public JScrollPane getScrollPane() {
 		return scrollPane;

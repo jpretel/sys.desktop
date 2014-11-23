@@ -5,7 +5,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.Tuple;
@@ -17,13 +16,6 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
 import vista.Sys;
 import vista.contenedores.CntConcepto;
 import vista.contenedores.CntGrupoCentralizacion;
@@ -901,40 +893,5 @@ public class FrmDocSalida extends AbstractDocForm {
 
 		getBarra().enVista();
 		vista_noedicion();
-	}
-
-	@Override
-	public void doSalir() {
-		// JRBeanCollectionDataSource beanCollectionDataSource=new
-		// JRBeanCollectionDataSource(listOfUser);
-		try {
-			String ruta = "D:\\JaspersoftWorkspace\\ReportesSys\\reportes\\prueba.jasper";
-
-			List<DetDocsalida> ds = detDocsalidaDAO.getPorIdSalida(salida);
-
-			JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(
-					ds);
-
-			System.out.println(beanCollectionDataSource.getRecordCount());
-			JasperPrint jasperPrint = JasperFillManager.fillReport(ruta,
-					new HashMap(), beanCollectionDataSource);
-
-			JasperReport jasperReport = (JasperReport) JRLoader
-					.loadObjectFromFile(ruta);
-			// JasperPrint jasperPrint =
-			// JasperFillManager.fillReport(jasperReport, new HashMap());
-			// impresion de reporte
-			// TRUE: muestra la ventana de dialogo "preferencias de impresion"
-			JasperPrintManager.printReport(jasperPrint, true);
-
-			// JasperPrint jasperPrint = JasperFillManager.fillReport(
-			// ruta, new HashMap<Object, Object>());
-			// JasperExportManager
-			// .exportReportToPdfFile(jasperPrint,
-			// "D:\\JaspersoftWorkspace\\ReportesSys\\reportes\\ppp.pdf");
-		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

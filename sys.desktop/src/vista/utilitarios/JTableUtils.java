@@ -99,6 +99,11 @@ public class JTableUtils {
 		rowHeader.setOpaque(false);
 		rowHeader.setDragEnabled(true);
 		rowHeader.setTransferHandler(new ArrayListTransferHandler() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public int getSourceActions(JComponent c) {
 				return MOVE;

@@ -223,8 +223,9 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 						}
 					}
 				}
-				int total = solicitudes.size(), i = 0;
+				int total = solicitudes.size() + cotizaciones.size(), i = 0, nSol = solicitudes.size();
 				data = new Object[total][5];
+				System.out.println(total);
 				SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
 
 				for (Long id : solicitudes) {
@@ -243,20 +244,21 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 					}
 					i++;
 				}
-
+				
+				i = 0;
 				for (Long id : cotizaciones) {
-					CotizacionCompra slc = cotizacionCompraDAO.find(id);
+					CotizacionCompra cot = cotizacionCompraDAO.find(id);
 					Calendar calendar = Calendar.getInstance();
-					calendar.set(Calendar.YEAR, slc.getAnio());
-					calendar.set(Calendar.MONTH, slc.getMes() - 1);
-					calendar.set(Calendar.DAY_OF_MONTH, slc.getDia());
-					if (slc != null) {
-						data[i][0] = "Cot. Compra";
-						data[i][1] = slc.getSerie() + "-"
-								+ StringUtils._padl(slc.getNumero(), 8, '0');
-						data[i][2] = formater.format(calendar.getTime()); // slc.getFecha();
-						data[i][3] = "COT_COMPRA";
-						data[i][4] = slc;
+					calendar.set(Calendar.YEAR, cot.getAnio());
+					calendar.set(Calendar.MONTH, cot.getMes() - 1);
+					calendar.set(Calendar.DAY_OF_MONTH, cot.getDia());
+					if (cot != null) {
+						data[nSol + i][0] = "Cot. Compra";
+						data[nSol+i][1] = cot.getSerie() + "-"
+								+ StringUtils._padl(cot.getNumero(), 8, '0');
+						data[nSol+i][2] = formater.format(calendar.getTime()); // slc.getFecha();
+						data[nSol+i][3] = "COT_COMPRA";
+						data[nSol+i][4] = cot;
 					}
 					i++;
 				}
