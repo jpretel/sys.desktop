@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,7 +13,6 @@ import javax.swing.JTable;
 
 import vista.controles.DSGInternalFrame;
 import vista.controles.DSGTableModel;
-import vista.controles.ModalInternalFrame;
 
 public class ModalDetalleReferencia extends DSGInternalFrame {
 	Object[][] data;
@@ -32,8 +30,8 @@ public class ModalDetalleReferencia extends DSGInternalFrame {
 		getContentPane().add(this.pnlNorte, BorderLayout.NORTH);
 		this.pnlNorte.setLayout(null);
 
-		this.lblDetalleDe = new JLabel("Detalle de:");
-		this.lblDetalleDe.setBounds(10, 11, 52, 14);
+		this.lblDetalleDe = new JLabel("Detalle de Documento");
+		this.lblDetalleDe.setBounds(10, 11, 52, 25);
 		this.pnlNorte.add(this.lblDetalleDe);
 
 		this.pnlSur = new JPanel();

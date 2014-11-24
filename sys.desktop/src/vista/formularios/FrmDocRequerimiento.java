@@ -31,19 +31,24 @@ import core.centralizacion.ContabilizaRequerimiento;
 import core.dao.AlmacenDAO;
 import core.dao.ConsumidorDAO;
 import core.dao.DRequerimientoDAO;
+import core.dao.FlujoAprobacionDAO;
 import core.dao.KardexRequerimientoDAO;
 import core.dao.ProductoDAO;
 import core.dao.RequerimientoDAO;
 import core.dao.ResponsableDAO;
 import core.dao.SucursalDAO;
+import core.dao.SysFormularioDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.Consumidor;
 import core.entity.DRequerimiento;
 import core.entity.DRequerimientoPK;
+import core.entity.Flujo;
 import core.entity.Producto;
 import core.entity.Requerimiento;
 import core.entity.Sucursal;
+import core.entity.SysFormulario;
 import core.entity.Unimedida;
+import vista.controles.DSGButtonFlujo;
 
 public class FrmDocRequerimiento extends AbstractDocForm {
 
@@ -75,12 +80,21 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 	private JScrollPane scrlGlosa;
 	private JTextArea txtGlosa;
 	private JTable tblDetalle;
+	
+	private FlujoAprobacionDAO flujoDAO = new FlujoAprobacionDAO();
 
 	private Requerimiento requerimiento;
 	private List<DRequerimiento> drequerimiento = new ArrayList<DRequerimiento>();
-
+	private DSGButtonFlujo btnFlujo;
+	
+	private SysFormulario sysFormulario;
+	private SysFormularioDAO sysFormularioDAO = new SysFormularioDAO();
+	
 	public FrmDocRequerimiento() {
 		super("Requerimiento");
+		
+		sysFormulario = sysFormularioDAO.getPorOpcion("FrmListaRequerimiento");
+		
 		txtFecha.setBounds(245, 11, 101, 22);
 		txtNumero.setBounds(116, 12, 80, 20);
 		txtSerie.setBounds(72, 12, 44, 20);
@@ -247,6 +261,27 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 		pnlPrincipal.add(this.scrlGlosa);
 		pnlPrincipal.add(this.scrollPaneDetalle);
 
+		this.btnFlujo = new DSGButtonFlujo() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Flujo getFlujoAnterior() {
+				return flujoDAO.getEstadoAnterior(sysFormulario, requerimiento.getFlujo());
+			}
+			
+			@Override
+			public Flujo getFlujoSiguiente() {
+				return flujoDAO.getEstadoSiguiente(sysFormulario, requerimiento.getFlujo());
+			}
+			
+			@Override
+			public void actualizaEstado(Flujo flujo) {
+				requerimiento.setFlujo(flujo);
+				DoGrabar();
+			}
+		};
+		this.btnFlujo.setBounds(709, 11, 122, 24);
+		pnlPrincipal.add(this.btnFlujo);
+
 		txtProducto.updateCellEditor();
 		txtProducto.setData(productoDAO.findAll());
 
@@ -281,7 +316,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 	@Override
 	public void nuevo() {
 		Calendar c = Calendar.getInstance();
-		
+
 		setRequerimiento(new Requerimiento());
 		getRequerimiento().setIdrequerimiento(System.nanoTime());
 		requerimiento.setAnio(c.get(Calendar.YEAR));
@@ -329,17 +364,18 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 		if (getRequerimiento() != null) {
 			this.txtNumero.setValue(getRequerimiento().getNumero());
 			this.txtSerie.setText(getRequerimiento().getSerie());
+			btnFlujo.setFlujo(requerimiento.getFlujo());
 			
 			Calendar cal = Calendar.getInstance();
-			
+
 			cal.set(Calendar.YEAR, getRequerimiento().getAnio());
-			
+
 			cal.set(Calendar.MONTH, getRequerimiento().getMes() - 1);
-			
+
 			cal.set(Calendar.DAY_OF_MONTH, getRequerimiento().getDia());
-			
+
 			txtFecha.setDate(cal.getTime());
-			
+
 			cntResponsable.txtCodigo.setText((getRequerimiento()
 					.getResponsable() == null) ? "" : getRequerimiento()
 					.getResponsable().getIdresponsable());
@@ -435,12 +471,12 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 	public void llenarDesdeVista() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(txtFecha.getDate());
-		
+
 		Long idoc = getRequerimiento().getIdrequerimiento();
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		getRequerimiento().setSerie(this.txtSerie.getText());
-		getRequerimiento().setNumero(
-				Integer.parseInt(this.txtNumero.getText()));
+		getRequerimiento()
+				.setNumero(Integer.parseInt(this.txtNumero.getText()));
 		getRequerimiento()
 				.setResponsable(this.cntResponsable.getSeleccionado());
 		getRequerimiento().setSucursal(cntSucursal.getSeleccionado());
@@ -514,26 +550,23 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 		return FormValidador.TextFieldObligatorios(cntResponsable.txtCodigo,
 				cntSucursal.txtCodigo, cntAlmacen.txtCodigo);
 	}
-	
-	
+
 	@Override
 	protected void limpiarVista() {
 		txtFecha.setDate(Calendar.getInstance().getTime());
-		
+
 		cntResponsable.txtCodigo.setText("");
 		cntResponsable.llenar();
-		cntSucursal.txtCodigo
-				.setText("");
+		cntSucursal.txtCodigo.setText("");
 		cntSucursal.llenar();
 		cntAlmacen.setData(null);
-		
-		cntAlmacen.txtCodigo
-				.setText("");
-		cntAlmacen.llenar();
 
+		cntAlmacen.txtCodigo.setText("");
+		cntAlmacen.llenar();
+		btnFlujo.setFlujo(null);
 		getDetalleTM().limpiar();
 	}
-	
+
 	public DSGTableModel getDetalleTM() {
 		return ((DSGTableModel) tblDetalle.getModel());
 	}

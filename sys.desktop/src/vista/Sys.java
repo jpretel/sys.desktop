@@ -17,7 +17,6 @@ import com.scrollabledesktop.JScrollableDesktopPane;
 
 import controlador.Mensajes;
 import core.DAOConfig;
-import core.dao.ConceptoDAO;
 import core.dao.EmpresaDAO;
 import core.dao.GrupoUsuarioDAO;
 import core.dao.MonedaDAO;
@@ -95,7 +94,6 @@ public class Sys {
 		frm.setLocationRelativeTo(null);
 		boolean isOK;
 		if (sys_file.exists()) {
-			System.out.println("Existe");
 			datos = ConfigInicial.LlenarConfig();
 			if (datos != null) {
 				cfgInicio = new SysCfgInicio();
@@ -141,11 +139,6 @@ public class Sys {
 					
 					DAOConfig.entityFactory = Persistence.createEntityManagerFactory(
 							"sys.dao", persistenceMap);
-					
-					ConceptoDAO cDAO = new ConceptoDAO();
-					System.out.println(cDAO.findAll());
-					
-					
 					abrir();
 				} else {
 					mensaje_alterta("ERROR_CONFIG");

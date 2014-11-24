@@ -227,7 +227,6 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				int total = solicitudes.size() + cotizaciones.size(), i = 0, nSol = solicitudes
 						.size();
 				data = new Object[total][5];
-				System.out.println(total);
 				SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
 
 				for (Long id : solicitudes) {
@@ -504,9 +503,14 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 
 	@Override
 	public void nuevo() {
+		Calendar c = Calendar.getInstance();
+		
 		ordencompra = new OrdenCompra();
 		ordencompra.setIdordencompra(System.nanoTime());
 		ordencompra.setTcmoneda(1F);
+		ordencompra.setAnio(c.get(Calendar.YEAR));
+		ordencompra.setMes(c.get(Calendar.MONDAY)+1);
+		ordencompra.setDia(c.get(Calendar.DAY_OF_MONTH));
 		txtSerie.requestFocus();
 	}
 

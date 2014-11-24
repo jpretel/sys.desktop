@@ -11,9 +11,9 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JWindow;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -28,7 +28,7 @@ public abstract class JXTextFieldEntityAC<T> extends JXTextField implements
 	private static final long serialVersionUID = 1L;
 	private List<T> data;
 	private List<T> sugerencias = new ArrayList<T>();
-	protected JWindow autoSuggestionPopUpWindow;
+	protected JPopupMenu autoSuggestionPopUpWindow;
 	protected JTable table;
 	private JScrollPane scrollPane;
 	private int indice = -1;
@@ -61,8 +61,9 @@ public abstract class JXTextFieldEntityAC<T> extends JXTextField implements
 		this.cabeceras = cabeceras;
 
 		indice = -1;
-		autoSuggestionPopUpWindow = new JWindow(mainWindow);
-		autoSuggestionPopUpWindow.setOpacity(0.95f);
+		autoSuggestionPopUpWindow = new JPopupMenu();
+		autoSuggestionPopUpWindow.setBorder(null);
+		autoSuggestionPopUpWindow.setFocusable(false);
 
 		scrollPane = new JScrollPane();
 		autoSuggestionPopUpWindow.add(scrollPane);
@@ -71,7 +72,7 @@ public abstract class JXTextFieldEntityAC<T> extends JXTextField implements
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		table.addFocusListener(this);
+		// table.addFocusListener(this);
 		addFocusListener(this);
 
 		addKeyListener(new KeyAdapter() {
@@ -167,9 +168,9 @@ public abstract class JXTextFieldEntityAC<T> extends JXTextField implements
 
 		String typedWord = dato;
 		indice = -1;
-		
+
 		boolean added = wordTyped(typedWord);
-		
+
 		if (!added) {
 			indice = -1;
 			autoSuggestionPopUpWindow.setVisible(false);
@@ -185,7 +186,7 @@ public abstract class JXTextFieldEntityAC<T> extends JXTextField implements
 		// {
 		// return false;
 		// }
-		
+
 		boolean hayCoincidencias = false;
 		if (data != null)
 			for (T dato : data) {
@@ -219,7 +220,7 @@ public abstract class JXTextFieldEntityAC<T> extends JXTextField implements
 				return false;
 			}
 		};
-		
+
 		table.setModel(model);
 
 		for (int i = 0; i < table.getColumnCount(); i++) {
@@ -227,15 +228,14 @@ public abstract class JXTextFieldEntityAC<T> extends JXTextField implements
 			table.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
 		}
 
-		int windowX = getLocationOnScreen().x;
-		int windowY = getLocationOnScreen().y + getHeight();
-
-		autoSuggestionPopUpWindow.setLocation(windowX, windowY);
 		autoSuggestionPopUpWindow
 				.setMinimumSize(new Dimension(anchoTotal, 140));
-		autoSuggestionPopUpWindow.setAutoRequestFocus(false);
-		autoSuggestionPopUpWindow.setVisible(true);
-
+		autoSuggestionPopUpWindow
+				.setMaximumSize(new Dimension(anchoTotal, 140));
+		autoSuggestionPopUpWindow.setPreferredSize(new Dimension(anchoTotal,
+				140));
+		autoSuggestionPopUpWindow.setSize(new Dimension(anchoTotal, 140));
+		autoSuggestionPopUpWindow.show(this, 0, this.getHeight());
 	}
 
 	private boolean validarDatos() {
@@ -262,52 +262,14 @@ public abstract class JXTextFieldEntityAC<T> extends JXTextField implements
 
 	@Override
 	public void focusGained(FocusEvent e) {
-		boolean band = false;
-		if (e.getComponent() == table) {
-			band = true;
-		}
-		if (!band) {
-			autoSuggestionPopUpWindow.setVisible(false);
-		}
 	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
-
-		boolean band = false;
-		if ((e.getComponent() == table && e.getOppositeComponent() == this)
-				|| (e.getComponent() == this && e.getOppositeComponent() == table)) {
-			band = true;
-		}
-		if (e.getComponent() == this && !band) {
-			setEntityPorCodigo();
-			cargaDatos();
-		}
-		if (!band) {
-			autoSuggestionPopUpWindow.setVisible(false);
-		}
+		setEntityPorCodigo();
+		cargaDatos();
+		autoSuggestionPopUpWindow.setVisible(false);
 	}
-
-	// private void revisaFoco(char tipo, FocusEvent e) {
-	// boolean band = false;
-	// if (tipo == 'G') {
-	// if (e.getComponent() == table) {
-	// band = true;
-	// }
-	// } else {
-	// if ((e.getComponent() == table && e.getOppositeComponent() == this)
-	// || (e.getComponent() == this && e.getOppositeComponent() == table)) {
-	// band = true;
-	// }
-	// if (e.getComponent() == this && !band) {
-	// setEntityPorCodigo();
-	// cargaDatos();
-	// }
-	// }
-	// if (!band) {
-	// autoSuggestionPopUpWindow.setVisible(false);
-	// }
-	// }
 
 	public T getSeleccionado() {
 		return seleccionado;

@@ -22,39 +22,39 @@ public abstract class JXTableTextField<T> extends
 		this.ubicacion = ubicacion;
 	}
 
-	@Override
-	public void focusGained(FocusEvent e) {
-		
-	};
-
-	@Override
-	public void focusLost(FocusEvent e) {
-
-		// autoSuggestionPopUpWindow.setVisible(false);
-
-//		CellEditor cellEditor = tabla.getCellEditor();
-//		if (cellEditor != null)
-//			if (cellEditor.getCellEditorValue() != null)
-//				cellEditor.stopCellEditing();
-//			else
-//				cellEditor.cancelCellEditing();
+//	@Override
+//	public void focusGained(FocusEvent e) {
 //		
-		//if (!(e.getComponent() == this && e.getOppositeComponent() == this))
-			//cargaDatos();
-		boolean band = false;
-//		if ((e.getComponent() == table && e.getOppositeComponent() == this)
-//				|| (e.getComponent() == this && e.getOppositeComponent() == table)) {
-//			band = true;
+//	};
+//
+//	@Override
+//	public void focusLost(FocusEvent e) {
+//
+//		// autoSuggestionPopUpWindow.setVisible(false);
+//
+////		CellEditor cellEditor = tabla.getCellEditor();
+////		if (cellEditor != null)
+////			if (cellEditor.getCellEditorValue() != null)
+////				cellEditor.stopCellEditing();
+////			else
+////				cellEditor.cancelCellEditing();
+////		
+//		//if (!(e.getComponent() == this && e.getOppositeComponent() == this))
+//			//cargaDatos();
+//		boolean band = false;
+////		if ((e.getComponent() == table && e.getOppositeComponent() == this)
+////				|| (e.getComponent() == this && e.getOppositeComponent() == table)) {
+////			band = true;
+////		}
+////		if (e.getComponent() == this && !band) {
+////			setEntityPorCodigo();
+////			cargaDatos();
+////		}
+//		if (!band) {
+//			autoSuggestionPopUpWindow.setVisible(false);
 //		}
-//		if (e.getComponent() == this && !band) {
-//			setEntityPorCodigo();
-//			cargaDatos();
-//		}
-		if (!band) {
-			autoSuggestionPopUpWindow.setVisible(false);
-		}
-	};
-	
+//	};
+//	
 	public void refresValue(String value) {
 		setText(value);
 		setEntityPorCodigo();

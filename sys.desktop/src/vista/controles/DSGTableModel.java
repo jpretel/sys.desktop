@@ -218,11 +218,13 @@ public abstract class DSGTableModel extends DefaultTableModel {
 						private static final long serialVersionUID = 1L;
 
 						{
-
 							addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
-									if (getEditar() && isValidaAgregar())
+									if (getEditar() && isValidaAgregar()) {
 										addRow();
+										getTable().setRowSelectionInterval(0,
+												getRowCount() - 1);
+									}
 								}
 							});
 						}
@@ -282,8 +284,7 @@ public abstract class DSGTableModel extends DefaultTableModel {
 			}
 		}
 	}
-	
-	
+
 	public boolean isValidaAgregar() {
 		return true;
 	}

@@ -102,6 +102,8 @@ public class CntReferenciaDoc extends JPanel {
 		add(btnVer, gbc_btnVer);
 
 		refWindow = new JPopupMenu();//JWindow((Window) Sys.mainF);
+		refWindow.setBorder(null);
+		refWindow.setFocusable(false);
 //		refWindow.setOpacity(0.95f);
 
 		scrollPane = new JScrollPane();
@@ -134,14 +136,9 @@ public class CntReferenciaDoc extends JPanel {
 		});
 
 		btnVer.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (refWindow.isVisible()) {
-//					refWindow.dispose();
-				} else {
-					mostrarReferencias();
-				}
+				mostrarReferencias();
 			}
 		});
 	}
@@ -162,23 +159,25 @@ public class CntReferenciaDoc extends JPanel {
 				return false;
 			}
 		};
+		table.setModel(model);
+		
 		int ancho = 0;
 
 		for (int i = 0; i < table.getColumnCount(); i++) {
 			ancho += anchos[i];
 			table.getColumnModel().getColumn(i).setPreferredWidth(anchos[i]);
 		}
-
-		table.setModel(model);
+		
 		
 		refWindow.setMinimumSize(new Dimension(ancho, 170));
 		refWindow.setMaximumSize(new Dimension(ancho, 170));
 		refWindow.setPreferredSize(new Dimension(ancho, 170));
 		refWindow.setSize(new Dimension(ancho, 170));
-		refWindow.setBorder(null);
+		
+		refWindow.setVisible(true);
+		
 		refWindow.show(this, 0, this.getHeight());//.setVisible(true);
-		refWindow.requestFocus();
-		table.requestFocus();
+		
 	}
 
 	public Object[][] getData() {

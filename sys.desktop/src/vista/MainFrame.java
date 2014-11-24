@@ -56,9 +56,10 @@ public class MainFrame extends JRibbonFrame {
 	static {
 		cOpciones = new ControladorOpciones();
 	}
-	
+
 	public MainFrame() {
 		desktopPane = new JScrollableDesktopPane();
+
 		Sys.desktoppane = desktopPane;
 		getContentPane().add(desktopPane, BorderLayout.CENTER);
 		Sys.desktoppane = desktopPane;
@@ -78,16 +79,16 @@ public class MainFrame extends JRibbonFrame {
 		tlbPie.setFloatable(false);
 		getContentPane().add(tlbPie, BorderLayout.SOUTH);
 
-//		this.btnVentanas = new JButton("Ventanas Activas");
-//		this.btnVentanas.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//				JPopupMenu menu = getMenuVentanas();
-//				menu.show(btnVentanas, 0, 0);
-//				menu.show(btnVentanas, 0, - menu.getHeight());
-//			}
-//		});
-//		tlbPie.add(this.btnVentanas);
+		// this.btnVentanas = new JButton("Ventanas Activas");
+		// this.btnVentanas.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent arg0) {
+		// JPopupMenu menu = getMenuVentanas();
+		// menu.show(btnVentanas, 0, 0);
+		// menu.show(btnVentanas, 0, - menu.getHeight());
+		// }
+		// });
+		// tlbPie.add(this.btnVentanas);
 
 		this.separator = new JSeparator();
 		this.separator.setPreferredSize(new Dimension(20, 2));
@@ -169,7 +170,7 @@ public class MainFrame extends JRibbonFrame {
 				"DashBoard", new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-//						CreaRibbonMenu();
+						// CreaRibbonMenu();
 					}
 				}, CommandButtonKind.ACTION_ONLY);
 
@@ -208,9 +209,13 @@ public class MainFrame extends JRibbonFrame {
 				cOpciones.returnAction("FrmPrivilegiosUsuario"),
 				CommandButtonKind.ACTION_ONLY);
 
-		config_popup.addSecondaryMenuGroup("Configuración Inicial", configs);
+		if (Sys.usuario.getGrupoUsuario().getEsAdministrador() == 1) {
 
-		ribbon.addMenuEntry(config_popup);
+			config_popup
+					.addSecondaryMenuGroup("Configuración Inicial", configs);
+
+			ribbon.addMenuEntry(config_popup);
+		}
 
 		RibbonApplicationMenuEntryPrimary cambiar_clave = new RibbonApplicationMenuEntryPrimary(
 				getResizableIconFromResource("/main/resources/favoritos.png"),
@@ -359,41 +364,41 @@ public class MainFrame extends JRibbonFrame {
 		}
 	}
 
-//	public JPopupMenu getMenuVentanas() {
-//		JPopupMenu popupMenu = new JPopupMenu();
-//		boolean hayVentanas = false;
-//
-////		JInternalFrame[] ventanas = Sys.desktoppane.getAllFrames();
-////		if (ventanas != null) {
-////			for (final JInternalFrame v : ventanas) {
-////				JMenuItem mForm = new JMenuItem(v.getTitle());
-////				popupMenu.add(mForm);
-////				hayVentanas = true;
-////				mForm.addActionListener(new ActionListener() {
-////					@Override
-////					public void actionPerformed(ActionEvent arg0) {
-////						try {
-////							v.moveToFront();
-////						} catch (Exception e) {
-////						}
-////					}
-////				});
-////			}
-////
-////			if (hayVentanas)
-////				return popupMenu;
-////		}
-//
-//		JMenuItem mForm = new JMenuItem("No hay Ventanas Abiertas");
-//		popupMenu.add(mForm);
-//		
-//		return popupMenu;
-//
-//	}
+	// public JPopupMenu getMenuVentanas() {
+	// JPopupMenu popupMenu = new JPopupMenu();
+	// boolean hayVentanas = false;
+	//
+	// // JInternalFrame[] ventanas = Sys.desktoppane.getAllFrames();
+	// // if (ventanas != null) {
+	// // for (final JInternalFrame v : ventanas) {
+	// // JMenuItem mForm = new JMenuItem(v.getTitle());
+	// // popupMenu.add(mForm);
+	// // hayVentanas = true;
+	// // mForm.addActionListener(new ActionListener() {
+	// // @Override
+	// // public void actionPerformed(ActionEvent arg0) {
+	// // try {
+	// // v.moveToFront();
+	// // } catch (Exception e) {
+	// // }
+	// // }
+	// // });
+	// // }
+	// //
+	// // if (hayVentanas)
+	// // return popupMenu;
+	// // }
+	//
+	// JMenuItem mForm = new JMenuItem("No hay Ventanas Abiertas");
+	// popupMenu.add(mForm);
+	//
+	// return popupMenu;
+	//
+	// }
 
 	/** Serial version unique id. */
 	private static final long serialVersionUID = 1L;
-//	private JButton btnVentanas;
+	// private JButton btnVentanas;
 	private JSeparator separator;
 
 	public static ResizableIcon getResizableIconFromResource(String resource) {
