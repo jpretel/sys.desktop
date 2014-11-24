@@ -16,7 +16,6 @@ import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumnModel;
 
-import vista.Sys;
 import vista.contenedores.CntConcepto;
 import vista.contenedores.CntGrupoCentralizacion;
 import vista.contenedores.CntMoneda;
@@ -28,6 +27,7 @@ import vista.controles.DSGTableModel;
 import vista.controles.celleditor.TxtProducto;
 import vista.formularios.listas.AbstractDocForm;
 import vista.formularios.modal.ModalDetalleReferencia;
+import vista.formularios.modal.ModalInternalPanel;
 import vista.utilitarios.FormValidador;
 import vista.utilitarios.StringUtils;
 import vista.utilitarios.UtilMensajes;
@@ -421,8 +421,8 @@ public class FrmDocSalida extends AbstractDocForm {
 				}
 			};
 
-			ModalDetalleReferencia modal = new ModalDetalleReferencia(this,
-					modelo, data) {
+			ModalDetalleReferencia modal = new ModalDetalleReferencia(modelo,
+					data) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -469,9 +469,8 @@ public class FrmDocSalida extends AbstractDocForm {
 				if (estado.equals(VISTA))
 					modal.getBtnAceptar().setEnabled(false);
 			}
-			modal.setModal(true);
-			Sys.desktoppane.add(modal);
-			modal.setVisible(true);
+			
+			ModalInternalPanel.showInternalDialog(this, modal, null);
 
 			if (modal.model != null) {
 				int rows = data.length;

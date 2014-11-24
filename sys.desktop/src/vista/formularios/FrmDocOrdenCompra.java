@@ -37,6 +37,7 @@ import vista.controles.DSGTextFieldNumber;
 import vista.controles.celleditor.TxtProducto;
 import vista.formularios.listas.AbstractDocForm;
 import vista.formularios.modal.ModalDetalleReferencia;
+import vista.formularios.modal.ModalInternalPanel;
 import vista.utilitarios.FormValidador;
 import vista.utilitarios.StringUtils;
 import vista.utilitarios.UtilMensajes;
@@ -223,7 +224,8 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 						}
 					}
 				}
-				int total = solicitudes.size() + cotizaciones.size(), i = 0, nSol = solicitudes.size();
+				int total = solicitudes.size() + cotizaciones.size(), i = 0, nSol = solicitudes
+						.size();
 				data = new Object[total][5];
 				System.out.println(total);
 				SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
@@ -244,7 +246,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 					}
 					i++;
 				}
-				
+
 				i = 0;
 				for (Long id : cotizaciones) {
 					CotizacionCompra cot = cotizacionCompraDAO.find(id);
@@ -254,11 +256,11 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 					calendar.set(Calendar.DAY_OF_MONTH, cot.getDia());
 					if (cot != null) {
 						data[nSol + i][0] = "Cot. Compra";
-						data[nSol+i][1] = cot.getSerie() + "-"
+						data[nSol + i][1] = cot.getSerie() + "-"
 								+ StringUtils._padl(cot.getNumero(), 8, '0');
-						data[nSol+i][2] = formater.format(calendar.getTime()); // slc.getFecha();
-						data[nSol+i][3] = "COT_COMPRA";
-						data[nSol+i][4] = cot;
+						data[nSol + i][2] = formater.format(calendar.getTime()); // slc.getFecha();
+						data[nSol + i][3] = "COT_COMPRA";
+						data[nSol + i][4] = cot;
 					}
 					i++;
 				}
@@ -727,8 +729,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 		Long idoc = getOrdencompra().getIdordencompra();
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		getOrdencompra().setSerie(this.txtSerie.getText());
-		getOrdencompra()
-				.setNumero(Integer.parseInt(this.txtNumero.getText()));
+		getOrdencompra().setNumero(Integer.parseInt(this.txtNumero.getText()));
 		getOrdencompra().setMoneda(cntMoneda.getSeleccionado());
 		getOrdencompra().setResponsable(this.cntResponsable.getSeleccionado());
 		getOrdencompra().setClieprov(this.cntClieprov.getSeleccionado());
@@ -889,8 +890,8 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				}
 			};
 
-			ModalDetalleReferencia modal = new ModalDetalleReferencia(this,
-					model, data) {
+			ModalDetalleReferencia modal = new ModalDetalleReferencia(model,
+					data) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -936,9 +937,8 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				if (estado.equals(VISTA))
 					modal.getBtnAceptar().setEnabled(false);
 			}
-			modal.setModal(true);
-			Sys.desktoppane.add(modal);
-			modal.setVisible(true);
+			
+			ModalInternalPanel.showInternalDialog(this, modal, null);
 
 			if (modal.model != null) {
 				int rows = data.length;
@@ -1038,8 +1038,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				}
 			};
 
-			ModalDetalleReferencia modal = new ModalDetalleReferencia(this,
-					model, data) {
+			ModalDetalleReferencia modal = new ModalDetalleReferencia(model, data) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -1085,9 +1084,10 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				if (estado.equals(VISTA))
 					modal.getBtnAceptar().setEnabled(false);
 			}
-			modal.setModal(true);
-			Sys.desktoppane.add(modal);
-			modal.setVisible(true);
+//			modal.setModal(true);
+			// Sys.desktoppane.add(modal);
+//			modal.setVisible(true);
+			ModalInternalPanel.showInternalDialog(this, modal, null);
 
 			if (modal.model != null) {
 				int rows = data.length;
@@ -1260,8 +1260,8 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 	protected String getNombreArchivo() {
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-		return "OC " + this.txtSerie.getText() + "-"
-				+ this.txtNumero.getText() + "_" + format.format(c.getTime());
+		return "OC " + this.txtSerie.getText() + "-" + this.txtNumero.getText()
+				+ "_" + format.format(c.getTime());
 	}
 
 	@Override

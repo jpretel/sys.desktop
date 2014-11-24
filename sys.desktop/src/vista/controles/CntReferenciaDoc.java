@@ -5,26 +5,21 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JWindow;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import vista.Sys;
-
-public class CntReferenciaDoc extends JPanel implements FocusListener {
+public class CntReferenciaDoc extends JPanel {
 	/**
 	 * 
 	 */
@@ -32,7 +27,7 @@ public class CntReferenciaDoc extends JPanel implements FocusListener {
 	public DSGTextFieldCorrelativo txtSerie;
 	public DSGTextFieldCorrelativo txtNumero;
 
-	private JWindow refWindow;
+	private JPopupMenu refWindow;
 	private JScrollPane scrollPane;
 	private JTable table;
 	private String[] cabeceras;
@@ -106,17 +101,16 @@ public class CntReferenciaDoc extends JPanel implements FocusListener {
 		gbc_btnBuscar.gridy = 0;
 		add(btnVer, gbc_btnVer);
 
-		refWindow = new JWindow((Window) Sys.mainF);
-		refWindow.setOpacity(0.95f);
+		refWindow = new JPopupMenu();//JWindow((Window) Sys.mainF);
+//		refWindow.setOpacity(0.95f);
 
 		scrollPane = new JScrollPane();
-		refWindow.getContentPane().add(scrollPane);
+//		refWindow.getContentPane().add(scrollPane);
+		refWindow.add(scrollPane);
 		table = new JTable();
 		scrollPane.setViewportView(table);
 
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
-		table.addFocusListener(this);
 
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -131,10 +125,7 @@ public class CntReferenciaDoc extends JPanel implements FocusListener {
 			}
 		});
 
-		txtNumero.addFocusListener(this);
-		txtSerie.addFocusListener(this);
-		btnBuscar.addFocusListener(this);
-		btnVer.addFocusListener(this);
+
 		btnBuscar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -146,8 +137,11 @@ public class CntReferenciaDoc extends JPanel implements FocusListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-//				txtNumero.requestFocus();
-				mostrarReferencias();
+				if (refWindow.isVisible()) {
+//					refWindow.dispose();
+				} else {
+					mostrarReferencias();
+				}
 			}
 		});
 	}
@@ -176,14 +170,15 @@ public class CntReferenciaDoc extends JPanel implements FocusListener {
 		}
 
 		table.setModel(model);
-
-		int windowX = getLocationOnScreen().x;
-		int windowY = getLocationOnScreen().y + getHeight();
-
-		refWindow.setLocation(windowX, windowY);
+		
 		refWindow.setMinimumSize(new Dimension(ancho, 170));
-		refWindow.setAutoRequestFocus(false);
-		refWindow.setVisible(true);
+		refWindow.setMaximumSize(new Dimension(ancho, 170));
+		refWindow.setPreferredSize(new Dimension(ancho, 170));
+		refWindow.setSize(new Dimension(ancho, 170));
+		refWindow.setBorder(null);
+		refWindow.show(this, 0, this.getHeight());//.setVisible(true);
+		refWindow.requestFocus();
+		table.requestFocus();
 	}
 
 	public Object[][] getData() {
@@ -195,34 +190,7 @@ public class CntReferenciaDoc extends JPanel implements FocusListener {
 		System.out
 				.println("Sobreescribir el método mostrarReferencia(Object[] row);");
 	}
-
-	@Override
-	public void focusGained(FocusEvent e) {
-		boolean band = false;
-		if (e.getComponent() == table) {
-			band = true;
-		}
-		if (!band) {
-			refWindow.setVisible(false);
-		}
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-
-		boolean band = false;
-		if ((e.getComponent() == table && (e.getOppositeComponent() == this.txtNumero
-				|| e.getOppositeComponent() == this.txtSerie
-				|| e.getOppositeComponent() == this.btnVer || e
-				.getOppositeComponent() == this.btnBuscar))
-				|| (e.getComponent() == this && e.getOppositeComponent() == table)) {
-			band = true;
-		}
-		if (!band) {
-			refWindow.setVisible(false);
-		}
-	}
-
+	
 	public void buscarReferencia() {
 		System.out.println("Sobreescribir el método: buscarReferencia()");
 	}

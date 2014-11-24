@@ -264,4 +264,13 @@ public class DesktopMediator implements DesktopConstants {
 		dListener.actionPerformed(e);
 	}
 
+	public DesktopResizableToolBar getDesktopResizableToolbar() {
+		return desktopResizableToolbar;
+	}
+
+	public void setDesktopResizableToolbar(
+			DesktopResizableToolBar desktopResizableToolbar) {
+		this.desktopResizableToolbar = desktopResizableToolbar;
+	}
+
 }

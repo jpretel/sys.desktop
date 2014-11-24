@@ -308,4 +308,12 @@ public class JScrollableDesktopPane extends JPanel implements DesktopConstants {
 		desktopMediator.flagContentsChanged(f);
 	}
 
+	public DesktopMediator getDesktopMediator() {
+		return desktopMediator;
+	}
+
+	public void setDesktopMediator(DesktopMediator desktopMediator) {
+		this.desktopMediator = desktopMediator;
+	}
+
 }

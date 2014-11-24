@@ -37,6 +37,7 @@ import vista.controles.DSGTextFieldCorrelativo;
 import vista.controles.celleditor.TxtProducto;
 import vista.formularios.listas.AbstractDocForm;
 import vista.formularios.modal.ModalDetalleReferencia;
+import vista.formularios.modal.ModalInternalPanel;
 import vista.utilitarios.FormValidador;
 import vista.utilitarios.UtilMensajes;
 import vista.utilitarios.editores.FloatEditor;
@@ -93,7 +94,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 		setSize(new Dimension(700, 370));
 		setPreferredSize(new Dimension(700, 380));
 		setMinimumSize(new Dimension(700, 380));
-		
+
 		txtFecha.setBounds(245, 11, 101, 22);
 		txtNumero.setBounds(116, 12, 80, 20);
 		txtSerie.setBounds(72, 12, 44, 20);
@@ -239,16 +240,16 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 
 		btnRefSal.setMargin(new Insets(0, 0, 0, 0));
-		
+
 		this.btnRefSal.setBounds(640, 63, 20, 20);
 		this.btnRefSal.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				llenarDetalle();
 			}
 		});
-		
+
 		pnlPrincipal.add(this.btnRefSal);
 
 		this.lblSolicitudDeCompra = new JLabel("Solicitud de Compra");
@@ -335,7 +336,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 	@Override
 	public void llenar_datos() {
 		limpiarVista();
-		
+
 		if (solicitud != null) {
 			txtNumero.setValue(solicitud.getNumero());
 			txtSerie.setText(solicitud.getSerie());
@@ -557,7 +558,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 					};
 
 					ModalDetalleReferencia modal = new ModalDetalleReferencia(
-							this, model, data) {
+							model, data) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -578,9 +579,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 							modal.getBtnAceptar().setEnabled(false);
 					}
 
-					modal.setModal(true);
-					Sys.desktoppane.add(modal);
-					modal.setVisible(true);
+					ModalInternalPanel.showInternalDialog(this, modal, null);
 
 					if (modal.model != null) {
 						getDetalleTM().setEditar(false);
@@ -635,7 +634,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	protected void limpiarVista() {
 		txtNumero.setValue(0);
@@ -651,7 +650,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 
 		getDetalleTM().limpiar();
 	}
-	
+
 	public DSGTableModel getDetalleTM() {
 		return ((DSGTableModel) tblDetalle.getModel());
 	}
@@ -671,7 +670,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 	public void setDsolicitud(List<DSolicitudCotizacion> dsolicitud) {
 		this.dsolicitud = dsolicitud;
 	}
-	
+
 	@Override
 	public void initBarra() {
 		int AnchoCabecera = 850;
@@ -684,30 +683,33 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		getContentPane().add(barra, BorderLayout.NORTH);
 	}
-	
+
 	@Override
 	protected String getNombreArchivo() {
 		Calendar c = Calendar.getInstance();
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-		return "SolCot" + this.txtSerie.getText() + "-" + this.txtNumero.getText() + "_" + format.format(c.getTime()) ;
+		return "SolCot" + this.txtSerie.getText() + "-"
+				+ this.txtNumero.getText() + "_" + format.format(c.getTime());
 	}
-	
+
 	@Override
 	protected String getNombreReporte() {
 		return "SolicitudCotizacion";
 	}
-	
+
 	@Override
 	protected Map<String, Object> getParamsReport() {
-		Map<String, Object> map= new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("empresa", Sys.empresa);
 		map.put("solicitudcotizacion", solicitud);
 		return map;
 	}
-	
+
 	@Override
 	protected JRDataSource getDataSourceReport() {
-		List<DSolicitudCotizacion> doc = dsolicitudDAO.getPorSolicitud(solicitud);
-		return new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(doc);
+		List<DSolicitudCotizacion> doc = dsolicitudDAO
+				.getPorSolicitud(solicitud);
+		return new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource(
+				doc);
 	}
 }

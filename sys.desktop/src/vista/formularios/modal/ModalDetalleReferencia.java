@@ -12,15 +12,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import vista.controles.DSGInternalFrame;
 import vista.controles.DSGTableModel;
 import vista.controles.ModalInternalFrame;
 
-public class ModalDetalleReferencia extends ModalInternalFrame {
+public class ModalDetalleReferencia extends DSGInternalFrame {
 	Object[][] data;
 	public DSGTableModel model;
-	public ModalDetalleReferencia(JInternalFrame parent,
-			final DSGTableModel modelo, Object[][] data) {
-		super(parent);
+
+	public ModalDetalleReferencia(final DSGTableModel modelo, Object[][] data) {
 		this.model = modelo;
 		setSize(new Dimension(570, 350));
 		setPreferredSize(new Dimension(200, 200));
