@@ -69,6 +69,7 @@ public class DSGButtonFlujo extends JButton {
 		Flujo siguiente = getFlujoSiguiente();
 
 		JPopupMenu menu = new JPopupMenu();
+		
 		JMenuItem item;
 		menu.add(item = new JMenuItem("Ver Hist. de Aprobación"));
 

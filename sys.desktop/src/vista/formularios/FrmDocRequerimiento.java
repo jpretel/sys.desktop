@@ -437,6 +437,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 		this.txtNumero.setEditable(true);
 		this.txtFecha.setEditable(true);
 		this.txtGlosa.setEditable(true);
+		this.btnFlujo.setEnabled(false);
 		FormValidador.CntEdicion(true, this.cntResponsable, this.cntAlmacen,
 				this.cntSucursal);
 		getDetalleTM().setEditar(true);
@@ -448,6 +449,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 		this.txtNumero.setEditable(false);
 		this.txtFecha.setEditable(false);
 		this.txtGlosa.setEditable(false);
+		this.btnFlujo.setEnabled(true);
 		FormValidador.CntEdicion(false, this.cntResponsable, this.cntAlmacen,
 				this.cntSucursal);
 		getDetalleTM().setEditar(false);
