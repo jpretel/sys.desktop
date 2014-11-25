@@ -25,7 +25,7 @@ import vista.contenedores.cntSucursal;
 import vista.controles.CntReferenciaDoc;
 import vista.controles.DSGTableModel;
 import vista.controles.celleditor.TxtProducto;
-import vista.formularios.listas.AbstractDocForm;
+import vista.formularios.abstractforms.AbstractDocForm;
 import vista.formularios.modal.ModalDetalleReferencia;
 import vista.formularios.modal.ModalInternalPanel;
 import vista.utilitarios.FormValidador;

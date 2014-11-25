@@ -8,7 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import vista.formularios.AbstractMaestro;
+import vista.formularios.abstractforms.AbstractMaestro;
 
 public class PanelBarraMaestro extends JPanel {
 

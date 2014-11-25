@@ -23,7 +23,7 @@ import vista.contenedores.cntSucursal;
 import vista.controles.DSGTableModel;
 import vista.controles.celleditor.TxtConsumidor;
 import vista.controles.celleditor.TxtProducto;
-import vista.formularios.listas.AbstractDocForm;
+import vista.formularios.abstractforms.AbstractDocForm;
 import vista.utilitarios.FormValidador;
 import vista.utilitarios.editores.FloatEditor;
 import vista.utilitarios.renderers.FloatRenderer;

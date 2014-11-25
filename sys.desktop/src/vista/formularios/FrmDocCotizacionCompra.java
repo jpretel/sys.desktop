@@ -29,7 +29,7 @@ import vista.controles.DSGTableModel;
 import vista.controles.DSGTextFieldCorrelativo;
 import vista.controles.DSGTextFieldNumber;
 import vista.controles.celleditor.TxtProducto;
-import vista.formularios.listas.AbstractDocForm;
+import vista.formularios.abstractforms.AbstractDocForm;
 import vista.utilitarios.FormValidador;
 import vista.utilitarios.UtilMensajes;
 import vista.utilitarios.editores.FloatEditor;

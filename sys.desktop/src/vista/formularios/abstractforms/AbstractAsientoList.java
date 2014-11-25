@@ -27,7 +27,6 @@ import vista.controles.DSGInternalFrame;
 import vista.controles.DSGTableList;
 import vista.controles.DSGTableModelList;
 import vista.controles.DSGTextFieldCorrelativo;
-import vista.formularios.listas.AbstractDocForm;
 import vista.utilitarios.renderers.DDMMYYYYRenderer;
 
 import com.jgoodies.forms.factories.FormFactory;

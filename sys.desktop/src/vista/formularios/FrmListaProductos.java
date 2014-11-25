@@ -2,6 +2,8 @@ package vista.formularios;
 
 import java.util.List;
 
+import vista.formularios.abstractforms.AbstractMaestroLista;
+import vista.formularios.maestros.FrmProductos;
 import core.dao.ProductoDAO;
 import core.entity.Grupo;
 import core.entity.Producto;

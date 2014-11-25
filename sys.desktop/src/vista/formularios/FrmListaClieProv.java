@@ -1,6 +1,8 @@
 package vista.formularios;
 import java.util.List;
 
+import vista.formularios.abstractforms.AbstractMaestroLista;
+import vista.formularios.maestros.FrmClieprov;
 import core.dao.ClieprovDAO;
 import core.entity.Clieprov;
 

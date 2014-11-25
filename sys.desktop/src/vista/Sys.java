@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import vista.formularios.FrmLogin;
+import vista.formularios.maestros.FrmLogin;
 
 import com.scrollabledesktop.JScrollableDesktopPane;
 

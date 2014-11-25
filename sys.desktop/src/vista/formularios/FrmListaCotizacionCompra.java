@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import vista.formularios.listas.AbstractDocList;
+import vista.formularios.abstractforms.AbstractDocList;
 import vista.formularios.listas.DSGTableList;
 import vista.formularios.listas.DSGTableModelList;
 import vista.utilitarios.StringUtils;

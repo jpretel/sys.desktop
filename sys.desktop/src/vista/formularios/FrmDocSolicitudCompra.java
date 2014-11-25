@@ -20,7 +20,7 @@ import javax.swing.table.TableColumnModel;
 import vista.contenedores.cntResponsable;
 import vista.controles.DSGTableModel;
 import vista.controles.celleditor.TxtProducto;
-import vista.formularios.listas.AbstractDocForm;
+import vista.formularios.abstractforms.AbstractDocForm;
 import vista.utilitarios.FormValidador;
 import vista.utilitarios.editores.FloatEditor;
 import vista.utilitarios.renderers.FloatRenderer;

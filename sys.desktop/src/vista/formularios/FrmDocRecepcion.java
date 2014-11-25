@@ -35,7 +35,7 @@ import vista.contenedores.cntResponsable;
 import vista.contenedores.cntSucursal;
 import vista.controles.DSGTableModel;
 import vista.controles.celleditor.TxtProducto;
-import vista.formularios.listas.AbstractDocForm;
+import vista.formularios.abstractforms.AbstractDocForm;
 import vista.utilitarios.FormValidador;
 import vista.utilitarios.StringUtils;
 import vista.utilitarios.editores.FloatEditor;
@@ -752,7 +752,7 @@ public class FrmDocRecepcion extends AbstractDocForm {
 	@Override
 	public void doVerAsiento() {
 		Asiento asiento = getIngreso().getAsiento();
-		FrmAsientoDoc frmAsiento = new FrmAsientoDoc();
+		FrmDocAsiento frmAsiento = new FrmDocAsiento();
 		frmAsiento.actualiza_objeto(asiento.getIdasiento(), "VISTA");
 		Sys.desktoppane.add(frmAsiento);
 		frmAsiento.moveToFront();

@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import vista.contenedores.cntFormulario;
 import vista.controles.DSGTableModel;
 import vista.controles.JTextFieldLimit;
+import vista.formularios.abstractforms.AbstractMaestro;
 import vista.utilitarios.MaestroTableModel;
 import vista.utilitarios.UtilMensajes;
 import core.dao.DocumentoDAO;
