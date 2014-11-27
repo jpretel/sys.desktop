@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.documentos;
 
 import java.awt.GridBagLayout;
 import java.awt.event.FocusAdapter;
@@ -692,12 +692,6 @@ public class FrmDocSalida extends AbstractDocForm {
 	}
 
 	@Override
-	public void llenar_lista() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void llenar_tablas() {
 		cntGrupoCentralizacion.setData(new GrupoCentralizacionDAO().findAll());
 		cntMoneda.setData(monedaDAO.findAll());
@@ -739,11 +733,6 @@ public class FrmDocSalida extends AbstractDocForm {
 		this.cntAlmacen_dest.txtCodigo.setEditable(false);
 		this.cntReferenciaDoc.setEditar(false);
 		getDetalleTM().setEditar(false);
-	}
-
-	@Override
-	public void init() {
-
 	}
 
 	@Override

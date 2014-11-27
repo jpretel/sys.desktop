@@ -18,10 +18,12 @@ import javax.swing.JPanel;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
@@ -108,7 +110,6 @@ public abstract class AbstractDocForm extends DSGInternalFrame implements
 
 	public void iniciar() {
 		llenar_tablas();
-		llenar_lista();
 		llenar_datos();
 		getBarra().enVista();
 		vista_noedicion();
@@ -130,21 +131,16 @@ public abstract class AbstractDocForm extends DSGInternalFrame implements
 
 	public abstract void llenar_datos();
 
-	public abstract void llenar_lista();
-
 	public abstract void llenar_tablas();
 
 	public abstract void vista_edicion();
 
 	public abstract void vista_noedicion();
 
-	public abstract void init();
-
 	public abstract void actualiza_objeto(Object id);
 
 	public void cancelar() {
 		llenar_tablas();
-		llenar_lista();
 		llenar_datos();
 		setEstado(VISTA);
 		vista_noedicion();
@@ -161,7 +157,6 @@ public abstract class AbstractDocForm extends DSGInternalFrame implements
 			getBarra().enVista();
 			vista_noedicion();
 			llenar_tablas();
-			llenar_lista();
 			llenar_datos();
 		}
 	}
@@ -208,10 +203,10 @@ public abstract class AbstractDocForm extends DSGInternalFrame implements
 				+ getNombreReporte() + ".jrxml";
 
 		try {
-//			final JasperReport report = JasperCompileManager
-//					.compileReport(reporte);
+			final JasperReport report = JasperCompileManager
+					.compileReport(reporte);
 
-			JasperPrint jasperPrint = JasperFillManager.fillReport(reporte,
+			JasperPrint jasperPrint = JasperFillManager.fillReport(report,
 					getParamsReport(), getDataSourceReport());
 			jasperPrint.setName(getNombreArchivo());
 			return jasperPrint;

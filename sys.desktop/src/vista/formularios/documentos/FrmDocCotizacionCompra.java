@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.documentos;
 
 import java.awt.Component;
 import java.awt.Insets;
@@ -520,12 +520,6 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 	}
 
 	@Override
-	public void llenar_lista() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void llenar_tablas() {
 		cntMoneda.setData(new MonedaDAO().findAll());
 		cntResponsable.setData(new ResponsableDAO().findAll());
@@ -551,11 +545,6 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 		FormValidador.CntEdicion(false, this.cntMoneda, this.cntResponsable,
 				this.cntClieprov);
 		getConsolidadoTM().setEditar(false);
-	}
-
-	@Override
-	public void init() {
-
 	}
 
 	@Override

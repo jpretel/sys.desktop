@@ -12,7 +12,7 @@ public abstract class TxtSysFormulario extends JXTableTextField<SysFormulario> {
 	private static final long serialVersionUID = 1L;
 
 	public TxtSysFormulario(JTable tabla, int ubicacion) {
-		super(new String[] { "Formulario", "Descripción", "Opción" },
+		super(new String[] { "Formulario", "Descripción", "Clase" },
 				new int[] { 50, 130, 90 }, tabla, ubicacion);
 	}
 
@@ -26,7 +26,7 @@ public abstract class TxtSysFormulario extends JXTableTextField<SysFormulario> {
 	@Override
 	public Object[] entity2Object(SysFormulario entity) {
 		return new Object[] { entity.getIdformulario(),
-				entity.getDescripcion(), entity.getOpcion() };
+				entity.getDescripcion(), entity.getClase() };
 	}
 
 	@Override

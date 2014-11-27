@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.documentos;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -543,11 +543,6 @@ public class FrmDocRecepcion extends AbstractDocForm {
 	}
 
 	@Override
-	public void llenar_lista() {
-
-	}
-
-	@Override
 	public void llenar_tablas() {
 		cntGrupoCentralizacion.setData(new GrupoCentralizacionDAO().findAll());
 		cntMoneda.setData(new MonedaDAO().findAll());
@@ -604,11 +599,6 @@ public class FrmDocRecepcion extends AbstractDocForm {
 				this.cntMoneda, this.cntConcepto, this.cntResponsable,
 				this.cntSucursal, this.cntAlmacen);
 		getDetalleTM().setEditar(false);
-	}
-
-	@Override
-	public void init() {
-
 	}
 
 	@Override

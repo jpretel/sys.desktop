@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.documentos;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;

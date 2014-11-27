@@ -12,6 +12,37 @@ public class ControladorOpciones {
 
 	private JScrollableDesktopPane desktopPane;
 
+	public ActionListener actionAbrirFormulario(final String opcion) {
+		try {
+			return new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						abrirFormulario(opcion);
+					} catch (InstantiationException | IllegalAccessException
+							| ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+			};
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	private void abrirFormulario(String urlClase) throws InstantiationException,
+			IllegalAccessException, ClassNotFoundException {
+		JInternalFrame frame = (JInternalFrame) Class.forName(urlClase)
+				.newInstance();
+		frame.setVisible(true);
+		getDesktopPane().add(frame);
+		try {
+			frame.setSelected(true);
+		} catch (PropertyVetoException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public ActionListener returnAction(final String opcion) {
 		try {
 			return new ActionListener() {
@@ -43,7 +74,7 @@ public class ControladorOpciones {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public JScrollableDesktopPane getDesktopPane() {
 		return desktopPane;
 	}

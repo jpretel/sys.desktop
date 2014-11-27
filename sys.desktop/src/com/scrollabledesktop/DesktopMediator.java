@@ -133,7 +133,7 @@ public class DesktopMediator implements DesktopConstants {
 	private void createFrameAssociates(BaseInternalFrame frame) {
 
 		BaseToggleButton button = null;
-		BaseRadioButtonMenuItem menuButton = null;
+		// BaseRadioButtonMenuItem menuButton = null;
 
 		button = desktopResizableToolbar.add(frame.getTitle());
 
@@ -252,6 +252,10 @@ public class DesktopMediator implements DesktopConstants {
 	 */
 	public void setAutoTile(boolean tileMode) {
 		desktopScrollpane.setAutoTile(tileMode);
+	}
+
+	public JInternalFrame[] getAllFrames() {
+		return desktopScrollpane.getAllFrames();
 	}
 
 	/**

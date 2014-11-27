@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.documentos;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -9,17 +9,17 @@ import vista.formularios.abstractforms.AbstractDocList;
 import vista.formularios.listas.DSGTableList;
 import vista.formularios.listas.DSGTableModelList;
 import vista.utilitarios.StringUtils;
-import core.dao.CotizacionCompraDAO;
-import core.entity.CotizacionCompra;
+import core.dao.SolicitudCompraDAO;
+import core.entity.SolicitudCompra;
 
-/*Falta Aplicar los filtros y verificar los botones edicion y impresion*/
-public class FrmListaCotizacionCompra extends AbstractDocList {
-	private CotizacionCompraDAO ordencompraDAO = new CotizacionCompraDAO();
-	private List<CotizacionCompra> lista = new ArrayList<CotizacionCompra>();
+public class FrmListaSolicitudCompra extends AbstractDocList{
 
-	public FrmListaCotizacionCompra() {
-		super("Cotización de Compra",
-				"vista.formularios.FrmDocCotizacionCompra");
+	//private solicitudcompraDAO solicitudcompraDAO = new solicitudcompraDAO();
+	private SolicitudCompraDAO solicitudcompraDAO = new SolicitudCompraDAO();
+	private List<SolicitudCompra> lista = new ArrayList<SolicitudCompra>();
+
+	public FrmListaSolicitudCompra() {
+		super("Lista de Solicitudes de Compra", "vista.formularios.FrmDocSolicitudCompra");
 		cboDocumento.setVisible(false);
 		lblDocumento.setVisible(false);
 		cabeceras = new String[] { "Fecha", "Serie", "Numero", "Responsable",
@@ -37,26 +37,27 @@ public class FrmListaCotizacionCompra extends AbstractDocList {
 		tblDocumentos.setModel(modelo_lista);
 
 		pnlDocumentos.setViewportView(tblDocumentos);
+		//llenarLista();
 	}
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public Object[][] getData(int idesde, int ihasta, String serie, int numero) {
-		lista = ordencompraDAO.getFiltro(idesde, ihasta, serie, numero);
+		lista = solicitudcompraDAO.getFiltro(idesde, ihasta, serie, numero);
 		data = new Object[lista.size()][3];
 		int i = 0;
-		for (CotizacionCompra oc : lista) {
+		for (SolicitudCompra oc : lista) {
 			Calendar c = GregorianCalendar.getInstance();
 			c.set(Calendar.YEAR, oc.getAnio());
-			c.set(Calendar.MONTH, oc.getMes() - 1);
+			c.set(Calendar.MONTH, oc.getMes()-1);
 			c.set(Calendar.DAY_OF_MONTH, oc.getDia());
-
+			
 			String cnumero = StringUtils._padl(oc.getNumero(), 8, '0');
 
 			data[i] = new Object[] { c.getTime(), oc.getSerie(), cnumero,
-					oc.getResponsable().getNombre(), oc.getGlosa(),
-					oc.getIdcotizacioncompra() };
+					oc.getResponsable().getNombre(),
+					oc.getGlosa(), oc.getIdsolicitudcompra() };
 			i++;
 		}
 		return data;
@@ -71,3 +72,4 @@ public class FrmListaCotizacionCompra extends AbstractDocList {
 		return null;
 	}
 }
+

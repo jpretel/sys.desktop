@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.documentos;
 
 import java.awt.Component;
 import java.awt.event.FocusAdapter;
@@ -420,12 +420,6 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 	}
 
 	@Override
-	public void llenar_lista() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void llenar_tablas() {
 		cntSucursal.setData(sucursalDAO.findAll());
 		cntResponsable.setData(responsableDAO.findAll());
@@ -453,11 +447,6 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 		FormValidador.CntEdicion(false, this.cntResponsable, this.cntAlmacen,
 				this.cntSucursal);
 		getDetalleTM().setEditar(false);
-	}
-
-	@Override
-	public void init() {
-
 	}
 
 	@Override

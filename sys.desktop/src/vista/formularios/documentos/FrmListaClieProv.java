@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.documentos;
 import java.util.List;
 
 import vista.formularios.abstractforms.AbstractMaestroLista;

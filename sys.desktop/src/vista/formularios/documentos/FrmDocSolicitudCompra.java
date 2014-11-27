@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.documentos;
 
 import java.awt.Component;
 import java.awt.event.FocusAdapter;
@@ -280,13 +280,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 			dsolicitudcompras = new ArrayList<DSolicitudCompra>();
 		}
 	}
-
-	@Override
-	public void llenar_lista() {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	@Override
 	public void llenar_tablas() {
 		cntResponsable.setData(new ResponsableDAO().findAll());
@@ -310,11 +304,6 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 		this.txtGlosa.setEditable(false);
 		FormValidador.CntEdicion(false, this.cntResponsable);
 		getDetalleTM().setEditar(false);
-	}
-
-	@Override
-	public void init() {
-
 	}
 
 	@Override

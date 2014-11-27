@@ -58,9 +58,10 @@ public class MainFrame extends JRibbonFrame {
 	}
 
 	public MainFrame() {
+		
 		desktopPane = new JScrollableDesktopPane();
-
-		Sys.desktoppane = desktopPane;
+		
+		
 		getContentPane().add(desktopPane, BorderLayout.CENTER);
 		Sys.desktoppane = desktopPane;
 		// Se establece el tamaño minimo del MainFrame
@@ -190,7 +191,8 @@ public class MainFrame extends JRibbonFrame {
 		configs[1] = new RibbonApplicationMenuEntrySecondary(
 				getResizableIconFromResource16x16("/main/resources/salir.png"),
 				"Gestion de Formularios",
-				cOpciones.returnAction("FrmSysFormulario"),
+				cOpciones
+						.actionAbrirFormulario("vista.formularios.maestros.FrmSysFormulario"),
 				CommandButtonKind.ACTION_ONLY);
 
 		configs[2] = new RibbonApplicationMenuEntrySecondary(
@@ -339,7 +341,7 @@ public class MainFrame extends JRibbonFrame {
 						}
 
 						button.addActionListener(cOpciones
-								.returnAction(formulario.getOpcion()));
+								.actionAbrirFormulario(formulario.getOpcion()));
 					}
 
 					band.setResizePolicies((List) Arrays.asList(

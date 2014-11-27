@@ -1,4 +1,4 @@
-package vista.formularios;
+package vista.formularios.maestros;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
