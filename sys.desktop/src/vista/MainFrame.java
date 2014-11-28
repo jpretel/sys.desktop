@@ -58,10 +58,9 @@ public class MainFrame extends JRibbonFrame {
 	}
 
 	public MainFrame() {
-		
+
 		desktopPane = new JScrollableDesktopPane();
-		
-		
+
 		getContentPane().add(desktopPane, BorderLayout.CENTER);
 		Sys.desktoppane = desktopPane;
 		// Se establece el tamaño minimo del MainFrame
@@ -181,11 +180,13 @@ public class MainFrame extends JRibbonFrame {
 				getResizableIconFromResource("/main/resources/salir.png"),
 				"Configuración Inicial", null, CommandButtonKind.POPUP_ONLY);
 
-		RibbonApplicationMenuEntrySecondary[] configs = new RibbonApplicationMenuEntrySecondary[5];
+		RibbonApplicationMenuEntrySecondary[] configs = new RibbonApplicationMenuEntrySecondary[4];
 
 		configs[0] = new RibbonApplicationMenuEntrySecondary(
 				getResizableIconFromResource16x16("/main/resources/salir.png"),
-				"Empresa", cOpciones.returnAction("FrmEmpresa"),
+				"Empresa",
+				cOpciones
+						.actionAbrirFormulario("vista.formularios.maestros.FrmEmpresa"),
 				CommandButtonKind.ACTION_ONLY);
 
 		configs[1] = new RibbonApplicationMenuEntrySecondary(
@@ -197,15 +198,12 @@ public class MainFrame extends JRibbonFrame {
 
 		configs[2] = new RibbonApplicationMenuEntrySecondary(
 				getResizableIconFromResource16x16("/main/resources/salir.png"),
-				"Gestion de Modulos", cOpciones.returnAction("FrmSysModulo"),
+				"Gestion de Modulos y Menús",
+				cOpciones
+						.actionAbrirFormulario("vista.formularios.maestros.FrmMenus"),
 				CommandButtonKind.ACTION_ONLY);
 
 		configs[3] = new RibbonApplicationMenuEntrySecondary(
-				getResizableIconFromResource16x16("/main/resources/salir.png"),
-				"Gestion de Opciones", cOpciones.returnAction("FrmSysGrupo"),
-				CommandButtonKind.ACTION_ONLY);
-
-		configs[4] = new RibbonApplicationMenuEntrySecondary(
 				getResizableIconFromResource16x16("/main/resources/salir.png"),
 				"Privilegios por Usuario",
 				cOpciones.returnAction("FrmPrivilegiosUsuario"),
@@ -332,9 +330,9 @@ public class MainFrame extends JRibbonFrame {
 								formulario.getDescripcion(),
 								getResizableIconFromResource(url));
 
-						if (opcion.getPrioridad() == 1) {
+						if (opcion.getPrioridad() == 0) {
 							band.addCommandButton(button, TOP);
-						} else if (opcion.getPrioridad() == 2) {
+						} else if (opcion.getPrioridad() == 1) {
 							band.addCommandButton(button, MEDIUM);
 						} else {
 							band.addCommandButton(button, LOW);
