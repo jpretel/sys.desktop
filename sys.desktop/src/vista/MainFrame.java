@@ -177,36 +177,36 @@ public class MainFrame extends JRibbonFrame {
 		ribbon.addMenuEntry(nn);
 
 		RibbonApplicationMenuEntryPrimary config_popup = new RibbonApplicationMenuEntryPrimary(
-				getResizableIconFromResource("/main/resources/salir.png"),
+				getResizableIconFromResource("/main/resources/iconos/config_inicial.png"),
 				"Configuración Inicial", null, CommandButtonKind.POPUP_ONLY);
 
 		RibbonApplicationMenuEntrySecondary[] configs = new RibbonApplicationMenuEntrySecondary[4];
 
 		configs[0] = new RibbonApplicationMenuEntrySecondary(
-				getResizableIconFromResource16x16("/main/resources/salir.png"),
+				getResizableIconFromResource16x16("/main/resources/iconos/empresa.png"),
 				"Empresa",
 				cOpciones
 						.actionAbrirFormulario("vista.formularios.maestros.FrmEmpresa"),
 				CommandButtonKind.ACTION_ONLY);
 
 		configs[1] = new RibbonApplicationMenuEntrySecondary(
-				getResizableIconFromResource16x16("/main/resources/salir.png"),
+				getResizableIconFromResource16x16("/main/resources/iconos/formulario.png"),
 				"Gestion de Formularios",
 				cOpciones
 						.actionAbrirFormulario("vista.formularios.maestros.FrmSysFormulario"),
 				CommandButtonKind.ACTION_ONLY);
 
 		configs[2] = new RibbonApplicationMenuEntrySecondary(
-				getResizableIconFromResource16x16("/main/resources/salir.png"),
+				getResizableIconFromResource16x16("/main/resources/iconos/menu.png"),
 				"Gestion de Modulos y Menús",
 				cOpciones
 						.actionAbrirFormulario("vista.formularios.maestros.FrmMenus"),
 				CommandButtonKind.ACTION_ONLY);
 
 		configs[3] = new RibbonApplicationMenuEntrySecondary(
-				getResizableIconFromResource16x16("/main/resources/salir.png"),
-				"Privilegios por Usuario",
-				cOpciones.returnAction("FrmPrivilegiosUsuario"),
+				getResizableIconFromResource16x16("/main/resources/iconos/config_usuarios.png"),
+				"Privilegios por Usuario", cOpciones
+						.returnAction("FrmPrivilegiosUsuario"),
 				CommandButtonKind.ACTION_ONLY);
 
 		if (Sys.usuario.getGrupoUsuario().getEsAdministrador() == 1) {
@@ -218,27 +218,26 @@ public class MainFrame extends JRibbonFrame {
 		}
 
 		RibbonApplicationMenuEntryPrimary cambiar_clave = new RibbonApplicationMenuEntryPrimary(
-				getResizableIconFromResource("/main/resources/favoritos.png"),
-				"Cambiar Clave", cOpciones.returnAction("FrmCambioClave"),
+				getResizableIconFromResource("/main/resources/iconos/cambia_clave.png"),
+				"Cambiar Clave", cOpciones.actionAbrirFormulario("vista.formularios.maestros.FrmCambioClave"),
 				CommandButtonKind.ACTION_ONLY);
 
 		ribbon.addMenuEntry(cambiar_clave);
 
 		RibbonApplicationMenuEntryPrimary cerrar_sesion = new RibbonApplicationMenuEntryPrimary(
-				getResizableIconFromResource("/main/resources/favoritos.png"),
+				getResizableIconFromResource("/main/resources/iconos/cerrar_sesion.png"),
 				"Cerrar Sesión", returnAction2(), CommandButtonKind.ACTION_ONLY);
 
 		ribbon.addMenuEntry(cerrar_sesion);
 
-		RibbonApplicationMenuEntryPrimary salir = new RibbonApplicationMenuEntryPrimary(
-				getResizableIconFromResource("/main/resources/favoritos.png"),
-				"Salir", returnAction(), CommandButtonKind.ACTION_ONLY);
-
-		ribbon.addMenuEntry(salir);
-
 		RibbonApplicationMenuEntryFooter footer = new RibbonApplicationMenuEntryFooter(
 				getResizableIconFromResource("/main/resources/salir.png"),
-				"Acerca de", null);
+				"Salir", new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
 
 		ribbon.addFooterEntry(footer);
 
@@ -249,21 +248,11 @@ public class MainFrame extends JRibbonFrame {
 				.getImage());
 
 		if (moduloIncial != null) {
-			CreaRibbonMenu(MenuController.getTitulosPorModulo(moduloIncial));
-		}
-	}
-
-	// Metodo para Salir
-	public ActionListener returnAction() {
-		try {
-			return new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					dispose();
-				}
-			};
-		} catch (Exception e) {
-			return null;
+			try {
+				CreaRibbonMenu(MenuController.getTitulosPorModulo(moduloIncial));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -42,12 +42,14 @@ import vista.utilitarios.UtilMensajes;
 
 import javax.swing.DefaultComboBoxModel;
 
+import java.awt.Font;
+
 public class FrmMenus extends AbstractMaestro {
 
 	private static final long serialVersionUID = 1L;
-	private JFileChooser fc=null;
+	private JFileChooser fc = null;
 	private BufferedImage imagen;
-	
+
 	private JTree tree;
 	private JLabel lblCdigo;
 	private JTextField txtCodigo;
@@ -78,6 +80,7 @@ public class FrmMenus extends AbstractMaestro {
 
 	private int tipo;
 	private JButton btnBuscar;
+	private JLabel lblOpcion;
 
 	public FrmMenus() {
 		super("Menus");
@@ -90,55 +93,55 @@ public class FrmMenus extends AbstractMaestro {
 		pnlContenido.add(this.tree);
 
 		this.lblCdigo = new JLabel("C\u00F3digo");
-		this.lblCdigo.setBounds(298, 12, 46, 14);
+		this.lblCdigo.setBounds(298, 64, 46, 14);
 		pnlContenido.add(this.lblCdigo);
 
 		this.txtCodigo = new JTextField();
-		this.txtCodigo.setBounds(353, 9, 109, 20);
+		this.txtCodigo.setBounds(353, 61, 109, 20);
 		this.txtCodigo.setColumns(10);
-		this.txtCodigo.setDocument(new JTextFieldLimit(10,true));
+		this.txtCodigo.setDocument(new JTextFieldLimit(10, true));
 		pnlContenido.add(this.txtCodigo);
 
 		this.lblDescripcin = new JLabel("Descripci\u00F3n");
-		this.lblDescripcin.setBounds(298, 37, 65, 14);
+		this.lblDescripcin.setBounds(298, 89, 65, 14);
 		pnlContenido.add(this.lblDescripcin);
 
 		this.txtDescripcion = new JTextField();
 		this.txtDescripcion.setColumns(10);
-		this.txtDescripcion.setBounds(363, 34, 178, 20);
-		this.txtDescripcion.setDocument(new JTextFieldLimit(50,true));
+		this.txtDescripcion.setBounds(363, 86, 178, 20);
+		this.txtDescripcion.setDocument(new JTextFieldLimit(50, true));
 		pnlContenido.add(this.txtDescripcion);
 
 		this.lblImgen = new JLabel("Im\u00E1gen");
-		this.lblImgen.setBounds(298, 65, 46, 14);
+		this.lblImgen.setBounds(298, 117, 46, 14);
 		pnlContenido.add(this.lblImgen);
 
 		this.txtImagen = new JTextField();
 		this.txtImagen.setColumns(10);
-		this.txtImagen.setBounds(339, 62, 178, 20);
+		this.txtImagen.setBounds(339, 114, 178, 20);
 		this.txtImagen.setEditable(false);
 		pnlContenido.add(this.txtImagen);
 
 		this.lblTamao = new JLabel("Tama\u00F1o");
-		this.lblTamao.setBounds(298, 150, 46, 14);
+		this.lblTamao.setBounds(298, 202, 46, 14);
 		pnlContenido.add(this.lblTamao);
 
 		this.lblFormulario = new JLabel("Formulario");
-		this.lblFormulario.setBounds(298, 122, 65, 14);
+		this.lblFormulario.setBounds(298, 174, 65, 14);
 		pnlContenido.add(this.lblFormulario);
 
 		this.cboTamanio = new JComboBox<String>();
 		this.cboTamanio.setModel(new DefaultComboBoxModel<String>(new String[] {
 				"Grande", "Mediano", "Peque\u00F1o" }));
-		this.cboTamanio.setBounds(349, 147, 121, 20);
+		this.cboTamanio.setBounds(349, 199, 121, 20);
 		pnlContenido.add(this.cboTamanio);
 
 		this.cntSysFormulario = new CntSysFormulario();
-		this.cntSysFormulario.setBounds(359, 118, 279, 23);
+		this.cntSysFormulario.setBounds(359, 170, 279, 23);
 		pnlContenido.add(this.cntSysFormulario);
 
 		cntSysFormulario.setData(formularioDAO.findAll());
-		
+
 		this.btnBuscar = new JButton("Buscar");
 		this.btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
@@ -150,8 +153,13 @@ public class FrmMenus extends AbstractMaestro {
 				}
 			}
 		});
-		this.btnBuscar.setBounds(527, 61, 89, 23);
+		this.btnBuscar.setBounds(527, 113, 89, 23);
 		pnlContenido.add(this.btnBuscar);
+
+		this.lblOpcion = new JLabel("C\u00F3digo");
+		this.lblOpcion.setFont(new Font("Tahoma", Font.BOLD, 16));
+		this.lblOpcion.setBounds(298, 25, 340, 28);
+		pnlContenido.add(this.lblOpcion);
 
 		tree.addTreeSelectionListener(new OidSelectionListener());
 
@@ -162,6 +170,7 @@ public class FrmMenus extends AbstractMaestro {
 	public void nuevo() {
 		tipo++;
 		limpiarVista();
+		llenarTitulo();
 	}
 
 	class OidSelectionListener implements TreeSelectionListener {
@@ -171,7 +180,7 @@ public class FrmMenus extends AbstractMaestro {
 			sysGrupo = null;
 			sysOpcion = null;
 			limpiarVista();
-			
+
 			TreePath path = e.getPath();
 			Object[] nodes = path.getPath();
 			int finalPath = nodes.length - 2;
@@ -223,7 +232,7 @@ public class FrmMenus extends AbstractMaestro {
 				cntSysFormulario.llenar();
 				cboTamanio.setSelectedIndex(sysOpcion.getPrioridad());
 			}
-
+			llenarTitulo();
 		}
 
 	}
@@ -277,7 +286,6 @@ public class FrmMenus extends AbstractMaestro {
 
 	@Override
 	public void grabar() {
-		System.out.println(tipo);
 		if (this.tipo == _modulo) {
 			grabar_modulo();
 		}
@@ -312,7 +320,7 @@ public class FrmMenus extends AbstractMaestro {
 		idtitulo = this.txtCodigo.getText();
 		descripcion = this.txtDescripcion.getText();
 		imagen = this.txtImagen.getText();
-		
+
 		SysTitulo t = new SysTitulo();
 		SysTituloPK id = new SysTituloPK();
 		id.setIdmodulo(sysModulo.getIdmodulo());
@@ -320,13 +328,13 @@ public class FrmMenus extends AbstractMaestro {
 		t.setId(id);
 		t.setDescripcion(descripcion);
 		t.setImagen(imagen);
-		
+
 		tituloDAO.crear_editar(t);
 	}
 
 	private void grabar_grupo() {
 		String idgrupo, descripcion, imagen;
-		
+
 		idgrupo = this.txtCodigo.getText();
 		descripcion = this.txtDescripcion.getText();
 		imagen = this.txtImagen.getText();
@@ -362,8 +370,44 @@ public class FrmMenus extends AbstractMaestro {
 
 	@Override
 	public void eliminar() {
-		// TODO Auto-generated method stub
+		if (tipo == 3) {
+			opcionDAO.remove(sysOpcion);
+		}
 
+		if (tipo == 2) {
+			for (SysOpcion so : opcionDAO.getPorGrupo(sysGrupo)) {
+				opcionDAO.remove(so);
+			}
+			grupoDAO.remove(sysGrupo);
+		}
+
+		if (tipo == 1) {
+			for (SysGrupo sg : grupoDAO.getPorTitulo(sysTitulo)) {
+				for (SysOpcion so : opcionDAO.getPorGrupo(sg)) {
+					opcionDAO.remove(so);
+				}
+				grupoDAO.remove(sg);
+			}
+			tituloDAO.remove(sysTitulo);
+		}
+
+		if (tipo == 0) {
+			for (SysTitulo st : tituloDAO.getPorModulo(sysModulo)) {
+				for (SysGrupo sg : grupoDAO.getPorTitulo(st)) {
+					for (SysOpcion so : opcionDAO.getPorGrupo(sg)) {
+						opcionDAO.remove(so);
+					}
+					grupoDAO.remove(sg);
+				}
+				tituloDAO.remove(st);
+			}
+			moduloDAO.remove(sysModulo);
+		}
+
+		sysModulo = null;
+		sysTitulo = null;
+		sysGrupo = null;
+		sysOpcion = null;
 	}
 
 	@Override
@@ -374,6 +418,7 @@ public class FrmMenus extends AbstractMaestro {
 
 	@Override
 	public void llenar_lista() {
+		System.out.println("Llenar");
 		DefaultMutableTreeNode inicio = new DefaultMutableTreeNode(
 				new MenuNode("BGC-ERP", -1, null));
 		DefaultTreeModel modelo = new DefaultTreeModel(inicio);
@@ -399,7 +444,8 @@ public class FrmMenus extends AbstractMaestro {
 					DefaultMutableTreeNode mNodeG = new DefaultMutableTreeNode(
 							new MenuNode(grupo.getId().getIdgrupo() + " - "
 									+ grupo.getDescripcion(), _grupo, grupo));
-					modelo.insertNodeInto(mNodeG, mNodeT, mNodeT.getChildCount());
+					modelo.insertNodeInto(mNodeG, mNodeT,
+							mNodeT.getChildCount());
 
 					// Opciones
 					List<SysOpcion> opciones = opcionDAO.getPorGrupo(grupo);
@@ -410,7 +456,8 @@ public class FrmMenus extends AbstractMaestro {
 								new MenuNode(opcion.getId().getIdformulario()
 										+ " - " + formulario.getDescripcion(),
 										_opcion, opcion));
-						modelo.insertNodeInto(mNodeO, mNodeG, mNodeG.getChildCount());
+						modelo.insertNodeInto(mNodeO, mNodeG,
+								mNodeG.getChildCount());
 					}
 				}
 			}
@@ -472,7 +519,7 @@ public class FrmMenus extends AbstractMaestro {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 	public void limpiarVista() {
 		txtCodigo.setText("");
 		txtDescripcion.setText("");
@@ -480,47 +527,88 @@ public class FrmMenus extends AbstractMaestro {
 		cntSysFormulario.llenar();
 		cboTamanio.setSelectedIndex(-1);
 	}
-	
-	
-public void cargarImagen() throws IOException{		
-		
-		fc=new JFileChooser();
-		
-	    int r=fc.showOpenDialog(null);
-	   
-	    
-	    if(r==JFileChooser.APPROVE_OPTION){	 	    	
-			imagen=ImageIO.read(fc.getSelectedFile().toURL());	
-			
+
+	@SuppressWarnings("deprecation")
+	public void cargarImagen() throws IOException {
+
+		fc = new JFileChooser();
+
+		int r = fc.showOpenDialog(null);
+
+		if (r == JFileChooser.APPROVE_OPTION) {
+			imagen = ImageIO.read(fc.getSelectedFile().toURL());
+
 			String url = CargarURL(fc.getSelectedFile().toURL().toString());
-			String extension = url.substring(url.length()-3).trim();
-			
-			if(extension.equals("jpg") || extension.equals("png")){
-		    	txtImagen.setText(url);
-		    }else{		    	
-		    	fc = null;
-		    	UtilMensajes.mensaje_error("IMAGEN_ERROR");
-		    }
-	    }    
+			String extension = url.substring(url.length() - 3).trim();
+
+			if (extension.equals("jpg") || extension.equals("png")) {
+				txtImagen.setText(url);
+			} else {
+				fc = null;
+				UtilMensajes.mensaje_error("IMAGEN_ERROR");
+			}
+		}
 	}
-	
-	public void guardarImg() throws MalformedURLException, IOException{		
-		
+
+	public void guardarImg() throws MalformedURLException, IOException {
+
+		@SuppressWarnings("deprecation")
 		String url = CargarURL(fc.getSelectedFile().toURL().toString());
-		String extension = url.substring(url.length()-3);
-		
-		ImageIO.write(imagen, extension, new File("src//main/resources/iconos/"+ url));
-		
+		String extension = url.substring(url.length() - 3);
+
+		ImageIO.write(imagen, extension, new File("src//main/resources/iconos/"
+				+ url));
+
 	}
-	
-	public static String CargarURL(String url){
-		for(int i = url.length()-1; i<=url.length();i--){
-			if(url.charAt(i) == '/'){
-				url = url.substring(i+1, url.length());
+
+	private void llenarTitulo() {
+		if (getEstado().equals(NUEVO)) {
+			switch (this.tipo) {
+			case _modulo:
+				lblOpcion.setText("NUEVO MÓDULO");
+				break;
+
+			case _titulo:
+				lblOpcion.setText("NUEVO TITULO");
+				break;
+			case _grupo:
+				lblOpcion.setText("NUEVO GRUPO");
+				break;
+			case _opcion:
+				lblOpcion.setText("NUEVA OPCIÓN");
+				break;
+			}
+		} else {
+			switch (this.tipo) {
+			case _modulo:
+				lblOpcion
+						.setText("MÓDULO: ".concat(sysModulo.getDescripcion()));
+				break;
+
+			case _titulo:
+				lblOpcion
+						.setText("TITULO: ".concat(sysTitulo.getDescripcion()));
+				break;
+			case _grupo:
+				lblOpcion.setText("GRUPO: ".concat(sysGrupo.getDescripcion()));
+				break;
+			case _opcion:
+//				SysFormulario f = formularioDAO.find(sysOpcion.getId()
+//						.getIdformulario());
+//				lblOpcion.setText("OPCIÓN: ".concat(f.getDescripcion()));
 				break;
 			}
 		}
-		
+	}
+
+	public static String CargarURL(String url) {
+		for (int i = url.length() - 1; i <= url.length(); i--) {
+			if (url.charAt(i) == '/') {
+				url = url.substring(i + 1, url.length());
+				break;
+			}
+		}
+
 		return url;
 	}
 }

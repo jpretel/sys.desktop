@@ -121,7 +121,7 @@ public class PanelBarraMaestro extends JPanel {
 		btnEliminar = new JButton("");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getFormMaestro().eliminar();
+				getFormMaestro().DoEliminar();
 			}
 		});
 

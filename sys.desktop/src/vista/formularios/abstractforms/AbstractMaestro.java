@@ -231,8 +231,8 @@ public abstract class AbstractMaestro extends DSGInternalFrame {
 //			UtilMensajes.mensaje_alterta("NOPRIV_CREAR");
 //			return;
 //		}
-		nuevo();
 		setEstado(NUEVO);
+		nuevo();
 		getBarra().enEdicion();
 		llenar_datos();
 		vista_edicion();
