@@ -1,8 +1,13 @@
 package vista.contenedores;
 
 import core.entity.SysFormulario;
+import java.awt.GridBagLayout;
 
 public class CntSysFormulario extends AbstractCntBuscar<SysFormulario> {
+	public CntSysFormulario() {
+		GridBagLayout gridBagLayout = (GridBagLayout) getLayout();
+		gridBagLayout.columnWidths = new int[]{123, 0, 0};
+	}
 	/**
 	 * 
 	 */
