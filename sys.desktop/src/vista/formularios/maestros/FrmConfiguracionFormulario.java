@@ -34,7 +34,6 @@ import core.dao.FlujoDAO;
 import core.dao.SysFormularioDAO;
 import core.entity.Flujo;
 import core.entity.FlujoAprobacion;
-import core.entity.FlujoAprobacionPK;
 import core.entity.SysFormulario;
 
 public class FrmConfiguracionFormulario extends DSGInternalFrame {
@@ -292,12 +291,10 @@ public class FrmConfiguracionFormulario extends DSGInternalFrame {
 				idflujo = getFlujoAprobacionTM().getValueAt(row, 0).toString();
 				Flujo flujo = flujoDAO.find(idflujo);
 				FlujoAprobacion f = new FlujoAprobacion();
-				FlujoAprobacionPK id = new FlujoAprobacionPK();
 				
-				id.setIdformulario(formulario.getIdformulario());
-				id.setOrden(row);
+				f.setSysFormulario(formulario);
+				f.setOrden(row);
 				
-				f.setId(id);
 				f.setFlujo(flujo);
 				f.setSysFormulario(formulario);
 				flujoAprobacion.add(f);

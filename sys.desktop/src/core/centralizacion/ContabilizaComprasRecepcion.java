@@ -51,7 +51,7 @@ public class ContabilizaComprasRecepcion {
 		
 		List<KardexCompraRecepcion> kardex = new ArrayList<KardexCompraRecepcion>();
 		Docingreso docingreso = docingresoDAO.find(id);
-		for(DetDocingreso detdocingreso: detdocingresoDAO.getPorIdIngreso(docingreso)){
+		for(DetDocingreso detdocingreso: detdocingresoDAO.getPorIngreso(docingreso)){
 			KardexCompraRecepcion kdx = new KardexCompraRecepcion();
 			kdx.setIdordencompra(detdocingreso.getIdreferencia());
 			kdx.setIdreferencia(id);

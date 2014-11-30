@@ -31,6 +31,7 @@ import vista.utilitarios.UtilMensajes;
 import vista.utilitarios.editores.FloatEditor;
 import vista.utilitarios.renderers.FloatRenderer;
 import core.dao.AlmacenDAO;
+import core.dao.ClieprovDAO;
 import core.dao.GrupoDAO;
 import core.dao.ImpuestoDAO;
 import core.dao.MarcaDAO;
@@ -41,16 +42,14 @@ import core.dao.SubgrupoDAO;
 import core.dao.SucursalDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.Almacen;
-import core.entity.AlmacenPK;
 import core.entity.Grupo;
 import core.entity.Impuesto;
 import core.entity.Producto;
 import core.entity.ProductoImpuesto;
-import core.entity.ProductoImpuestoPK;
 import core.entity.ProductoStockMinimo;
-import core.entity.ProductoStockMinimoPK;
 import core.entity.Subgrupo;
 import core.entity.Sucursal;
+import vista.contenedores.CntClieprov;
 
 public class FrmProductos extends AbstractMaestro {
 	/**
@@ -84,6 +83,14 @@ public class FrmProductos extends AbstractMaestro {
 	private TxtAlmacen txtalmacen;
 	private SucursalDAO sucursalDAO = new SucursalDAO();
 	private AlmacenDAO almacenDAO = new AlmacenDAO();
+	private JLabel lblCodigoAlternativo;
+	private JTextField txtCodAlternativo;
+	private JLabel lblNomOriginal;
+	private JTextField txtNomOriginal;
+	private CntClieprov cntFabricante;
+	private JLabel lblFabricante;
+
+	private ClieprovDAO clieprovDAO = new ClieprovDAO();
 
 	public FrmProductos() {
 		super("Productos");
@@ -95,17 +102,17 @@ public class FrmProductos extends AbstractMaestro {
 		JPanel panel_1 = new JPanel();
 		tabPanel.addTab("Datos Generales del Producto", null, panel_1, null);
 		panel_1.setLayout(null);
-		JLabel lblGrupoDeProductos = new JLabel("Familia de Productos");
-		lblGrupoDeProductos.setBounds(5, 10, 98, 14);
+		JLabel lblGrupoDeProductos = new JLabel("Familia");
+		lblGrupoDeProductos.setBounds(5, 10, 46, 14);
 		panel_1.add(lblGrupoDeProductos);
 
 		cntgrupo = new cntGrupo();
 
-		cntgrupo.setBounds(149, 10, 290, 20);
+		cntgrupo.setBounds(61, 9, 216, 20);
 		panel_1.add(cntgrupo);
 
-		JLabel lblSubgrupoDeProductos = new JLabel("SubFamilia de Productos");
-		lblSubgrupoDeProductos.setBounds(5, 40, 116, 14);
+		JLabel lblSubgrupoDeProductos = new JLabel("Sub Grupo");
+		lblSubgrupoDeProductos.setBounds(5, 37, 61, 14);
 		panel_1.add(lblSubgrupoDeProductos);
 
 		cntSubGrupo = new cntSubGrupo();
@@ -117,7 +124,7 @@ public class FrmProductos extends AbstractMaestro {
 			}
 		});
 
-		cntSubGrupo.setBounds(149, 40, 290, 20);
+		cntSubGrupo.setBounds(61, 34, 256, 20);
 		panel_1.add(cntSubGrupo);
 
 		JLabel lblNewLabel = new JLabel("Codigo");
@@ -125,51 +132,80 @@ public class FrmProductos extends AbstractMaestro {
 		panel_1.add(lblNewLabel);
 
 		JLabel lblDescripcion = new JLabel("Descripcion");
-		lblDescripcion.setBounds(5, 90, 61, 14);
+		lblDescripcion.setBounds(5, 93, 61, 14);
 		panel_1.add(lblDescripcion);
 
 		JLabel lblNombreCorto = new JLabel("Nombre Corto");
-		lblNombreCorto.setBounds(5, 115, 90, 14);
+		lblNombreCorto.setBounds(5, 119, 90, 14);
 		panel_1.add(lblNombreCorto);
 
 		txtCodigo = new JTextField();
 		this.txtCodigo.setName("C\u00F3digo del Producto");
-		txtCodigo.setBounds(149, 65, 96, 20);
+		txtCodigo.setBounds(63, 62, 96, 20);
 		panel_1.add(txtCodigo);
 		txtCodigo.setColumns(10);
 		txtCodigo.setDocument(new JTextFieldLimit(20, true));
 
 		txtDescripcion = new JTextField();
 		this.txtDescripcion.setName("Descripci\u00F3n del Producto");
-		txtDescripcion.setBounds(149, 90, 290, 20);
+		txtDescripcion.setBounds(63, 90, 198, 20);
 		panel_1.add(txtDescripcion);
 		txtDescripcion.setColumns(10);
 		txtDescripcion.setDocument(new JTextFieldLimit(70, true));
 
 		txtnomcorto = new JTextField();
 		this.txtnomcorto.setName("Nombre Corto del Producto");
-		txtnomcorto.setBounds(149, 115, 86, 20);
+		txtnomcorto.setBounds(84, 116, 86, 20);
 		panel_1.add(txtnomcorto);
 		txtnomcorto.setColumns(10);
 		txtnomcorto.setDocument(new JTextFieldLimit(30, true));
 
-		JLabel lblUnidadDeMedida = new JLabel("Unidad de Medida");
-		lblUnidadDeMedida.setBounds(5, 147, 90, 14);
+		JLabel lblUnidadDeMedida = new JLabel("Und. de Medida");
+		lblUnidadDeMedida.setBounds(5, 144, 75, 14);
 		panel_1.add(lblUnidadDeMedida);
 
 		cntmedida = new cntMedida();
 
-		cntmedida.setBounds(149, 147, 290, 20);
+		cntmedida.setBounds(84, 141, 164, 20);
 		panel_1.add(cntmedida);
 
-		JLabel lblMarcas = new JLabel("Marca de Producto");
-		lblMarcas.setBounds(5, 172, 90, 14);
+		JLabel lblMarcas = new JLabel("Marca");
+		lblMarcas.setBounds(258, 144, 46, 14);
 		panel_1.add(lblMarcas);
 
 		cntmarca = new cntMarca();
 
-		cntmarca.setBounds(149, 172, 290, 20);
+		cntmarca.setBounds(297, 141, 164, 20);
 		panel_1.add(cntmarca);
+
+		this.lblCodigoAlternativo = new JLabel("Codigo Alternativo");
+		this.lblCodigoAlternativo.setBounds(169, 65, 90, 14);
+		panel_1.add(this.lblCodigoAlternativo);
+
+		this.txtCodAlternativo = new JTextField();
+		this.txtCodAlternativo.setName("C\u00F3digo del Producto");
+		this.txtCodAlternativo.setColumns(10);
+		this.txtCodAlternativo.setBounds(269, 62, 96, 20);
+		panel_1.add(this.txtCodAlternativo);
+
+		this.lblNomOriginal = new JLabel("Nom. Original");
+		this.lblNomOriginal.setBounds(271, 93, 74, 14);
+		panel_1.add(this.lblNomOriginal);
+
+		this.txtNomOriginal = new JTextField();
+		this.txtNomOriginal.setName("Descripci\u00F3n del Producto");
+		this.txtNomOriginal.setColumns(10);
+		this.txtNomOriginal.setBounds(343, 90, 192, 20);
+		panel_1.add(this.txtNomOriginal);
+
+		this.cntFabricante = new CntClieprov();
+		this.cntFabricante.setBounds(84, 172, 241, 23);
+		this.cntFabricante.setData(clieprovDAO.findAll());
+		panel_1.add(this.cntFabricante);
+
+		this.lblFabricante = new JLabel("Fabricante");
+		this.lblFabricante.setBounds(5, 176, 75, 14);
+		panel_1.add(this.lblFabricante);
 
 		JPanel panel = new JPanel();
 		tabPanel.addTab("Propiedades del Producto", null, panel, null);
@@ -355,15 +391,15 @@ public class FrmProductos extends AbstractMaestro {
 		getStockMinimoTM().setRepetidos(0, 2);
 		getStockMinimoTM().setValidaNumero(
 				new DSGVNDetalle(DSGVNDetalle.Operador.MAYOR, 0, 4));
-		
+
 		TableColumnModel tc = tblStockMinimo.getColumnModel();
 
 		tc.getColumn(4).setCellEditor(new FloatEditor(6));
 		tc.getColumn(4).setCellRenderer(new FloatRenderer(6));
-		
+
 		tc.getColumn(5).setCellEditor(new FloatEditor(6));
 		tc.getColumn(5).setCellRenderer(new FloatRenderer(6));
-		
+
 		pnlContenido.add(tabPanel);
 
 	}
@@ -376,79 +412,42 @@ public class FrmProductos extends AbstractMaestro {
 	}
 
 	public void grabar() {
-		productoDAO.crear_editar(getProducto());
-
-		for (ProductoImpuesto pi : productoimpuestoDAO.aEliminar(getProducto(),
-				impuestos)) {
-			productoimpuestoDAO.remove(pi);
-		}
-
-		for (ProductoImpuesto pi : impuestos) {
-			if (productoimpuestoDAO.find(pi.getId()) == null) {
-				productoimpuestoDAO.create(pi);
-			} else {
-				productoimpuestoDAO.edit(pi);
-			}
-		}
-
-		for (ProductoStockMinimo ps : productoStockMinimoDAO.aEliminar(
-				getProducto(), stockMinimo)) {
-			productoStockMinimoDAO.remove(ps);
-		}
-
-		for (ProductoStockMinimo ps : stockMinimo) {
-			if (productoStockMinimoDAO.find(ps.getId()) == null) {
-				productoStockMinimoDAO.create(ps);
-			} else {
-				productoStockMinimoDAO.edit(ps);
-			}
-		}
-
-		// try {
-		// if (pdao.find(getProducto().getIdproducto()) != null) {
-		// Historial.validar("Modificar", bkEntidad, getProducto()
-		// .historial(), getTitle());
-		// } else {
-		// Historial.validar("Nuevo", getProducto().historial(),
-		// getTitle());
-		// }
-		//
-		// pdao.crear_editar(getProducto());
-		// } catch (Exception ex) {
-		// JOptionPane.showMessageDialog(null, ex);
-		// }
-
+		productoDAO.crear_editar(producto);
+		productoimpuestoDAO.borrarPorProducto(producto);
+		productoStockMinimoDAO.borrarPorProducto(producto);
+		
+		productoimpuestoDAO.create(impuestos);
+		productoStockMinimoDAO.create(stockMinimo);
 	}
 
 	@Override
 	public void vista_edicion() {
 		if (getEstado().equals(NUEVO))
 			txtCodigo.setEditable(true);
-		txtDescripcion.setEditable(true);
-		txtnomcorto.setEditable(true);
 		chkServicio.setEnabled(true);
 		getImpuestoTM().setEditar(true);
 		getStockMinimoTM().setEditar(true);
+		TextFieldsEdicion(true, txtDescripcion, txtnomcorto, txtCodAlternativo,
+				txtNomOriginal);
 		FormValidador.CntEdicion(true, cntgrupo, cntSubGrupo, cntmedida,
-				cntmarca);
+				cntmarca, cntFabricante);
 	}
 
 	@Override
 	public void vista_noedicion() {
-		txtCodigo.setEditable(false);
-		txtDescripcion.setEditable(false);
-		txtnomcorto.setEditable(false);
-		chkServicio.setEnabled(false);
+
 		getImpuestoTM().setEditar(false);
 		getStockMinimoTM().setEditar(false);
+		TextFieldsEdicion(false, txtCodigo, txtDescripcion, txtnomcorto,
+				txtCodAlternativo, txtNomOriginal);
+
 		FormValidador.CntEdicion(false, cntgrupo, cntSubGrupo, cntmedida,
-				cntmarca);
+				cntmarca, cntFabricante);
 	}
 
 	@Override
 	public void llenar_datos() {
-		getImpuestoTM().limpiar();
-		getStockMinimoTM().limpiar();
+		limpiarVista();
 		if (!getEstado().equals(NUEVO)) {
 			Subgrupo sg = getProducto().getSubgrupo();
 			Grupo g = (sg == null) ? null : sg.getGrupo();
@@ -461,47 +460,35 @@ public class FrmProductos extends AbstractMaestro {
 			cntgrupo.setSeleccionado(g);
 			cntSubGrupo.setSeleccionado(sg);
 
+			cntFabricante.setText((producto.getFabricante() == null) ? ""
+					: producto.getFabricante().getIdclieprov());
+			cntFabricante.llenar();
+
+			txtCodAlternativo.setText(producto.getCodigo_alternativo());
+			txtNomOriginal.setText(producto.getNombre_original());
+
 			chkServicio.setSelected((getProducto().getEsServicio() == 1));
 			impuestos = productoimpuestoDAO.getPorProducto(getProducto());
 
 			stockMinimo = productoStockMinimoDAO.getPorProducto(getProducto());
 
 			for (ProductoImpuesto i : impuestos) {
-				Impuesto im = impuestoDAO.find(i.getId().getIdimpuesto());
+				Impuesto im = i.getImpuesto();
 				getImpuestoTM()
 						.addRow(new Object[] { im.getIdimpuesto(),
 								im.getDescripcion() });
 			}
 
 			for (ProductoStockMinimo stock : stockMinimo) {
-				Sucursal sucursal = sucursalDAO.find(stock.getId()
-						.getIdsucursal());
-				AlmacenPK pkAlm = new AlmacenPK();
-				pkAlm.setIdsucursal(stock.getId().getIdsucursal());
-				pkAlm.setIdalmacen(stock.getId().getIdalmacen());
-				Almacen almacen = almacenDAO.find(pkAlm);
-
-				getStockMinimoTM()
-						.addRow(new Object[] { sucursal.getIdsucursal(),
+				Sucursal sucursal = stock.getSucursal();
+				Almacen almacen = stock.getAlmacen();
+				getStockMinimoTM().addRow(
+						new Object[] { sucursal.getIdsucursal(),
 								sucursal.getDescripcion(),
 								almacen.getId().getIdalmacen(),
-								almacen.getDescripcion(), stock.getCantidad(), stock.getReposicion() });
+								almacen.getDescripcion(), stock.getCantidad(),
+								stock.getReposicion() });
 			}
-
-		} else {
-			this.cntgrupo.txtCodigo.setText(null);
-			this.cntgrupo.txtDescripcion.setText(null);
-			this.cntSubGrupo.txtCodigo.setText(null);
-			this.cntSubGrupo.txtDescripcion.setText(null);
-			this.cntmarca.txtCodigo.setText(null);
-			this.cntmarca.txtDescripcion.setText(null);
-			this.cntmedida.txtCodigo.setText(null);
-			this.cntmedida.txtDescripcion.setText(null);
-			this.txtCodigo.setText(null);
-			this.txtDescripcion.setText(null);
-			this.txtnomcorto.setText(null);
-			this.chkServicio.setSelected(false);
-			impuestos = new ArrayList<ProductoImpuesto>();
 		}
 		llenar_tablas();
 	}
@@ -509,6 +496,24 @@ public class FrmProductos extends AbstractMaestro {
 	public void actualizaSubGrupo() {
 		cntSubGrupo.setData(new SubgrupoDAO().findAllbyGrupo(cntgrupo
 				.getSeleccionado()));
+	}
+
+	public void limpiarVista() {
+		this.cntgrupo.txtCodigo.setText(null);
+		this.cntgrupo.txtDescripcion.setText(null);
+		this.cntSubGrupo.txtCodigo.setText(null);
+		this.cntSubGrupo.txtDescripcion.setText(null);
+		this.cntmarca.txtCodigo.setText(null);
+		this.cntmarca.txtDescripcion.setText(null);
+		this.cntmedida.txtCodigo.setText(null);
+		this.cntmedida.txtDescripcion.setText(null);
+		this.txtCodigo.setText(null);
+		this.txtDescripcion.setText(null);
+		this.txtnomcorto.setText(null);
+		this.chkServicio.setSelected(false);
+		impuestos = new ArrayList<ProductoImpuesto>();
+		getImpuestoTM().limpiar();
+		getStockMinimoTM().limpiar();
 	}
 
 	@Override
@@ -541,34 +546,38 @@ public class FrmProductos extends AbstractMaestro {
 
 	@Override
 	public void llenarDesdeVista() {
-		/*if (productoDAO.find(txtCodigo.getText()) != null) {
-			bkEntidad = productoDAO.find(txtCodigo.getText()).historial();
-		}*/
+		/*
+		 * if (productoDAO.find(txtCodigo.getText()) != null) { bkEntidad =
+		 * productoDAO.find(txtCodigo.getText()).historial(); }
+		 */
 
 		String idproducto;
 		idproducto = this.txtCodigo.getText();
-		getProducto().setIdproducto(idproducto);
-		getProducto().setDescripcion(this.txtDescripcion.getText());
-		getProducto().setDescCorta(this.txtnomcorto.getText());
-		getProducto().setSubgrupo(this.cntSubGrupo.getSeleccionado());
-		getProducto().setUnimedida(this.cntmedida.getSeleccionado());
-		getProducto().setMarca(this.cntmarca.getSeleccionado());
+		producto.setIdproducto(idproducto);
+		producto.setDescripcion(this.txtDescripcion.getText());
+		producto.setDescCorta(this.txtnomcorto.getText());
+		producto.setSubgrupo(this.cntSubGrupo.getSeleccionado());
+		producto.setUnimedida(this.cntmedida.getSeleccionado());
+		producto.setMarca(this.cntmarca.getSeleccionado());
+		producto.setFabricante(this.cntFabricante.getSeleccionado());
+		producto.setCodigo_alternativo(this.txtCodAlternativo.getText());
+		producto.setNombre_original(this.txtNomOriginal.getText());
+
 		getProducto().setEsServicio(this.chkServicio.isSelected() ? 1 : 0);
 		int rows = tblImpuestos.getRowCount();
 
 		impuestos = new ArrayList<ProductoImpuesto>();
 
 		for (int i = 0; i < rows; i++) {
+			Impuesto impto = impuestoDAO.find(getImpuestoTM().getValueAt(i, 0).toString());
 			ProductoImpuesto pi = new ProductoImpuesto();
-			ProductoImpuestoPK id = new ProductoImpuestoPK();
-			id.setIdproducto(idproducto);
-			id.setIdimpuesto(getImpuestoTM().getValueAt(i, 0).toString());
-			pi.setId(id);
+			pi.setProducto(producto);
+			pi.setImpuesto(impto);
 			impuestos.add(pi);
 		}
-		
+
 		rows = getStockMinimoTM().getRowCount();
-		
+
 		stockMinimo = new ArrayList<ProductoStockMinimo>();
 
 		for (int i = 0; i < rows; i++) {
@@ -576,8 +585,7 @@ public class FrmProductos extends AbstractMaestro {
 			float cantidad, reposicion;
 
 			ProductoStockMinimo ps = new ProductoStockMinimo();
-			ProductoStockMinimoPK id = new ProductoStockMinimoPK();
-
+			
 			idsucursal = getStockMinimoTM().getValueAt(i, 0).toString();
 			idalmacen = getStockMinimoTM().getValueAt(i, 2).toString();
 
@@ -586,14 +594,18 @@ public class FrmProductos extends AbstractMaestro {
 			reposicion = Float.parseFloat(getStockMinimoTM().getValueAt(i, 5)
 					.toString());
 			
-			id.setIdproducto(idproducto);
-			id.setIdsucursal(idsucursal);
-			id.setIdalmacen(idalmacen);
-
-			ps.setId(id);
+			Sucursal sucursal;
+			Almacen almacen;
+			
+			sucursal = sucursalDAO.find(idsucursal);
+			almacen = almacenDAO.find(idalmacen);
+			
+			ps.setSucursal(sucursal);
+			ps.setAlmacen(almacen);
+			ps.setProducto(producto);
 			ps.setCantidad(cantidad);
 			ps.setReposicion(reposicion);
-			ps.setId(id);
+			
 			stockMinimo.add(ps);
 		}
 	}

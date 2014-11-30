@@ -58,7 +58,6 @@ import core.dao.UnimedidaDAO;
 import core.entity.Almacen;
 import core.entity.Asiento;
 import core.entity.DetDocingreso;
-import core.entity.DetDocingresoPK;
 import core.entity.Docingreso;
 import core.entity.OrdenCompra;
 import core.entity.Producto;
@@ -415,10 +414,10 @@ public class FrmDocRecepcion extends AbstractDocForm {
 		mes = calendar.get(Calendar.MONTH) + 1;
 		dia = calendar.get(Calendar.DAY_OF_MONTH);
 		setIngreso(new Docingreso());
-		getIngreso().setIddocingreso(System.nanoTime());
-		getIngreso().setAnio(anio);
-		getIngreso().setMes(mes);
-		getIngreso().setDia(dia);
+		ingreso.setIddocingreso(System.nanoTime());
+		ingreso.setAnio(anio);
+		ingreso.setMes(mes);
+		ingreso.setDia(dia);
 	}
 
 	@Override
@@ -429,16 +428,10 @@ public class FrmDocRecepcion extends AbstractDocForm {
 
 	@Override
 	public void grabar() {
-		docIngresoDAO.crear_editar(getIngreso());
-
-		for (DetDocingreso det : detDocingresoDAO.aEliminar(ingreso,
-				DetDocingresoL)) {
-			detDocingresoDAO.remove(det);
-		}
-
-		for (DetDocingreso det : getDetDocingresoL()) {
-			detDocingresoDAO.crear_editar(det);
-		}
+		System.out.println(ingreso.getIddocingreso());
+		docIngresoDAO.crear_editar(ingreso);
+		detDocingresoDAO.borrarPorIngreso(ingreso);
+		detDocingresoDAO.create(DetDocingresoL);
 
 		ContabilizaComprasRecepcion.ContabilizaRecepcion(getIngreso()
 				.getIddocingreso());
@@ -527,7 +520,7 @@ public class FrmDocRecepcion extends AbstractDocForm {
 
 			this.txtFecha.setDate(calendar.getTime());
 			List<DetDocingreso> detDocIngresoL = detDocingresoDAO
-					.getPorIdIngreso(getIngreso());
+					.getPorIngreso(getIngreso());
 
 			for (DetDocingreso ingreso : detDocIngresoL) {
 				Unimedida unimedida = ingreso.getUnimedida();
@@ -613,8 +606,7 @@ public class FrmDocRecepcion extends AbstractDocForm {
 	@SuppressWarnings({ "deprecation" })
 	@Override
 	public void llenarDesdeVista() {
-		Long Id = getIngreso().getIddocingreso();
-
+		
 		getIngreso().setGrupoCentralizacion(
 				cntGrupoCentralizacion.getSeleccionado());
 		getIngreso().setSerie(this.txtSerie.getText());
@@ -640,16 +632,14 @@ public class FrmDocRecepcion extends AbstractDocForm {
 		getIngreso().setGlosa(txtGlosa.getText());
 		setDetDocingresoL(new ArrayList<DetDocingreso>());
 		for (int i = 0; i < getDetalleTM().getRowCount(); i++) {
-			DetDocingresoPK detPK = new DetDocingresoPK();
+			
 			DetDocingreso det = new DetDocingreso();
 			Unimedida unimedida = unimedidaDAO.find(getDetalleTM().getValueAt(
 					i, 2).toString());
 			Producto producto = productoDAO.find(getDetalleTM()
 					.getValueAt(i, 0).toString());
 
-			detPK.setIdingreso(Id);
-			detPK.setItem(i + 1); // Actualizamos la posicion
-			det.setId(detPK);
+			det.setDocingreso(ingreso);
 			det.setDescripcion(getDetalleTM().getValueAt(i, 1).toString());
 			det.setUnimedida(unimedida);
 			det.setCantidad(Float.parseFloat((getDetalleTM().getValueAt(i, 4)

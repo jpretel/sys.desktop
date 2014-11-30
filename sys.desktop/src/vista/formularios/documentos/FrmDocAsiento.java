@@ -228,7 +228,7 @@ public class FrmDocAsiento extends AbstractAsientoForm {
 							d.getCuenta().getDescripcion(), d.getDebe(),
 							d.getHaber(), d.getDebe_of(), d.getHaber_of(),
 							d.getDebe_ex(), d.getHaber_of(), idproducto,
-							producto, d.getId().getItem() });
+							producto});
 		}
 		getTxtDebe().setValue(debe);
 		txtDebeOf.setValue(debe_of);

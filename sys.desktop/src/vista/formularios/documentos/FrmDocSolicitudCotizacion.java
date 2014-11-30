@@ -51,7 +51,6 @@ import core.dao.SolicitudCotizacionDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.DSolicitudCompra;
 import core.entity.DSolicitudCotizacion;
-import core.entity.DSolicitudCotizacionPK;
 import core.entity.Producto;
 import core.entity.SolicitudCompra;
 import core.entity.SolicitudCotizacion;
@@ -313,19 +312,8 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 	@Override
 	public void grabar() {
 		solicitudDAO.crear_editar(solicitud);
-
-		for (DSolicitudCotizacion d : dsolicitudDAO.aEliminar(solicitud,
-				dsolicitud)) {
-			dsolicitudDAO.remove(d);
-		}
-
-		for (DSolicitudCotizacion d : dsolicitud) {
-			if (dsolicitudDAO.find(d.getId()) == null) {
-				dsolicitudDAO.create(d);
-			} else {
-				dsolicitudDAO.edit(d);
-			}
-		}
+		dsolicitudDAO.borrarPorSolicitudCorizacion(solicitud);
+		dsolicitudDAO.create(dsolicitud);
 	}
 
 	@Override
@@ -423,7 +411,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 		Calendar c = Calendar.getInstance();
 		c.setTime(txtFecha.getDate());
 
-		Long idoc = solicitud.getIdsolicitudcotizacion();
+//		Long idoc = solicitud.getIdsolicitudcotizacion();
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		solicitud.setSerie(this.txtSerie.getText());
 		solicitud.setNumero(Integer.parseInt(this.txtNumero.getText()));
@@ -442,8 +430,7 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 
 		for (int row = 0; row < rows; row++) {
 			DSolicitudCotizacion d = new DSolicitudCotizacion();
-			DSolicitudCotizacionPK id = new DSolicitudCotizacionPK();
-
+			
 			String idproducto, idunimedida;
 			try {
 				idproducto = getDetalleTM().getValueAt(row, 0).toString();
@@ -464,11 +451,8 @@ public class FrmDocSolicitudCotizacion extends AbstractDocForm {
 
 			Producto p = productoDAO.find(idproducto);
 			Unimedida u = unimedidaDAO.find(idunimedida);
-
-			id.setIdsolicitudcotizacion(idoc);
-			id.setItem(row + 1);
-
-			d.setId(id);
+			
+			d.setSolicitud(solicitud);
 			d.setProducto(p);
 			d.setUnimedida(u);
 			d.setCantidad(cantidad);

@@ -37,11 +37,9 @@ import core.dao.ProductoDAO;
 import core.dao.RequerimientoDAO;
 import core.dao.ResponsableDAO;
 import core.dao.SucursalDAO;
-import core.dao.SysFormularioDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.Consumidor;
 import core.entity.DRequerimiento;
-import core.entity.DRequerimientoPK;
 import core.entity.Flujo;
 import core.entity.Producto;
 import core.entity.Requerimiento;
@@ -88,12 +86,10 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 	private DSGButtonFlujo btnFlujo;
 	
 	private SysFormulario sysFormulario;
-	private SysFormularioDAO sysFormularioDAO = new SysFormularioDAO();
 	
 	public FrmDocRequerimiento() {
 		super("Requerimiento");
 		
-		sysFormulario = sysFormularioDAO.getPorOpcion("FrmListaRequerimiento");
 		
 		txtFecha.setBounds(245, 11, 101, 22);
 		txtNumero.setBounds(116, 12, 80, 20);
@@ -333,21 +329,11 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 
 	@Override
 	public void grabar() {
-		kardexReqDAO.borrarPorRequerimiento(getRequerimiento());
-		requerimientoDAO.crear_editar(getRequerimiento());
-
-		for (DRequerimiento d : drequerimientoDAO.aEliminar(getRequerimiento(),
-				drequerimiento)) {
-			drequerimientoDAO.remove(d);
-		}
-
-		for (DRequerimiento d : drequerimiento) {
-			if (drequerimientoDAO.find(d.getId()) == null) {
-				drequerimientoDAO.create(d);
-			} else {
-				drequerimientoDAO.edit(d);
-			}
-		}
+		kardexReqDAO.borrarPorRequerimiento(requerimiento);
+		requerimientoDAO.crear_editar(requerimiento);
+		drequerimientoDAO.borrarPorRequerimiento(requerimiento);
+		drequerimientoDAO.create(drequerimiento);
+		
 		ContabilizaRequerimiento.ContabilizarRequerimiento(requerimiento
 				.getIdrequerimiento());
 	}
@@ -463,7 +449,7 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 		Calendar c = Calendar.getInstance();
 		c.setTime(txtFecha.getDate());
 
-		Long idoc = getRequerimiento().getIdrequerimiento();
+//		Long idoc = getRequerimiento().getIdrequerimiento();
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		getRequerimiento().setSerie(this.txtSerie.getText());
 		getRequerimiento()
@@ -487,7 +473,6 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 
 		for (int row = 0; row < rows; row++) {
 			DRequerimiento d = new DRequerimiento();
-			DRequerimientoPK id = new DRequerimientoPK();
 
 			String idproducto, idunimedida, idconsumidor;
 			try {
@@ -516,11 +501,8 @@ public class FrmDocRequerimiento extends AbstractDocForm {
 			Producto p = productoDAO.find(idproducto);
 			Unimedida u = unimedidaDAO.find(idunimedida);
 			Consumidor cons = consumidorDAO.find(idconsumidor);
-
-			id.setIdrequerimiento(idoc);
-			id.setItem(row + 1);
-
-			d.setId(id);
+			
+			d.setRequerimiento(requerimiento);
 			d.setProducto(p);
 			d.setUnimedida(u);
 			d.setCantidad(cantidad);

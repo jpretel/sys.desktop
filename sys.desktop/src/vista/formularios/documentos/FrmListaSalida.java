@@ -18,7 +18,7 @@ public class FrmListaSalida extends AbstractDocList {
 	private List<Docsalida> lista = new ArrayList<Docsalida>();
 	private Object[][] data;	
 	public FrmListaSalida() {
-		super("Lista de Notas de Salidas", "vista.formularios.FrmDocSalida");
+		super("Lista de Notas de Salidas", "vista.formularios.documentos.FrmDocSalida");
 		cboDocumento.setVisible(false);
 		lblDocumento.setVisible(false);
 		cabeceras = new String[] {"Id","Fecha","Serie", "Numero","Responsable","Sucursal","Almacen"};

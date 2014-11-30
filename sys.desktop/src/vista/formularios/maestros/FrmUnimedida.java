@@ -1,6 +1,6 @@
 package vista.formularios.maestros;
 
-import java.util.ArrayList;
+ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -26,7 +26,6 @@ import vista.utilitarios.renderers.FloatRenderer;
 import core.dao.ConversionUMDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.ConversionUM;
-import core.entity.ConversionUMPK;
 import core.entity.Unimedida;
 
 public class FrmUnimedida extends AbstractMaestro {
@@ -279,18 +278,9 @@ public class FrmUnimedida extends AbstractMaestro {
 	}
 
 	public void grabar() {
-		getUdao().crear_editar(getUnimedida());
-		for (ConversionUM c : convDAO.aEliminar(getUnimedida(), conversiones)) {
-			convDAO.remove(c);
-		}
-		for (ConversionUM c : conversiones) {
-			if (convDAO.find(c.getId()) == null) {
-				convDAO.create(c);
-			} else {
-				convDAO.edit(c);
-				;
-			}
-		}
+		unimedidaDAO.crear_editar(unimedida);
+		convDAO.borrarPorUnimedida(unimedida);
+		convDAO.create(conversiones);
 	}
 
 	@Override
@@ -309,8 +299,7 @@ public class FrmUnimedida extends AbstractMaestro {
 			this.txtCodSunat.setText(this.unimedida.getCod_sunat());
 			setConversiones(convDAO.getPorUnimedida(getUnimedida()));
 			for (ConversionUM c : getConversiones()) {
-				Unimedida m_ref = unimedidaDAO.find(c.getId()
-						.getIdunimedida_equiv());
+				Unimedida m_ref = c.getUnimedida_equiv();
 
 				getConversionTM().addRow(
 						new Object[] { m_ref.getIdunimedida(),
@@ -388,20 +377,20 @@ public class FrmUnimedida extends AbstractMaestro {
 	public void llenarDesdeVista() {
 		
 		String iddmedida = this.txtCodigo.getText();
-		getUnimedida().setIdunimedida(iddmedida);
-		getUnimedida().setDescripcion(this.txtDescripcion.getText());
-		getUnimedida().setNomenclatura(this.txtNomenclatura.getText());
-		getUnimedida().setCod_sunat(this.txtCodSunat.getText());
+		unimedida.setIdunimedida(iddmedida);
+		unimedida.setDescripcion(this.txtDescripcion.getText());
+		unimedida.setNomenclatura(this.txtNomenclatura.getText());
+		unimedida.setCod_sunat(this.txtCodSunat.getText());
 		setConversiones(new ArrayList<ConversionUM>());
 		int rows = getConversionTM().getRowCount();
 		for (int i = 0; i < rows; i++) {
+			String idmedida_equiv = getConversionTM().getValueAt(i, 0)
+					.toString();
+			Unimedida u_equiv = unimedidaDAO.find(idmedida_equiv);
+			
 			ConversionUM c = new ConversionUM();
-			ConversionUMPK id = new ConversionUMPK();
-			id.setIdunimedida(iddmedida);
-			id.setIdunimedida_equiv(getConversionTM().getValueAt(i, 0)
-					.toString());
-
-			c.setId(id);
+			c.setUnimedida(unimedida);
+			c.setUnimedida_equiv(u_equiv);
 			c.setFactor(Float.parseFloat(getConversionTM().getValueAt(i, 2).toString()));
 			getConversiones().add(c);
 		}

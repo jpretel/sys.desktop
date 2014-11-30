@@ -35,7 +35,6 @@ import core.dao.MonedaDAO;
 import core.dao.TCambioDAO;
 import core.entity.Moneda;
 import core.entity.TCambio;
-import core.entity.TCambioPK;
 
 public class FrmTCambio extends AbstractMaestro {
 	/**
@@ -269,23 +268,16 @@ public class FrmTCambio extends AbstractMaestro {
 		max = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 		for (int i = 1; i <= max; i++) {
-			TCambioPK pk = new TCambioPK();
-			pk.setIdmoneda(moneda.getIdmoneda());
-			pk.setAnio(anio);
-			pk.setMes(mes);
-			pk.setDia(i);
-
-			TCambio tc = tcambioDAO.find(pk);
+			TCambio tc =  tcambioDAO.getFechaMoneda(anio, mes, i, moneda);
 
 			if (tc == null) {
 				tc = new TCambio();
-				TCambioPK id = new TCambioPK();
-				id.setAnio(anio);
-				id.setMes(mes);
-				id.setDia(i);
-				id.setIdmoneda(moneda.getIdmoneda());
-
-				tc.setId(id);
+				
+				tc.setAnio(anio);
+				tc.setMes(mes);
+				tc.setDia(i);
+				tc.setMoneda(moneda);
+				
 				tc.setCompra(0);
 				tc.setVenta(0);
 			}
@@ -307,7 +299,7 @@ public class FrmTCambio extends AbstractMaestro {
 			for (TCambio t : tipocambio) {
 				if (t.getCompra() == 0 || t.getVenta() == 0) {
 					salir: for (TipoCambio t2 : tcambiosunat) {
-						if (t2.getDia() == t.getId().getDia()) {
+						if (t2.getDia() == t.getDia()) {
 							t.setCompra(t2.getCompra());
 							t.setVenta(t2.getVenta());
 							break salir;
@@ -323,9 +315,9 @@ public class FrmTCambio extends AbstractMaestro {
 		getDetalleTM().limpiar();
 		Calendar calendar = Calendar.getInstance();
 		for (TCambio t : tipocambio) {
-			calendar.set(Calendar.YEAR, t.getId().getAnio());
-			calendar.set(Calendar.MONTH, t.getId().getMes() - 1);
-			calendar.set(Calendar.DAY_OF_MONTH, t.getId().getDia());
+			calendar.set(Calendar.YEAR, t.getAnio());
+			calendar.set(Calendar.MONTH, t.getMes() - 1);
+			calendar.set(Calendar.DAY_OF_MONTH, t.getDia());
 			getDetalleTM().addRow(
 					new Object[] { calendar.getTime(), t.getCompra(),
 							t.getVenta() });
@@ -417,13 +409,12 @@ public class FrmTCambio extends AbstractMaestro {
 		tipocambio = new ArrayList<TCambio>();
 		for (int i = 0; i < rows; i++) {
 			TCambio tcambio = new TCambio();
-			TCambioPK id = new TCambioPK();
+			
 			cal.setTime((Date) getDetalleTM().getValueAt(i, 0));
-			id.setAnio(cal.get(Calendar.YEAR));
-			id.setMes(cal.get(Calendar.MONTH) + 1);
-			id.setDia(cal.get(Calendar.DAY_OF_MONTH));
-			id.setIdmoneda(moneda.getIdmoneda());
-			tcambio.setId(id);
+			tcambio.setAnio(cal.get(Calendar.YEAR));
+			tcambio.setMes(cal.get(Calendar.MONTH) + 1);
+			tcambio.setDia(cal.get(Calendar.DAY_OF_MONTH));
+			tcambio.setMoneda(moneda);
 			tcambio.setCompra(Float.valueOf(getDetalleTM().getValueAt(i, 1)
 					.toString()));
 			tcambio.setVenta(Float.valueOf(getDetalleTM().getValueAt(i, 2)

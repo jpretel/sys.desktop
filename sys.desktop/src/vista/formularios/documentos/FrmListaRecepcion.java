@@ -18,7 +18,7 @@ public class FrmListaRecepcion extends AbstractDocList {
 	private List<Docingreso> lista = new ArrayList<Docingreso>();
 
 	public FrmListaRecepcion() {
-		super("Lista de Notas de Ingreso", "vista.formularios.FrmDocRecepcion");
+		super("Lista de Notas de Ingreso", "vista.formularios.documentos.FrmDocRecepcion");
 		cboDocumento.setVisible(false);
 		lblDocumento.setVisible(false);
 		cabeceras = new String[] { "Id", "Fecha", "Serie", "Numero",

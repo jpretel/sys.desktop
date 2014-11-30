@@ -37,7 +37,6 @@ import core.dao.ResponsableDAO;
 import core.dao.SucursalDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.DOrdenServicio;
-import core.entity.DOrdenServicioPK;
 import core.entity.OrdenServicio;
 import core.entity.Producto;
 import core.entity.Sucursal;
@@ -263,7 +262,7 @@ public class FrmDocOrdenServicio extends AbstractDocForm {
 	@Override
 	public void nuevo() {
 		setOrdenservicio(new OrdenServicio());
-		getOrdenservicio().setIdordenservicio(System.nanoTime());
+		ordenservicio.setIdordenservicio(System.nanoTime());
 		txtSerie.requestFocus();
 	}
 
@@ -275,20 +274,9 @@ public class FrmDocOrdenServicio extends AbstractDocForm {
 
 	@Override
 	public void grabar() {
-		ordenDAO.crear_editar(getOrdenservicio());
-
-		for (DOrdenServicio d : dordenservicioDAO.aEliminar(getOrdenservicio(),
-				dordenservicios)) {
-			dordenservicioDAO.remove(d);
-		}
-
-		for (DOrdenServicio d : dordenservicios) {
-			if (dordenservicioDAO.find(d.getId()) == null) {
-				dordenservicioDAO.create(d);
-			} else {
-				dordenservicioDAO.edit(d);
-			}
-		}
+		ordenDAO.crear_editar(ordenservicio);
+		dordenservicioDAO.borrarPorOrdenServicio(ordenservicio);
+		dordenservicioDAO.create(dordenservicios);
 	}
 
 	@Override
@@ -300,24 +288,24 @@ public class FrmDocOrdenServicio extends AbstractDocForm {
 	public void llenar_datos() {
 		limpiarVista();
 		
-		if (getOrdenservicio() != null) {
-			txtNumero.setValue(getOrdenservicio().getNumero());
-			txtSerie.setText(getOrdenservicio().getSerie());
-			txtTCambio.setValue(getOrdenservicio().getTcambio());
-			txtTCMoneda.setValue(getOrdenservicio().getTcmoneda());
-			txtGlosa.setText(getOrdenservicio().getGlosa());
+		if (ordenservicio != null) {
+			txtNumero.setValue(ordenservicio.getNumero());
+			txtSerie.setText(ordenservicio.getSerie());
+			txtTCambio.setValue(ordenservicio.getTcambio());
+			txtTCMoneda.setValue(ordenservicio.getTcmoneda());
+			txtGlosa.setText(ordenservicio.getGlosa());
 			cntMoneda.txtCodigo
-					.setText((getOrdenservicio().getMoneda() == null) ? ""
-							: getOrdenservicio().getMoneda().getIdmoneda());
+					.setText((ordenservicio.getMoneda() == null) ? ""
+							: ordenservicio.getMoneda().getIdmoneda());
 			cntMoneda.llenar();
-			cntResponsable.txtCodigo.setText((getOrdenservicio()
-					.getResponsable() == null) ? "" : getOrdenservicio()
+			cntResponsable.txtCodigo.setText((ordenservicio
+					.getResponsable() == null) ? "" : ordenservicio
 					.getResponsable().getIdresponsable());
 			cntResponsable.llenar();
 			cntSucursal.txtCodigo
-					.setText((getOrdenservicio().getSucursal() == null) ? ""
-							: getOrdenservicio().getSucursal().getIdsucursal());
-			Sucursal s = getOrdenservicio().getSucursal();
+					.setText((ordenservicio.getSucursal() == null) ? ""
+							: ordenservicio.getSucursal().getIdsucursal());
+			Sucursal s = ordenservicio.getSucursal();
 			cntSucursal.llenar();
 			if (s == null) {
 				cntAlmacen.setData(null);
@@ -325,13 +313,13 @@ public class FrmDocOrdenServicio extends AbstractDocForm {
 				cntAlmacen.setData(almacenDAO.getPorSucursal(s));
 			}
 			cntAlmacen.txtCodigo
-					.setText((getOrdenservicio().getAlmacen() == null) ? ""
-							: getOrdenservicio().getAlmacen().getId()
+					.setText((ordenservicio.getAlmacen() == null) ? ""
+							: ordenservicio.getAlmacen().getId()
 									.getIdalmacen());
 			cntAlmacen.llenar();
 
 			dordenservicios = dordenservicioDAO
-					.getPorOrdenServicio(getOrdenservicio());
+					.getPorOrdenServicio(ordenservicio);
 
 			for (DOrdenServicio d : dordenservicios) {
 				Producto p = d.getProducto();
@@ -415,34 +403,31 @@ public class FrmDocOrdenServicio extends AbstractDocForm {
 	public void llenarDesdeVista() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(txtFecha.getDate());
-		Long idoc = getOrdenservicio().getIdordenservicio();
-		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
-		getOrdenservicio().setSerie(this.txtSerie.getText());
-		getOrdenservicio().setNumero(
+		ordenservicio.setSerie(this.txtSerie.getText());
+		ordenservicio.setNumero(
 				Integer.parseInt(this.txtNumero.getText()));
-		getOrdenservicio().setMoneda(cntMoneda.getSeleccionado());
-		getOrdenservicio()
+		ordenservicio.setMoneda(cntMoneda.getSeleccionado());
+		ordenservicio
 				.setResponsable(this.cntResponsable.getSeleccionado());
-		getOrdenservicio().setSucursal(cntSucursal.getSeleccionado());
-		getOrdenservicio().setAlmacen(this.cntAlmacen.getSeleccionado());
-		getOrdenservicio().setDia(c.get(Calendar.DAY_OF_MONTH));
-		getOrdenservicio().setMes(c.get(Calendar.MONTH) + 1);
-		getOrdenservicio().setAnio(c.get(Calendar.YEAR));
-		getOrdenservicio().setAniomesdia(
+		ordenservicio.setSucursal(cntSucursal.getSeleccionado());
+		ordenservicio.setAlmacen(this.cntAlmacen.getSeleccionado());
+		ordenservicio.setDia(c.get(Calendar.DAY_OF_MONTH));
+		ordenservicio.setMes(c.get(Calendar.MONTH) + 1);
+		ordenservicio.setAnio(c.get(Calendar.YEAR));
+		ordenservicio.setAniomesdia(
 				(c.get(Calendar.YEAR) * 10000)
 						+ ((c.get(Calendar.MONTH) + 1) * 100)
 						+ c.get(Calendar.DAY_OF_MONTH));
-		getOrdenservicio().setGlosa(txtGlosa.getText());
-		getOrdenservicio().setTcambio(Float.parseFloat(txtTCambio.getText()));
-		getOrdenservicio().setTcmoneda(Float.parseFloat(txtTCMoneda.getText()));
+		ordenservicio.setGlosa(txtGlosa.getText());
+		ordenservicio.setTcambio(Float.parseFloat(txtTCambio.getText()));
+		ordenservicio.setTcmoneda(Float.parseFloat(txtTCMoneda.getText()));
 		dordenservicios = new ArrayList<DOrdenServicio>();
 
 		int rows = getDetalleTM().getRowCount();
 
 		for (int row = 0; row < rows; row++) {
 			DOrdenServicio d = new DOrdenServicio();
-			DOrdenServicioPK id = new DOrdenServicioPK();
-
+			
 			String idproducto, idunimedida;
 
 			idproducto = getDetalleTM().getValueAt(row, 0).toString();
@@ -459,13 +444,9 @@ public class FrmDocOrdenServicio extends AbstractDocForm {
 
 			Producto p = productoDAO.find(idproducto);
 			Unimedida u = unimedidaDAO.find(idunimedida);
-
-			id.setIdordenservicio(idoc);
-			id.setItem(row);
-
-			d.setId(id);
+			
 			d.setProducto(p);
-			d.setOrdenservicio(getOrdenservicio());
+			d.setOrdenservicio(ordenservicio);
 			d.setUnimedida(u);
 			d.setCantidad(cantidad);
 			d.setPrecio_unitario(precio_unitario);

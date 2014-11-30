@@ -32,7 +32,6 @@ import core.dao.ResponsableDAO;
 import core.dao.SolicitudCompraDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.DSolicitudCompra;
-import core.entity.DSolicitudCompraPK;
 import core.entity.Producto;
 import core.entity.SolicitudCompra;
 import core.entity.Unimedida;
@@ -221,25 +220,15 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 
 	@Override
 	public void grabar() {
-		kardexSlcCompraDAO.borrarPorIdOrigen(getsolicitudcompra()
+		kardexSlcCompraDAO.borrarPorIdOrigen(solicitudcompra
 				.getIdsolicitudcompra());
-		solicitudcompraDAO.crear_editar(getsolicitudcompra());
+		solicitudcompraDAO.crear_editar(solicitudcompra);
+		dsolicitudcompraDAO.borrarPorSolicitudCompra(solicitudcompra);
+		dsolicitudcompraDAO.create(dsolicitudcompras);
 
-		for (DSolicitudCompra d : dsolicitudcompraDAO.aEliminar(
-				getsolicitudcompra(), dsolicitudcompras)) {
-			dsolicitudcompraDAO.remove(d);
-		}
-
-		for (DSolicitudCompra d : dsolicitudcompras) {
-			if (dsolicitudcompraDAO.find(d.getId()) == null) {
-				dsolicitudcompraDAO.create(d);
-			} else {
-				dsolicitudcompraDAO.edit(d);
-			}
-		}
-		
-		boolean contabilizo = ContabilizaSlcCompras.ContabilizaSolicitud(getsolicitudcompra()
-				.getIdsolicitudcompra());
+		boolean contabilizo = ContabilizaSlcCompras
+				.ContabilizaSolicitud(getsolicitudcompra()
+						.getIdsolicitudcompra());
 		if (!contabilizo) {
 			System.out.println("No Contabilizó");
 		}
@@ -253,7 +242,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 	@Override
 	public void llenar_datos() {
 		limpiarVista();
-		
+
 		if (getsolicitudcompra() != null) {
 			this.txtNumero.setValue(getsolicitudcompra().getNumero());
 			this.txtSerie.setText(getsolicitudcompra().getSerie());
@@ -280,7 +269,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 			dsolicitudcompras = new ArrayList<DSolicitudCompra>();
 		}
 	}
-	
+
 	@Override
 	public void llenar_tablas() {
 		cntResponsable.setData(new ResponsableDAO().findAll());
@@ -319,7 +308,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 	public void llenarDesdeVista() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(txtFecha.getDate());
-		Long idoc = getsolicitudcompra().getIdsolicitudcompra();
+//		Long idoc = getsolicitudcompra().getIdsolicitudcompra();
 		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		getsolicitudcompra().setSerie(this.txtSerie.getText());
 		getsolicitudcompra().setNumero(
@@ -341,8 +330,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 
 		for (int row = 0; row < rows; row++) {
 			DSolicitudCompra d = new DSolicitudCompra();
-			DSolicitudCompraPK id = new DSolicitudCompraPK();
-
+			
 			String idproducto, idunimedida;
 
 			idproducto = getDetalleTM().getValueAt(row, 0).toString();
@@ -355,11 +343,8 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 
 			Producto p = productoDAO.find(idproducto);
 			Unimedida u = unimedidaDAO.find(idunimedida);
-
-			id.setIdsolicitudcompra(idoc);
-			id.setItem(row + 1);
-
-			d.setId(id);
+			
+			d.setSolicitudcompra(solicitudcompra);
 			d.setProducto(p);
 			d.setUnimedida(u);
 			d.setCantidad(cantidad);
@@ -378,7 +363,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 
 		return FormValidador.CntObligatorios(cntResponsable);
 	}
-	
+
 	@Override
 	protected void limpiarVista() {
 		this.txtNumero.setValue(0);
@@ -388,7 +373,7 @@ public class FrmDocSolicitudCompra extends AbstractDocForm {
 		cntResponsable.llenar();
 		getDetalleTM().limpiar();
 	}
-	
+
 	public DSGTableModel getDetalleTM() {
 		return ((DSGTableModel) tblDetalle.getModel());
 	}

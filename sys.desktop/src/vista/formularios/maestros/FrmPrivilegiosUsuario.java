@@ -29,7 +29,6 @@ import core.dao.UsuarioDAO;
 import core.entity.Almacen;
 import core.entity.AlmacenPK;
 import core.entity.PrivUsuarioAlmacen;
-import core.entity.PrivUsuarioAlmacenPK;
 import core.entity.Sucursal;
 import core.entity.Usuario;
 
@@ -258,7 +257,7 @@ public class FrmPrivilegiosUsuario extends DSGInternalFrame {
 			int rows = getAlmUsuarioTM().getRowCount();
 			for (int row = 0; row < rows; row++) {
 				PrivUsuarioAlmacen priv = new PrivUsuarioAlmacen();
-				PrivUsuarioAlmacenPK id = new PrivUsuarioAlmacenPK();
+//				PrivUsuarioAlmacenPK id = new PrivUsuarioAlmacenPK();
 				String idsucursal, idalmacen;
 				Sucursal sucursal;
 				Almacen almacen;
@@ -272,16 +271,11 @@ public class FrmPrivilegiosUsuario extends DSGInternalFrame {
 				pkalmacen.setIdalmacen(idalmacen);
 
 				almacen = almacenDAO.find(pkalmacen);
-
-				id.setIdusuario(usuario.getIdusuario());
-				id.setIdsucursal(idsucursal);
-				id.setIdalmacen(idalmacen);
-
+				
 				priv.setUsuario(usuario);
 				priv.setSucursal(sucursal);
 				priv.setAlmacen(almacen);
-
-				priv.setId(id);
+				
 				privUsuarioAlmacen.add(priv);
 			}
 		}

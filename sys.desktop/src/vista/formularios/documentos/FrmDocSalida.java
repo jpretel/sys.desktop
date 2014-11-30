@@ -51,7 +51,6 @@ import core.dao.SucursalDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.Almacen;
 import core.entity.DetDocsalida;
-import core.entity.DetDocsalidaPK;
 import core.entity.Docsalida;
 import core.entity.Producto;
 import core.entity.Requerimiento;
@@ -521,10 +520,13 @@ public class FrmDocSalida extends AbstractDocForm {
 						ref.setTipo_referencia("REQINTERNO");
 
 						getDetalleTM().addRow(
-								new Object[] { idproducto, p.getDescripcion(),
+								new Object[] { 
+										idproducto, 
+										p.getDescripcion(),
 										p.getUnimedida().getIdunimedida(),
 										p.getUnimedida().getDescripcion(),
-										cantidad, 0, 0, ref });
+										cantidad, 
+										ref });
 					}
 
 				}
@@ -661,7 +663,8 @@ public class FrmDocSalida extends AbstractDocForm {
 			calendar.set(salida.getAnio(), salida.getMes() - 1, salida.getDia());
 			this.txtFecha.setDate(calendar.getTime());
 			List<DetDocsalida> detDocSalidaL = detDocsalidaDAO
-					.getPorIdSalida(getSalida());
+					.getPorSalida(getSalida());
+			
 			getDetalleTM().limpiar();
 			for (DetDocsalida salida : detDocSalidaL) {
 				Producto producto = salida.getProducto();
@@ -677,11 +680,13 @@ public class FrmDocSalida extends AbstractDocForm {
 				}
 
 				getDetalleTM().addRow(
-						new Object[] { producto.getIdproducto(),
+						new Object[] { 
+								producto.getIdproducto(),
 								producto.getDescripcion(),
 								salida.getUnimedida().getIdunimedida(),
 								salida.getUnimedida().getDescripcion(),
-								salida.getCantidad(), ref });
+								salida.getCantidad(), 
+								ref });
 			}
 		}
 	}
@@ -775,12 +780,9 @@ public class FrmDocSalida extends AbstractDocForm {
 			p = productoDAO.find(idproducto);
 			u = unimedidaDAO.find(idunimedida);
 
-			DetDocsalidaPK detPK = new DetDocsalidaPK();
 			DetDocsalida det = new DetDocsalida();
-			detPK.setIdsalida(id);
-			detPK.setItem(i + 1);
-			det.setId(detPK);
-			det.setDocsalida(getSalida());
+			
+			det.setDocsalida(salida);
 			det.setProducto(p);
 			det.setUnimedida(u);
 			det.setCantidad(Float.parseFloat((getDetalleTM().getValueAt(i, 4)

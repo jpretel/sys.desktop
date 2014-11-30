@@ -20,7 +20,7 @@ public class FrmListaSolicitudCotizacion extends AbstractDocList {
 
 	public FrmListaSolicitudCotizacion() {
 		super("Lista de Solicitud de Cotización",
-				"vista.formularios.FrmDocSolicitudCotizacion");
+				"vista.formularios.documentos.FrmDocSolicitudCotizacion");
 		cboDocumento.setVisible(false);
 		lblDocumento.setVisible(false);
 		cabeceras = new String[] { "Fecha", "Serie", "Numero", "Proveedor",

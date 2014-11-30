@@ -63,7 +63,7 @@ public class ContabilizaRequerimiento {
 
 		List<DetDocsalida> dsalida;
 
-		dsalida = dsalidaDAO.getPorIdSalida(salida);
+		dsalida = dsalidaDAO.getPorSalida(salida);
 		kardexDAO.borrarPorIdReferencia(salida.getIddocsalida());
 
 		List<KardexRequerimiento> kardex_list = new ArrayList<KardexRequerimiento>();

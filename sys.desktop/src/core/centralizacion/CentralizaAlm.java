@@ -13,7 +13,6 @@ import core.entity.Asiento;
 import core.entity.CfgCentralizaAlm;
 import core.entity.Concepto;
 import core.entity.DAsiento;
-import core.entity.DAsientoPK;
 import core.entity.Docingreso;
 import core.entity.Kardex;
 import core.entity.Moneda;
@@ -51,7 +50,7 @@ public class CentralizaAlm {
 		asiento.setNumerador(0);
 		asiento.setTipo('A');
 		asiento.setSubdiario(subdiario);
-		int i = 0;
+		
 		for (Kardex det : kardexDAO.getPorIngresoSalidaL(id)) {
 			float precio = det.getPrecio();
 			float cantidad = det.getCantidad();
@@ -73,11 +72,7 @@ public class CentralizaAlm {
 
 			// Insertar cuenta de Debe
 			DAsiento da = new DAsiento();
-			DAsientoPK pk = new DAsientoPK();
-
-			pk.setIdasiento(idasiento);
-			pk.setItem(i);
-			da.setId(pk);
+			
 			da.setCuenta(cfg.getCta_debe());
 
 			LlenarDebeHaber(moneda.getTipo(), da, total, tcambio, tcmoneda, 'D');
@@ -88,15 +83,9 @@ public class CentralizaAlm {
 			}
 
 			dasiento.add(da);
-
-			i++;
-
+			
 			da = new DAsiento();
-			pk = new DAsientoPK();
-
-			pk.setIdasiento(idasiento);
-			pk.setItem(i);
-			da.setId(pk);
+			
 			da.setCuenta(cfg.getCta_haber());
 
 			LlenarDebeHaber(moneda.getTipo(), da, total, tcambio, tcmoneda, 'H');
@@ -108,7 +97,6 @@ public class CentralizaAlm {
 
 			dasiento.add(da);
 
-			i++;
 		}
 
 		asientoDAO.crear_editar(asiento);

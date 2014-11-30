@@ -36,7 +36,7 @@ public class ContabilizaAlmacen {
 				//tCampoDAO.getFechaMoneda(idtc).get(0).getCompra();					
 		
 		idmoneda = ingreso.getMoneda().getIdmoneda();
-		List<DetDocingreso> detIngL = detIngDAO.getPorIdIngreso(ingreso);
+		List<DetDocingreso> detIngL = detIngDAO.getPorIngreso(ingreso);
 		List<Kardex> kardex_list = new ArrayList<Kardex>();
 
 		for (DetDocingreso det : detIngL) {
@@ -86,7 +86,7 @@ public class ContabilizaAlmacen {
 		//	ingreso.getAnio(), ingreso.getMes(), ingreso.getAnio()).getCompra();
 		
 		idmoneda = salida.getMoneda().getIdmoneda();
-		List<DetDocsalida> detSal = detSalDAO.getPorIdSalida(salida);
+		List<DetDocsalida> detSal = detSalDAO.getPorSalida(salida);
 		List<Kardex> kardex_list = new ArrayList<Kardex>();
 		for (DetDocsalida det : detSal) {
 			Kardex kardex = new Kardex();

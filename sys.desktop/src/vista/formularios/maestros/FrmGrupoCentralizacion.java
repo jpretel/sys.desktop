@@ -66,49 +66,120 @@ public class FrmGrupoCentralizacion extends AbstractMaestro {
 
 		cntSubdiario = new CntSubdiario();
 		GroupLayout groupLayout = new GroupLayout(pnlContenido);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(12)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 257, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDescripcin, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblTipoDeAnlisis, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
-					.addGap(5)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(cntSubdiario, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-						.addComponent(txtDescripcion, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
-					.addGap(10))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(287)
-					.addComponent(lblCdigo, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-					.addGap(34)
-					.addComponent(txtCodigo, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-					.addGap(149))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(12)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-					.addGap(17))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(26)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblCdigo, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(6)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(3)
-							.addComponent(lblDescripcin, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
-						.addComponent(txtDescripcion, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
-					.addGap(11)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblTipoDeAnlisis, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cntSubdiario, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
-		);
+		groupLayout
+				.setHorizontalGroup(groupLayout
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								groupLayout
+										.createSequentialGroup()
+										.addGap(12)
+										.addComponent(scrollPane,
+												GroupLayout.PREFERRED_SIZE,
+												257, GroupLayout.PREFERRED_SIZE)
+										.addGap(18)
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																lblDescripcin,
+																GroupLayout.PREFERRED_SIZE,
+																68,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(
+																lblTipoDeAnlisis,
+																GroupLayout.PREFERRED_SIZE,
+																60,
+																GroupLayout.PREFERRED_SIZE))
+										.addGap(5)
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																cntSubdiario,
+																GroupLayout.DEFAULT_SIZE,
+																225,
+																Short.MAX_VALUE)
+														.addComponent(
+																txtDescripcion,
+																GroupLayout.DEFAULT_SIZE,
+																255,
+																Short.MAX_VALUE))
+										.addGap(10))
+						.addGroup(
+								groupLayout
+										.createSequentialGroup()
+										.addGap(287)
+										.addComponent(lblCdigo,
+												GroupLayout.PREFERRED_SIZE, 39,
+												GroupLayout.PREFERRED_SIZE)
+										.addGap(34)
+										.addComponent(txtCodigo,
+												GroupLayout.DEFAULT_SIZE, 116,
+												Short.MAX_VALUE).addGap(149)));
+		groupLayout
+				.setVerticalGroup(groupLayout
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								groupLayout
+										.createSequentialGroup()
+										.addGap(12)
+										.addComponent(scrollPane,
+												GroupLayout.DEFAULT_SIZE, 228,
+												Short.MAX_VALUE).addGap(17))
+						.addGroup(
+								groupLayout
+										.createSequentialGroup()
+										.addGap(26)
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																lblCdigo,
+																GroupLayout.PREFERRED_SIZE,
+																16,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(
+																txtCodigo,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))
+										.addGap(6)
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																groupLayout
+																		.createSequentialGroup()
+																		.addGap(3)
+																		.addComponent(
+																				lblDescripcin,
+																				GroupLayout.PREFERRED_SIZE,
+																				16,
+																				GroupLayout.PREFERRED_SIZE))
+														.addComponent(
+																txtDescripcion,
+																GroupLayout.PREFERRED_SIZE,
+																22,
+																GroupLayout.PREFERRED_SIZE))
+										.addGap(11)
+										.addGroup(
+												groupLayout
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																lblTipoDeAnlisis,
+																GroupLayout.PREFERRED_SIZE,
+																16,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(
+																cntSubdiario,
+																GroupLayout.PREFERRED_SIZE,
+																20,
+																GroupLayout.PREFERRED_SIZE))));
 		pnlContenido.setLayout(groupLayout);
 
 		tblLista.getSelectionModel().addListSelectionListener(
@@ -167,9 +238,10 @@ public class FrmGrupoCentralizacion extends AbstractMaestro {
 	@Override
 	public void llenar_datos() {
 		if (getGrupo() != null) {
-			txtCodigo.setText(getGrupo().getIdgcentralizacion());
-			txtDescripcion.setText(getGrupo().getDescripcion());
-			cntSubdiario.txtCodigo.setText(getGrupo().getSubdiario().getIdsubdiario());
+			txtCodigo.setText(grupo.getIdgcentralizacion());
+			txtDescripcion.setText(grupo.getDescripcion());
+			cntSubdiario.txtCodigo.setText((grupo.getSubdiario() == null) ? ""
+					: grupo.getSubdiario().getIdsubdiario());
 			cntSubdiario.llenar();
 		} else {
 			txtCodigo.setText("");
@@ -232,7 +304,8 @@ public class FrmGrupoCentralizacion extends AbstractMaestro {
 	@Override
 	public boolean isValidaVista() {
 
-		if (!TextFieldObligatorios(txtCodigo, txtDescripcion, cntSubdiario.txtCodigo))
+		if (!TextFieldObligatorios(txtCodigo, txtDescripcion,
+				cntSubdiario.txtCodigo))
 			return false;
 
 		if (getEstado().equals(NUEVO)) {

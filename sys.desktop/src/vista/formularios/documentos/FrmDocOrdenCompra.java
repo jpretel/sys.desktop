@@ -49,7 +49,6 @@ import core.dao.ClieprovDAO;
 import core.dao.CotizacionCompraDAO;
 import core.dao.DDOrdenCompraDAO;
 import core.dao.DOrdenCompraDAO;
-import core.dao.ImpuestoDAO;
 import core.dao.KardexSlcCompraDAO;
 import core.dao.MonedaDAO;
 import core.dao.OrdenCompraDAO;
@@ -60,10 +59,7 @@ import core.dao.SolicitudCompraDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.CotizacionCompra;
 import core.entity.DDOrdenCompra;
-import core.entity.DDOrdenCompraPK;
 import core.entity.DOrdenCompra;
-import core.entity.DOrdenCompraPK;
-import core.entity.Impuesto;
 import core.entity.OrdenCompra;
 import core.entity.Producto;
 import core.entity.ProductoImpuesto;
@@ -81,7 +77,6 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 	private ProductoDAO productoDAO = new ProductoDAO();
 	private UnimedidaDAO unimedidaDAO = new UnimedidaDAO();
 	private ProductoImpuestoDAO pimptoDAO = new ProductoImpuestoDAO();
-	private ImpuestoDAO impuestoDAO = new ImpuestoDAO();
 	private KardexSlcCompraDAO kardexSlcDAO = new KardexSlcCompraDAO();
 	private ClieprovDAO clieprovDAO = new ClieprovDAO();
 
@@ -406,9 +401,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 					float impto = 0.0F;
 
 					for (ProductoImpuesto pi : imptos) {
-						Impuesto i = impuestoDAO.find(pi.getId()
-								.getIdimpuesto());
-						impto += i.getTasa();
+						impto += pi.getImpuesto().getTasa();
 					}
 
 					setText(entity.getIdproducto());
@@ -526,34 +519,19 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 
 		kardexSlcDAO.borrarPorIdOrdenCompra(ordencompra.getIdordencompra());
 
-		ddordenCompraDAO.borrarPorOrdenCompra(getOrdencompra());
-
-		for (DOrdenCompra d : dordencompraDAO.aEliminar(getOrdencompra(),
-				dordencompras)) {
-			dordencompraDAO.remove(d);
-		}
-
-		for (DOrdenCompra d : dordencompras) {
-			if (dordencompraDAO.find(d.getId()) == null) {
-				dordencompraDAO.create(d);
-			} else {
-				dordencompraDAO.edit(d);
-			}
-		}
-
-		int i = 1;
+		ddordenCompraDAO.borrarPorOrdenCompra(ordencompra);
+		
+		dordencompraDAO.borrarPorOrdenCompra(ordencompra);
+		dordencompraDAO.create(dordencompras);
+		
 		for (DDOrdenCompra o : ddordencompras) {
 			DDOrdenCompra ddo = new DDOrdenCompra();
-			DDOrdenCompraPK id = new DDOrdenCompraPK();
-			id.setIdordencompra(ordencompra.getIdordencompra());
-			id.setItem(i);
-			ddo.setId(id);
+			ddo.setOrdencompra(ordencompra);
 			ddo.setCantidad(o.getCantidad());
 			ddo.setId_referencia(o.getId_referencia());
 			ddo.setTipo_referencia(o.getTipo_referencia());
 			ddo.setProducto(o.getProducto());
 			ddordenCompraDAO.create(ddo);
-			i++;
 		}
 
 		ContabilizaSlcCompras.ContabilizaOrdenCompra(getOrdencompra()
@@ -719,8 +697,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 	public void llenarDesdeVista() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(txtFecha.getDate());
-		Long idoc = getOrdencompra().getIdordencompra();
-		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
+		
 		getOrdencompra().setSerie(this.txtSerie.getText());
 		getOrdencompra().setNumero(Integer.parseInt(this.txtNumero.getText()));
 		getOrdencompra().setMoneda(cntMoneda.getSeleccionado());
@@ -742,7 +719,6 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 
 		for (int row = 0; row < rows; row++) {
 			DOrdenCompra d = new DOrdenCompra();
-			DOrdenCompraPK id = new DOrdenCompraPK();
 
 			String idproducto, idunimedida;
 
@@ -776,11 +752,8 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 
 			Producto p = productoDAO.find(idproducto);
 			Unimedida u = unimedidaDAO.find(idunimedida);
-
-			id.setIdordencompra(idoc);
-			id.setItem(row + 1);
-
-			d.setId(id);
+			
+			d.setOrdencompra(ordencompra);
 			d.setProducto(p);
 			d.setUnimedida(u);
 			d.setCantidad(cantidad);
@@ -794,15 +767,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 
 			dordencompras.add(d);
 		}
-		int i = 1;
-		for (DDOrdenCompra o : ddordencompras) {
-			DDOrdenCompraPK id = new DDOrdenCompraPK();
-			id.setIdordencompra(idoc);
-			id.setItem(i);
-			o.setId(id);
-
-			i++;
-		}
+		
 	}
 
 	@Override
@@ -1178,8 +1143,7 @@ public class FrmDocOrdenCompra extends AbstractDocForm {
 				float impto = 0.0F;
 
 				for (ProductoImpuesto pi : imptos) {
-					Impuesto i = impuestoDAO.find(pi.getId().getIdimpuesto());
-					impto += i.getTasa();
+					impto += pi.getImpuesto().getTasa();
 				}
 				Object[] rowData = new Object[] { producto.getIdproducto(),
 						producto.getDescripcion(),

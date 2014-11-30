@@ -39,7 +39,6 @@ import core.dao.ClieprovDAO;
 import core.dao.CotizacionCompraDAO;
 import core.dao.DCotizacionCompraDAO;
 import core.dao.DSolicitudCotizacionDAO;
-import core.dao.ImpuestoDAO;
 import core.dao.MonedaDAO;
 import core.dao.ProductoDAO;
 import core.dao.ProductoImpuestoDAO;
@@ -48,9 +47,7 @@ import core.dao.SolicitudCotizacionDAO;
 import core.dao.UnimedidaDAO;
 import core.entity.CotizacionCompra;
 import core.entity.DCotizacionCompra;
-import core.entity.DCotizacionCompraPK;
 import core.entity.DSolicitudCotizacion;
-import core.entity.Impuesto;
 import core.entity.Producto;
 import core.entity.ProductoImpuesto;
 import core.entity.SolicitudCotizacion;
@@ -69,7 +66,6 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 	private ProductoDAO productoDAO = new ProductoDAO();
 	private UnimedidaDAO unimedidaDAO = new UnimedidaDAO();
 	private ProductoImpuestoDAO pimptoDAO = new ProductoImpuestoDAO();
-	private ImpuestoDAO impuestoDAO = new ImpuestoDAO();
 	private ClieprovDAO clieprovDAO = new ClieprovDAO();
 	private SolicitudCotizacionDAO sCotizacionDAO = new SolicitudCotizacionDAO();
 	private DSolicitudCotizacionDAO sDCotizacionDAO = new DSolicitudCotizacionDAO();
@@ -223,9 +219,7 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 					float impto = 0.0F;
 
 					for (ProductoImpuesto pi : imptos) {
-						Impuesto i = impuestoDAO.find(pi.getId()
-								.getIdimpuesto());
-						impto += i.getTasa();
+						impto += pi.getImpuesto().getTasa();
 					}
 
 					setText(entity.getIdproducto());
@@ -399,21 +393,9 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 	@Override
 	public void grabar() {
 		cotizacioncompraDAO.crear_editar(getCotizacioncompra());
-
-		// kardexSlcDAO.borrarPorIdOrdenCompra(ordencompra.getIdordencompra());
-
-		for (DCotizacionCompra d : dcotizacioncompraDAO.aEliminar(
-				getCotizacioncompra(), dcotizacioncompras)) {
-			dcotizacioncompraDAO.remove(d);
-		}
-
-		for (DCotizacionCompra d : dcotizacioncompras) {
-			if (dcotizacioncompraDAO.find(d.getId()) == null) {
-				dcotizacioncompraDAO.create(d);
-			} else {
-				dcotizacioncompraDAO.edit(d);
-			}
-		}
+		dcotizacioncompraDAO.borrarPorCotizacionCompra(cotizacioncompra);
+		dcotizacioncompraDAO.create(dcotizacioncompras);
+		
 		ContabilizaSlcCompras.ContabilizaCotizacion(getCotizacioncompra()
 				.getIdcotizacioncompra());
 	}
@@ -560,8 +542,6 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 	public void llenarDesdeVista() {
 		Calendar c = Calendar.getInstance();
 		c.setTime(txtFecha.getDate());
-		Long idoc = getCotizacioncompra().getIdcotizacioncompra();
-		// getIngreso().setGrupoCentralizacion(cntGrupoCentralizacion.getSeleccionado());
 		getCotizacioncompra().setSerie(this.txtSerie.getText());
 		getCotizacioncompra().setNumero(
 				Integer.parseInt(this.txtNumero.getText()));
@@ -585,8 +565,7 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 
 		for (int row = 0; row < rows; row++) {
 			DCotizacionCompra d = new DCotizacionCompra();
-			DCotizacionCompraPK id = new DCotizacionCompraPK();
-
+			
 			String idproducto, idunimedida;
 
 			idproducto = getConsolidadoTM().getValueAt(row, 0).toString();
@@ -648,11 +627,8 @@ public class FrmDocCotizacionCompra extends AbstractDocForm {
 
 			Producto p = productoDAO.find(idproducto);
 			Unimedida u = unimedidaDAO.find(idunimedida);
-
-			id.setIdcotizacioncompra(idoc);
-			id.setItem(row + 1);
-
-			d.setId(id);
+			
+			d.setCotizacioncompra(cotizacioncompra);
 			d.setProducto(p);
 			d.setUnimedida(u);
 			d.setCantidad(cantidad);
