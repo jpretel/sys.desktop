@@ -110,6 +110,8 @@ public class FrmSaldosRequerimiento extends AbstractReporte {
 			j++;
 			fila[j] = p.getSubgrupo().getDescripcion();
 			j++;
+			fila[j] = p.getMarca().getDescripcion();
+			j++;
 			fila[j] = p.getUnimedida().getDescripcion();
 			j++;
 			fila[j] = cantidad;
@@ -121,7 +123,7 @@ public class FrmSaldosRequerimiento extends AbstractReporte {
 	@Override
 	public String[] getCabeceras() {
 		return new String[] { "Serie", "Número", "Sucursal","Almacen", "Fecha", "Cod. Prod.", "Desc. Prod", "Grupo", "Sub grupo",
-				"U. M.", "Saldo" };
+				"Marca", "U. M.", "Saldo" };
 	}
 
 	@Override
