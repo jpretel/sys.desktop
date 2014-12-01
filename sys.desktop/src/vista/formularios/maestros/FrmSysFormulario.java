@@ -52,6 +52,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import java.awt.Dimension;
 
 public class FrmSysFormulario extends AbstractMaestro {
@@ -513,6 +514,7 @@ public class FrmSysFormulario extends AbstractMaestro {
 		iniciar();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void cargarImagen() throws IOException {
 
 		fc = new JFileChooser();
@@ -534,6 +536,7 @@ public class FrmSysFormulario extends AbstractMaestro {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void guardarImg() throws MalformedURLException, IOException {
 
 		String url = CargarURL(fc.getSelectedFile().toURL().toString());
@@ -545,10 +548,8 @@ public class FrmSysFormulario extends AbstractMaestro {
 	}
 
 	public static String CargarURL(String url) {
-		int aux;
 		for (int i = url.length() - 1; i <= url.length(); i--) {
 			if (url.charAt(i) == '/') {
-				aux = i;
 				url = url.substring(i + 1, url.length());
 				break;
 			}
@@ -723,7 +724,8 @@ public class FrmSysFormulario extends AbstractMaestro {
 	}
 
 	private void llenarDesdeWeb() {
-		String https_url = "https://docs.google.com/spreadsheets/d/18-IUrGOooDv9fn92v4hCcNyleszjelILFu6Oz68f7C4/pubhtml";
+		String https_url = "https://docs.google.com/spreadsheets/d/18-IUrGOooDv9fn92v4hCcNyleszjelILFu6Oz68f7C4/pubhtml?gid=0&single=true";
+		
 		URL url;
 		try {
 
@@ -751,7 +753,7 @@ public class FrmSysFormulario extends AbstractMaestro {
 			print_https_cert(con);
 			Document res = Jsoup
 					.connect(
-							"https://docs.google.com/spreadsheets/d/18-IUrGOooDv9fn92v4hCcNyleszjelILFu6Oz68f7C4/pubhtml")
+							https_url)
 					.get();
 
 			Elements cuerpo = res.body().select("div[id*=sheets-viewport")
@@ -764,7 +766,7 @@ public class FrmSysFormulario extends AbstractMaestro {
 					String imagen = e.child(3).text();
 					String paquete = e.child(4).text();
 					String clase = e.child(5).text();
-					System.out.println(idformulario);
+					
 					int es_lista = Integer.parseInt(e.child(6).text());
 					String paquete_doc = "", clase_doc = "";
 					if (es_lista == 1) {
@@ -782,8 +784,9 @@ public class FrmSysFormulario extends AbstractMaestro {
 					f.setEs_lista(es_lista);
 					f.setPaquete_doc(paquete_doc);
 					f.setClase_doc(clase_doc);
-
+					System.out.println("Actualizando: " + idformulario);
 					formularioDAO.crear_editar(f);
+					System.out.println("Actualizado: " + idformulario);
 				}
 				band = true;
 			}

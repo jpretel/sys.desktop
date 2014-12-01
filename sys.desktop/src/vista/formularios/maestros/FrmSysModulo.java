@@ -216,6 +216,7 @@ public class FrmSysModulo extends AbstractMaestro {
 		cargar();
 	}
 
+	@SuppressWarnings("deprecation")
 	public void cargarImagen() throws IOException{		
 		
 		fc=new JFileChooser();
@@ -238,6 +239,7 @@ public class FrmSysModulo extends AbstractMaestro {
 	    }    
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void guardarImg() throws MalformedURLException, IOException{		
 		
 		String url = CargarURL(fc.getSelectedFile().toURL().toString());
@@ -248,10 +250,8 @@ public class FrmSysModulo extends AbstractMaestro {
 	}
 	
 	public static String CargarURL(String url){
-		int aux;
 		for(int i = url.length()-1; i<=url.length();i--){
 			if(url.charAt(i) == '/'){
-				aux = i;
 				url = url.substring(i+1, url.length());
 				break;
 			}
