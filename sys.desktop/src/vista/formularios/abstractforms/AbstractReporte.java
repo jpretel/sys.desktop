@@ -22,6 +22,7 @@ public abstract class AbstractReporte extends DSGInternalFrame implements
 	protected JPanel pnlDatos;
 	protected JScrollPane srclDatos;
 	protected JTable tblDatos;
+	private Object data[][];
 	private DSGTableModelReporte model;
 
 	public AbstractReporte() {
@@ -94,7 +95,8 @@ public abstract class AbstractReporte extends DSGInternalFrame implements
 	public void doConsultar() {
 		if (isFiltrosValidos()) {
 			model = new DSGTableModelReporte(getCabeceras());
-			for (Object[] rowData : getData()) {
+			this.data = getData();
+			for (Object[] rowData : this.data) {
 				model.addRow(rowData);
 			}
 			tblDatos.setModel(model);

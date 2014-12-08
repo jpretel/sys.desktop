@@ -237,16 +237,12 @@ public class FrmGrupoCentralizacion extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getGrupo() != null) {
 			txtCodigo.setText(grupo.getIdgcentralizacion());
 			txtDescripcion.setText(grupo.getDescripcion());
 			cntSubdiario.txtCodigo.setText((grupo.getSubdiario() == null) ? ""
 					: grupo.getSubdiario().getIdsubdiario());
-			cntSubdiario.llenar();
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
-			cntSubdiario.txtCodigo.setText("");
 			cntSubdiario.llenar();
 		}
 	}
@@ -290,9 +286,10 @@ public class FrmGrupoCentralizacion extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
+		cntSubdiario.setSeleccionado(null);
 	}
 
 	@Override

@@ -155,6 +155,7 @@ public class FrmUsuario extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getusuario() != null) {
 			txtidUsuario.setText(getusuario().getIdusuario());
 			txtNombres.setText(getusuario().getNombres());
@@ -165,12 +166,6 @@ public class FrmUsuario extends AbstractMaestro {
 			txtClave.setText(Encryption.decrypt(getusuario().getClave()));
 			txtClaveR.setText(Encryption.decrypt(getusuario().getClave()));
 
-		} else {
-			txtidUsuario.setText("");
-			txtNombres.setText("");
-			txtClave.setText("");
-			cntGrupoUsuario.txtCodigo.setText("");
-			cntGrupoUsuario.txtDescripcion.setText("");
 		}
 	}
 
@@ -221,8 +216,11 @@ public class FrmUsuario extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
+	public void limpiarVista() {
+		txtidUsuario.setText("");
+		txtNombres.setText("");
+		txtClave.setText("");
+		cntGrupoUsuario.setSeleccionado(null);
 	}
 
 	@Override

@@ -180,12 +180,10 @@ public class FrmResponsable extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getResponsable() != null) {
 			txtCodigo.setText(getResponsable().getIdresponsable());
 			txtDescripcion.setText(getResponsable().getNombre());
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
 		}
 	}
 
@@ -230,11 +228,10 @@ public class FrmResponsable extends AbstractMaestro {
 		cntarea.txtDescripcion.setEditable(false);
 	}
 	
-
-
 	@Override
-	public void init() {
-		
+	public void limpiarVista() {
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
 	}
 
 	@Override

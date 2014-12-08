@@ -95,14 +95,13 @@ public abstract class AbstractCntBuscar<T> extends JPanel {
 
 		btnBuscar = new JButton();
 		this.btnBuscar.setFocusable(false);
-		
+
 		this.btnBuscar.setIcon(new ImageIcon(new ImageIcon(getClass()
 				.getResource("/main/resources/iconos/search.png")).getImage()
 				.getScaledInstance(18, 18, java.awt.Image.SCALE_SMOOTH)));
 
 		btnBuscar.setMargin(new Insets(0, 0, 0, 0));
-		
-		
+
 		btnBuscar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -110,7 +109,7 @@ public abstract class AbstractCntBuscar<T> extends JPanel {
 				txtCodigo.checkForAndShowSuggestions();
 			}
 		});
-		
+
 		GridBagConstraints gbc_txtCodigo = new GridBagConstraints();
 
 		gbc_txtCodigo.fill = GridBagConstraints.HORIZONTAL;
@@ -158,7 +157,12 @@ public abstract class AbstractCntBuscar<T> extends JPanel {
 
 	public void setSeleccionado(T seleccionado) {
 		txtCodigo.setSeleccionado(seleccionado);
-		cargarDatos(seleccionado);
+		if (seleccionado == null) {
+			txtCodigo.setText(null);
+			txtDescripcion.setText(null);
+		} else {
+			cargarDatos(seleccionado);
+		}
 	}
 
 	public static ResizableIcon getResizableIconFromResource16x16(

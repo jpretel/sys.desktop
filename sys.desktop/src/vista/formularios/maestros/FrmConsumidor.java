@@ -212,12 +212,10 @@ public class FrmConsumidor extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getConsumidor() != null) {
 			txtCodigo.setText(getConsumidor().getIdconsumidor());
 			txtDescripcion.setText(getConsumidor().getDescripcion());
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
 		}
 	}
 
@@ -312,9 +310,9 @@ public class FrmConsumidor extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
+	public void limpiarVista() {
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
 	}
 
 	@Override

@@ -115,4 +115,69 @@ public abstract class AbstractMaestroLista extends AbstractMaestro {
 	public abstract void llenar_lista();
 
 	public abstract void irFormulario(String opcion);
+	
+	@Override
+	public void anular() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void grabar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void llenar_datos() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void llenar_tablas() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void vista_edicion() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void vista_noedicion() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actualiza_objeto(Object entidad) {
+		
+		
+	}
+
+	@Override
+	public void llenarDesdeVista() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isValidaVista() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void eliminar() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void limpiarVista() {
+		// TODO Auto-generated method stub
+		
+	}
 }

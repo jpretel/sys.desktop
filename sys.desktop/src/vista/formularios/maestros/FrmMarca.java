@@ -204,14 +204,11 @@ public class FrmMarca extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
-		if (getMarca() instanceof Marca) {
+		limpiarVista();
+		if (getMarca() != null) {
 			this.txtCodigo.setText(getMarca().getIdmarca());
 			this.txtDescripcion.setText(getMarca().getDescripcion());
 			this.txtNombreCorto.setText(getMarca().getNomcorto());
-		} else {
-			this.txtCodigo.setText(null);
-			this.txtDescripcion.setText(null);
-			this.txtNombreCorto.setText(null);
 		}
 
 	}
@@ -253,9 +250,10 @@ public class FrmMarca extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		this.txtCodigo.setText(null);
+		this.txtDescripcion.setText(null);
+		this.txtNombreCorto.setText(null);
 	}
 
 	@Override

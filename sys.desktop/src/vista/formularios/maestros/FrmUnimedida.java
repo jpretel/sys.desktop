@@ -291,7 +291,7 @@ public class FrmUnimedida extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
-		getConversionTM().limpiar();
+		limpiarVista();
 		if (getUnimedida() != null) {
 			this.txtCodigo.setText(this.getUnimedida().getIdunimedida());
 			this.txtDescripcion.setText(this.getUnimedida().getDescripcion());
@@ -305,10 +305,6 @@ public class FrmUnimedida extends AbstractMaestro {
 						new Object[] { m_ref.getIdunimedida(),
 								m_ref.getDescripcion(), c.getFactor() });
 			}
-		} else {
-			this.txtCodigo.setText(null);
-			this.txtDescripcion.setText(null);
-			this.txtNomenclatura.setText(null);
 		}
 
 	}
@@ -355,8 +351,12 @@ public class FrmUnimedida extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
+	public void limpiarVista() {
+		getConversionTM().limpiar();
+		this.txtCodigo.setText(null);
+		this.txtDescripcion.setText(null);
+		this.txtNomenclatura.setText(null);
+		
 	}
 
 	@Override

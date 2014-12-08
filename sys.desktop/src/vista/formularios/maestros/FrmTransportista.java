@@ -177,6 +177,7 @@ public class FrmTransportista extends AbstractMaestro{
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getTransportista() != null) {
 			txtDNI.setText(getTransportista().getDni());
 			txtNombre.setText(getTransportista().getNombre());
@@ -184,13 +185,6 @@ public class FrmTransportista extends AbstractMaestro{
 			txtCategoria.setText(getTransportista().getTipoBrevete());
 			txtLicencia.setText(getTransportista().getNumLic());
 			txtFechVenc.setText(getTransportista().getFechVenc());
-		} else {
-			txtDNI.setText("");
-			txtNombre.setText("");
-			txtDireccion.setText("");
-			txtCategoria.setText("");
-			txtLicencia.setText("");
-			txtFechVenc.setText("");
 		}
 	}
 
@@ -238,9 +232,13 @@ public class FrmTransportista extends AbstractMaestro{
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		txtDNI.setText("");
+		txtNombre.setText("");
+		txtDireccion.setText("");
+		txtCategoria.setText("");
+		txtLicencia.setText("");
+		txtFechVenc.setText("");
 	}
 
 	@Override

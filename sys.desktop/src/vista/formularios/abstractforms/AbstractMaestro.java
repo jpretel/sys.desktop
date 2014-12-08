@@ -191,9 +191,8 @@ public abstract class AbstractMaestro extends DSGInternalFrame {
 
 	public abstract void vista_noedicion();
 
-	public abstract void init();
-
-	public abstract void actualiza_objeto(Object entidad);
+	
+	public abstract void actualiza_objeto(Object id);
 
 	public void cancelar() {
 		llenar_tablas();
@@ -255,6 +254,8 @@ public abstract class AbstractMaestro extends DSGInternalFrame {
 	}
 
 	public abstract void llenarDesdeVista();
+	
+	public abstract void limpiarVista();
 
 	public abstract boolean isValidaVista();
 

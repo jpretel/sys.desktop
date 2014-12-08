@@ -232,12 +232,10 @@ public class FrmAreas extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getArea() != null) {
 			txtCodigo.setText(getArea().getIdarea());
 			txtDescripcion.setText(getArea().getDescripcion());
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
 		}
 	}
 
@@ -277,9 +275,9 @@ public class FrmAreas extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		txtDescripcion.setText("");
+		txtCodigo.setText("");
 	}
 
 	@Override

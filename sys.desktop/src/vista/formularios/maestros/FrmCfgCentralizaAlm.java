@@ -309,7 +309,7 @@ public class FrmCfgCentralizaAlm extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
-		getCentralizaTM().limpiar();
+		limpiarVista();
 		if (getConcepto() != null) {
 			setCentraliza(null);
 			setCentraliza(centralizaDAO.getPorConcepto(getConcepto()));
@@ -377,9 +377,8 @@ public class FrmCfgCentralizaAlm extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		getCentralizaTM().limpiar();
 	}
 
 	@Override

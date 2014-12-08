@@ -160,18 +160,13 @@ public class FrmCuentas extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getCuenta() != null) {
 			txtCodigo.setText(getCuenta().getIdcuenta());
 			txtDescripcion.setText(getCuenta().getDescripcion());
 			chckbxConsumidor.setSelected(getCuenta().getA_cosumidor() == 1);
 			chckbxProducto.setSelected(getCuenta().getA_producto() == 1);
 			chckbxDocumento.setSelected(getCuenta().getA_documento() == 1);
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
-			chckbxConsumidor.setSelected(false);
-			chckbxProducto.setSelected(false);
-			chckbxDocumento.setSelected(false);
 		}
 	}
 
@@ -226,9 +221,12 @@ public class FrmCuentas extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
+		chckbxConsumidor.setSelected(false);
+		chckbxProducto.setSelected(false);
+		chckbxDocumento.setSelected(false);
 	}
 
 	@Override

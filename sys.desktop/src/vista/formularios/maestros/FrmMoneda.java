@@ -200,6 +200,7 @@ public class FrmMoneda extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getMoneda() != null) {
 			txtCodigo.setText(getMoneda().getIdmoneda());
 			txtDescripcion.setText(getMoneda().getDescripcion());
@@ -215,10 +216,6 @@ public class FrmMoneda extends AbstractMaestro {
 				optOtra.setSelected(true);
 				break;
 			}
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
-			txtSimbolo.setText("");
 		}
 	}
 
@@ -270,9 +267,10 @@ public class FrmMoneda extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
+		txtSimbolo.setText("");
 	}
 
 	@Override

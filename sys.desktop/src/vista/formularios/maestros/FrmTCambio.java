@@ -391,9 +391,9 @@ public class FrmTCambio extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
+	public void limpiarVista() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

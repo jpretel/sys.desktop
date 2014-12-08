@@ -162,14 +162,11 @@ public class FrmSubdiario extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getSubdiario() != null) {
 			txtCodigo.setText(getSubdiario().getIdsubdiario());
 			txtDescripcion.setText(getSubdiario().getDescripcion());
 			chkEsDeclarable.setSelected(getSubdiario().getEsDeclarable() == 1);
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
-			chkEsDeclarable.setSelected(true);
 		}
 	}
 
@@ -211,9 +208,10 @@ public class FrmSubdiario extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
+		chkEsDeclarable.setSelected(true);
 	}
 
 	@Override

@@ -175,7 +175,8 @@ public class FrmClieprov extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
-		if (getClieprov() != null && !getEstado().equals(NUEVO)) {
+		limpiarVista();
+		if (getClieprov() != null) {
 			txtCodigo.setText(getClieprov().getIdclieprov());
 			txtRazon_Social.setText(getClieprov().getRazonSocial());
 			txtDireccion.setText(getClieprov().getDireccion());
@@ -188,16 +189,6 @@ public class FrmClieprov extends AbstractMaestro {
 					.setSelected((getClieprov().getAgente_retencion() == 1));
 			chkBuenContribuyente.setSelected((getClieprov()
 					.getBuen_contribuyente() == 1));
-		} else {
-			txtCodigo.setText("");
-			txtRazon_Social.setText("");
-			txtDireccion.setText("");
-			txtRuc.setText("");
-			chkCliente.setSelected(false);
-			chkProveedor.setSelected(false);
-			chkPercepcion.setSelected(false);
-			chkRetencion.setSelected(false);
-			chkBuenContribuyente.setSelected(false);
 		}
 	}
 
@@ -214,9 +205,10 @@ public class FrmClieprov extends AbstractMaestro {
 	public void vista_edicion() {
 		if (getEstado().equals(NUEVO))
 			txtCodigo.setEditable(true);
-		
-		FormValidador.TextFieldsEdicion(true, txtRazon_Social, txtDireccion, txtRuc);
-		
+
+		FormValidador.TextFieldsEdicion(true, txtRazon_Social, txtDireccion,
+				txtRuc);
+
 		chkCliente.setEnabled(true);
 		chkProveedor.setEnabled(true);
 		chkBuenContribuyente.setEnabled(true);
@@ -226,7 +218,8 @@ public class FrmClieprov extends AbstractMaestro {
 
 	@Override
 	public void vista_noedicion() {
-		FormValidador.TextFieldsEdicion(false, txtCodigo, txtRazon_Social, txtDireccion, txtRuc);
+		FormValidador.TextFieldsEdicion(false, txtCodigo, txtRazon_Social,
+				txtDireccion, txtRuc);
 		chkCliente.setEnabled(false);
 		chkProveedor.setEnabled(false);
 		chkBuenContribuyente.setEnabled(false);
@@ -235,8 +228,16 @@ public class FrmClieprov extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
+	public void limpiarVista() {
+		txtCodigo.setText("");
+		txtRazon_Social.setText("");
+		txtDireccion.setText("");
+		txtRuc.setText("");
+		chkCliente.setSelected(false);
+		chkProveedor.setSelected(false);
+		chkPercepcion.setSelected(false);
+		chkRetencion.setSelected(false);
+		chkBuenContribuyente.setSelected(false);
 	}
 
 	@Override

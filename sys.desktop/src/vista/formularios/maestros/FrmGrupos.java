@@ -245,17 +245,13 @@ public class FrmGrupos extends AbstractMaestro {
 	
 	@Override
 	public void llenar_datos() {
-		if(getGrupo() instanceof Grupo){
+		limpiarVista();
+		if(getGrupo() != null){
 			this.txtCodigo.setText(getGrupo().getIdgrupo());
 			this.txtDescripcion.setText(getGrupo().getDescripcion());
 			this.txtDescCorta.setText(getGrupo().getDescCorta());
+			llenar_detalle();		
 		}
-		else{
-			this.txtCodigo.setText(null);
-			this.txtDescripcion.setText(null);
-			this.txtDescCorta.setText(null);
-		}
-		llenar_detalle();		
 	}
 	
 	@Override
@@ -322,9 +318,11 @@ public class FrmGrupos extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
+	public void limpiarVista() {
+		this.txtCodigo.setText(null);
+		this.txtDescripcion.setText(null);
+		this.txtDescCorta.setText(null);
+		getSubgrupoTM().limpiar();
 	}
 	@Override
 	public void actualiza_objeto(Object entidad) {

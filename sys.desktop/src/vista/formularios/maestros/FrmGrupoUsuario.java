@@ -353,7 +353,7 @@ public class FrmGrupoUsuario extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
-		getDetalleTM().limpiar();
+		limpiarVista();
 		if (getGrupoUsuario() != null) {
 			txtCodigo.setText(getGrupoUsuario().getIdgrupoUsuario());
 			txtDescripcion.setText(getGrupoUsuario().getDescripcion());
@@ -373,10 +373,6 @@ public class FrmGrupoUsuario extends AbstractMaestro {
 								formulario.getDescripcion(), ver,
 								crear, modificar, eliminar });
 			}
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
-			chkEsAdministrador.setSelected(true);
 		}
 	}
 
@@ -433,9 +429,11 @@ public class FrmGrupoUsuario extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		getDetalleTM().limpiar();
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
+		chkEsAdministrador.setSelected(false);
 	}
 
 	@Override

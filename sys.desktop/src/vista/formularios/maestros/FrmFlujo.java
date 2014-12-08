@@ -223,12 +223,10 @@ public class FrmFlujo extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getFlujo() != null) {
 			txtCodigo.setText(getFlujo().getIdflujo());
 			txtDescripcion.setText(getFlujo().getDescripcion());
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
 		}
 	}
 
@@ -268,9 +266,9 @@ public class FrmFlujo extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
 	}
 
 	@Override

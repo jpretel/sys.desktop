@@ -676,12 +676,6 @@ public class FrmSysFormulario extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void actualiza_objeto(Object entidad) {
 		// TODO Auto-generated method stub
 

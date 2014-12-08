@@ -533,11 +533,7 @@ public class FrmProductos extends AbstractMaestro {
 	public void anular() {
 		// TODO Auto-generated method stub
 	}
-
-	@Override
-	public void init() {
-
-	}
+	
 
 	@Override
 	public void nuevo() {

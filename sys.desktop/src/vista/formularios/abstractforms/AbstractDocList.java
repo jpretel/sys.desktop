@@ -33,14 +33,14 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-import core.entity.Documento;
+import core.entity.TipoDocumento;
 
 public abstract class AbstractDocList extends DSGInternalFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	protected ComboBox<Documento> cboDocumento = new ComboBox<Documento>();
+	protected ComboBox<TipoDocumento> cboDocumento = new ComboBox<TipoDocumento>();
 	protected DSGTextFieldCorrelativo txtSerie;
 	protected DSGTextFieldCorrelativo txtSerie1;
 	private DSGDatePicker txtDesde;

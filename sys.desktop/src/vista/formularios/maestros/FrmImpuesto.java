@@ -167,14 +167,11 @@ public class FrmImpuesto extends AbstractMaestro {
 	
 	@Override
 	public void llenar_datos() {
+		limpiarVista();
 		if (getImpuesto() != null) {
 			txtCodigo.setText(getImpuesto().getIdimpuesto());
 			txtDescripcion.setText(getImpuesto().getDescripcion());
 			txtValor.setValue(getImpuesto().getTasa());
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
-			txtValor.setValue(0);
 		}
 	}
 
@@ -216,9 +213,10 @@ public class FrmImpuesto extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
+	public void limpiarVista() {
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
+		txtValor.setValue(0);
 	}
 
 	@Override

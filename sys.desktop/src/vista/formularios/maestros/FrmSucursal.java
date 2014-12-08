@@ -314,7 +314,7 @@ public class FrmSucursal extends AbstractMaestro {
 
 	@Override
 	public void llenar_datos() {
-		getAlmacenesTM().limpiar();
+		limpiarVista();
 		setAlmacenes(new ArrayList<Almacen>());
 		if (getSucursal() != null) {
 			txtCodigo.setText(getSucursal().getIdsucursal());
@@ -328,10 +328,6 @@ public class FrmSucursal extends AbstractMaestro {
 								alm.getDescripcion(), alm.getNombre_corto() });
 			}
 
-		} else {
-			txtCodigo.setText("");
-			txtDescripcion.setText("");
-			txtDescCorta.setText("");
 		}
 	}
 
@@ -436,9 +432,11 @@ public class FrmSucursal extends AbstractMaestro {
 	}
 
 	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-
+	public void limpiarVista() {
+		getAlmacenesTM().limpiar();
+		txtCodigo.setText("");
+		txtDescripcion.setText("");
+		txtDescCorta.setText("");
 	}
 
 	@Override
